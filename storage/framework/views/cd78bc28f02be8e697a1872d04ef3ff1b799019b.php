@@ -25,10 +25,10 @@
         <div class="main-content">
             <div class="page-content">
                 <div class="container-fluid">
-                   
+          <!--          
                     <button type="button" data-toast data-toast-text="" data-toast-gravity="top" data-toast-position="right" data-toast-duration="3000" data-toast-close="close" data-toast-className="success"  class="btn btn-light w-xs" id="success_msg"></button>
 
-                    <button type="button" data-toast data-toast-text="" data-toast-gravity="top" data-toast-position="right" data-toast-duration="3000" data-toast-close="close" data-toast-className="danger"  class="btn btn-light w-xs" id="error_msg"></button>
+                    <button type="button" data-toast data-toast-text="" data-toast-gravity="top" data-toast-position="right" data-toast-duration="3000" data-toast-close="close" data-toast-className="danger"  class="btn btn-light w-xs" id="error_msg"></button> -->
                     <?php echo $__env->yieldContent('content'); ?>
                 </div>
                 <!-- container-fluid -->
