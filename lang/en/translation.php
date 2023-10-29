@@ -1,6 +1,14 @@
 <?php
 return [
-    "menu"=>"Menu",
+    "master"        => "Masters",
+    "menu"          => "Menu",
+    "users"         => "Users",
+    "client"        => "Clients",
+    "insurance"     => "Insurance",
+    "bond"          => "Bonds",
+    "mutualfund"    => "Mutual Fund",
+
+
     "dashboards"=>"Dashboards",
     "analytics"=>"Analytics",
     "crm"=>"CRM",

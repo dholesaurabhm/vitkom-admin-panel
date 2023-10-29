@@ -58,6 +58,15 @@ class HomeController extends Controller
        
     }
 
+
+    public function user_master()
+    {
+        return view('user_master');
+    }
+
+    
+
+    
     public function edit_restaurant($id)
     {
         return view('seller_form')->with('status',1)->with('title','Edit');

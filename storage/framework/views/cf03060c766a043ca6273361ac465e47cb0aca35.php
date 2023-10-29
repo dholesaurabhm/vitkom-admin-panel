@@ -1,8 +1,7 @@
-@extends('layouts.master-without-nav')
-@section('title')
-@lang('translation.signin')
-@endsection
-@section('content')
+<?php $__env->startSection('title'); ?>
+<?php echo app('translator')->get('translation.signin'); ?>
+<?php $__env->stopSection(); ?>
+<?php $__env->startSection('content'); ?>
 <style>
     .auth-one-bg .bg-overlay {
         background: linear-gradient(90deg,#fcfdff,#68dcff);
@@ -30,10 +29,10 @@
                     <div class="text-center text-white-50">
                         <div>
                             <a href="index" class="d-inline-block auth-logo">
-                                <img src="{{ URL::asset('assets/images/logo-light.png')}}" alt="" style="width: 135px;">
+                                <img src="<?php echo e(URL::asset('assets/images/logo-light.png')); ?>" alt="" style="width: 135px;">
                             </a>
                         </div>
-                        {{-- <p class="mt-3 fs-15 fw-medium">Premium Admin & Dashboard Template</p> --}}
+                        
                     </div>
                 </div>
             </div>
@@ -49,54 +48,66 @@
                                 <p class="text-muted">Sign in to continue to Vitkom Investment Managment.</p>
                             </div>
                             <div class="p-2 mt-4">
-                                <form action="{{ route('login') }}" method="POST">
-                                    @csrf
+                                <form action="<?php echo e(route('login')); ?>" method="POST">
+                                    <?php echo csrf_field(); ?>
                                     <div class="mb-3">
                                         <label for="username" class="form-label">Email ID <span class="text-danger"> *</span></label>
-                                        <input type="text" class="form-control @error('email') is-invalid @enderror"  id="username" name="email" placeholder="Enter Email ID">
-                                        @error('email')
+                                        <input type="text" class="form-control <?php $__errorArgs = ['email'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?> is-invalid <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>"  id="username" name="email" placeholder="Enter Email ID">
+                                        <?php $__errorArgs = ['email'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?>
                                             <span class="invalid-feedback" role="alert">
-                                                <strong>{{ $message }}</strong>
+                                                <strong><?php echo e($message); ?></strong>
                                             </span>
-                                        @enderror
+                                        <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
                                     </div>
 
                                     <div class="mb-3">
-                                        {{-- <div class="float-end">
-                                            <a href="auth-pass-reset-basic" class="text-muted">Forgot password?</a>
-                                        </div> --}}
+                                        
                                         <label class="form-label" for="password-input">Password <span class="text-danger"> *</span></label>
                                         <div class="position-relative auth-pass-inputgroup mb-3">
-                                            <input type="password" class="form-control pe-5 @error('password') is-invalid @enderror" name="password" placeholder="Enter password" id="password-input" >
+                                            <input type="password" class="form-control pe-5 <?php $__errorArgs = ['password'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?> is-invalid <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>" name="password" placeholder="Enter password" id="password-input" >
                                             <button class="btn btn-link position-absolute end-0 top-0 text-decoration-none text-muted toggle-password" type="button" id="password-addon"><i class="ri-eye-fill align-middle"></i></button>
-                                            @error('password')
+                                            <?php $__errorArgs = ['password'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?>
                                                 <span class="invalid-feedback" role="alert">
-                                                    <strong>{{ $message }}</strong>
+                                                    <strong><?php echo e($message); ?></strong>
                                                 </span>
-                                            @enderror
+                                            <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
                                         </div>
                                     </div>
-{{-- 
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" value="" id="auth-remember-check">
-                                        <label class="form-check-label" for="auth-remember-check">Remember me <span class="text-danger"> *</span></label>
-                                    </div> --}}
+
 
                                     <div class="mt-4">
                                         <button class="btn btn-success w-100" type="submit">Sign In</button>
                                     </div>
 
-                                    {{-- <div class="mt-4 text-center">
-                                        <div class="signin-other-title">
-                                            <h5 class="fs-13 mb-4 title">Sign In with</h5>
-                                        </div>
-                                        <div>
-                                            <button type="button" class="btn btn-primary btn-icon waves-effect waves-light"><i class="ri-facebook-fill fs-16"></i></button>
-                                            <button type="button" class="btn btn-danger btn-icon waves-effect waves-light"><i class="ri-google-fill fs-16"></i></button>
-                                            <button type="button" class="btn btn-dark btn-icon waves-effect waves-light"><i class="ri-github-fill fs-16"></i></button>
-                                            <button type="button" class="btn btn-info btn-icon waves-effect waves-light"><i class="ri-twitter-fill fs-16"></i></button>
-                                        </div>
-                                    </div> --}}
+                                    
                                 </form>
                             </div>
                         </div>
@@ -130,11 +141,11 @@
     </footer>
     <!-- end Footer -->
 </div>
-@endsection
-@section('script')
-<script src="{{ URL::asset('assets/libs/particles.js/particles.js.min.js') }}"></script>
-<script src="{{ URL::asset('assets/js/pages/particles.app.js') }}"></script>
-<script src="{{ URL::asset('assets/js/pages/password-addon.init.js') }}"></script>
+<?php $__env->stopSection(); ?>
+<?php $__env->startSection('script'); ?>
+<script src="<?php echo e(URL::asset('assets/libs/particles.js/particles.js.min.js')); ?>"></script>
+<script src="<?php echo e(URL::asset('assets/js/pages/particles.app.js')); ?>"></script>
+<script src="<?php echo e(URL::asset('assets/js/pages/password-addon.init.js')); ?>"></script>
 <script>
 
 $(document).on('click', '.toggle-password', function() {
@@ -146,4 +157,6 @@ input.attr('type') === 'password' ? input.attr('type','text') : input.attr('type
 });
 </script>
 
-@endsection
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('layouts.master-without-nav', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH D:\wamp\www\vitkom-admin-panel\resources\views/auth/login.blade.php ENDPATH**/ ?>

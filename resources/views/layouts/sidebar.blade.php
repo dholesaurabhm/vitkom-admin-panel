@@ -4,21 +4,11 @@
     <div class="navbar-brand-box">
         <!-- Dark Logo-->
         <a href="index" class="logo logo-dark">
-            <span class="logo-sm">
-                <img src="{{ URL::asset('assets/images/logo-sm.png') }}" alt="" height="22">
-            </span>
-            <span class="logo-lg">
-                <img src="{{ URL::asset('assets/images/logo-dark.png') }}" alt="" height="17">
-            </span>
+            Vitkom Wealth
         </a>
         <!-- Light Logo-->
-        <a href="index" class="logo logo-light">
-            <span class="logo-sm">
-                <img src="{{ URL::asset('assets/images/logo-sm.png') }}" alt="" height="22">
-            </span>
-            <span class="logo-lg">
-                <img src="{{ URL::asset('assets/images/logo-light.png') }}" alt="" height="17">
-            </span>
+        <a href="index" class="logo logo-light" style="width: 100% !important;font-size: 20px;color: white;">
+            Vitkom Wealth
         </a>
         <button type="button" class="btn btn-sm p-0 fs-20 header-item float-end btn-vertical-sm-hover" id="vertical-hover">
             <i class="ri-record-circle-line"></i>
@@ -37,7 +27,31 @@
                         <i class="ri-dashboard-2-line" ></i> <span>Dashboard</span>
                     </a>
                 </li>  
-           <li class="nav-item">
+                <li class="nav-item">
+                    <a class="nav-link menu-link" href="#sidebarDashboards" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="sidebarDashboards">
+                        <i class="ri-dashboard-2-line"></i> <span>@lang('translation.master')</span>
+                    </a>
+                    <div class="collapse menu-dropdown" id="sidebarDashboards">
+                        <ul class="nav nav-sm flex-column">
+                            <li class="nav-item">
+                                <a href="user_master" class="nav-link">@lang('translation.users')</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="client_master" class="nav-link">@lang('translation.client')</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="insurance_master" class="nav-link">@lang('translation.insurance')</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="bond_master" class="nav-link">@lang('translation.bond')</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="mutualfund_master" class="nav-link">@lang('translation.mutualfund')</a>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
+                <li class="nav-item">
                     <a class="nav-link menu-link" href="#sidebarDashboards" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="sidebarDashboards">
                         <i class="ri-dashboard-2-line"></i> <span>@lang('translation.dashboards')</span>
                     </a>
