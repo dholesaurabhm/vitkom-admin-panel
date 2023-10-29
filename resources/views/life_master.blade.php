@@ -19,7 +19,7 @@
                             <table id="ajax-datatables" class="display table table-bordered dt-responsive" style="width:100%">
                                 <thead>
                                     <tr>
-                                        <th>Insurance Person Name</th>
+                                        <th>Insured Person Name</th>
                                         <th>Insurance Firm</th>
                                         <th>Scheme Name</th>
                                         <th>Polycy NO</th>
@@ -60,7 +60,7 @@
                         
                         <div class="col-sm-6">
                             <div>
-                                <label for="MobileNumberInput" class="form-label">Insurance Firm<span class="red">*</span></label>
+                                <label for="insurancefirmInput" class="form-label">Insurance Firm<span class="red">*</span></label>
                                 <select class="form-select mb-2" aria-label="Default select example">
                         
                                    <option value="1">1</option>
@@ -71,7 +71,7 @@
                         </div><!--end col-->
                         <div class="col-sm-6">
                             <div>
-                                <label for="emailInput" class="form-label">Scheme Name<span class="red">*</span></label>
+                                <label for="schemenameInput" class="form-label">Scheme Name<span class="red">*</span></label>
                                 <select class="form-select mb-2" aria-label="Default select example">
                         
                                    <option value="1">1</option>
