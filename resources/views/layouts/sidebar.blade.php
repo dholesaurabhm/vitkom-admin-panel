@@ -77,16 +77,19 @@
                         <i class="ri-honour-line"></i> <span>@lang('translation.mf')</span>
                     </a>
                 </li>
+                
                 <li class="nav-item">
                     <a class="nav-link menu-link" href="data_to_import_master">
                         <i class="ri-honour-line"></i> <span>@lang('translation.data_to_import')</span>
                     </a>
                 </li>
+
                 <li class="nav-item">
                     <a class="nav-link menu-link" href="report1_master">
                         <i class="ri-honour-line"></i> <span>@lang('translation.report1')</span>
                     </a>
                 </li>
+
                 <li class="nav-item">
                     <a class="nav-link menu-link" href="report2_master">
                         <i class="ri-honour-line"></i> <span>@lang('translation.report2')</span>
