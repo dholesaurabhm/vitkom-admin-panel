@@ -23,6 +23,18 @@ Route::get('/', [App\Http\Controllers\HomeController::class, 'root'])->name('roo
 Route::post('/update-profile/{id}', [App\Http\Controllers\HomeController::class, 'updateProfile'])->name('updateProfile');
 Route::post('/update-password/{id}', [App\Http\Controllers\HomeController::class, 'updatePassword'])->name('updatePassword');
 
-Route::get('{any}', [App\Http\Controllers\HomeController::class, 'index'])->name('index');
+Route::get('index/', [App\Http\Controllers\HomeController::class, 'index'])->name('index');
 
-Route::get('{any}', [App\Http\Controllers\HomeController::class, 'user_master'])->name('user_master');
+Route::get('user_master/', [App\Http\Controllers\HomeController::class, 'user_master'])->name('user_master');
+Route::get('client_master/', [App\Http\Controllers\HomeController::class, 'client_master'])->name('client_master');
+Route::get('insurance_master/', [App\Http\Controllers\HomeController::class, 'insurance_master'])->name('insurance_master');
+Route::get('bonds_master/', [App\Http\Controllers\HomeController::class, 'bonds_master'])->name('bonds_master');
+Route::get('life_master/', [App\Http\Controllers\HomeController::class, 'life_master'])->name('life_master');
+Route::get('medical_master/', [App\Http\Controllers\HomeController::class, 'medical_master'])->name('medical_master');
+Route::get('general_master/', [App\Http\Controllers\HomeController::class, 'general_master'])->name('general_master');
+Route::get('bond_user_entry_master/', [App\Http\Controllers\HomeController::class, 'bond_user_entry_master'])->name('bond_user_entry_master');
+Route::get('mf_master/', [App\Http\Controllers\HomeController::class, 'mf_master'])->name('mf_master');
+Route::get('data_to_import_master/', [App\Http\Controllers\HomeController::class, 'data_to_import_master'])->name('data_to_import_master');
+Route::get('report1_master/', [App\Http\Controllers\HomeController::class, 'report1_master'])->name('report1_master');
+Route::get('report2_master/', [App\Http\Controllers\HomeController::class, 'report2_master'])->name('report2_master');
+

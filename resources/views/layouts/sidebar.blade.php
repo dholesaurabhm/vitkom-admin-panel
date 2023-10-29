@@ -43,7 +43,7 @@
                                 <a href="insurance_master" class="nav-link">@lang('translation.insurance')</a>
                             </li>
                             <li class="nav-item">
-                                <a href="bond_master" class="nav-link">@lang('translation.bond')</a>
+                                <a href="bonds_master" class="nav-link">@lang('translation.bond')</a>
                             </li>
                             <li class="nav-item">
                                 <a href="mutualfund_master" class="nav-link">@lang('translation.mutualfund')</a>
@@ -51,6 +51,49 @@
                         </ul>
                     </div>
                 </li>
+
+                <li class="nav-item">
+                    <a class="nav-link menu-link" href="life_master">
+                        <i class="ri-honour-line"></i> <span>@lang('translation.life')</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link menu-link" href="medical_master">
+                        <i class="ri-honour-line"></i> <span>@lang('translation.medical')</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link menu-link" href="general_master">
+                        <i class="ri-honour-line"></i> <span>@lang('translation.general')</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link menu-link" href="bond_user_entry_master">
+                        <i class="ri-honour-line"></i> <span>@lang('translation.bond_user_entry')</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link menu-link" href="mf_master">
+                        <i class="ri-honour-line"></i> <span>@lang('translation.mf')</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link menu-link" href="data_to_import_master">
+                        <i class="ri-honour-line"></i> <span>@lang('translation.data_to_import')</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link menu-link" href="report1_master">
+                        <i class="ri-honour-line"></i> <span>@lang('translation.report1')</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link menu-link" href="report2_master">
+                        <i class="ri-honour-line"></i> <span>@lang('translation.report2')</span>
+                    </a>
+                </li>
+    <!-- Menu end --> 
+
                 <li class="nav-item">
                     <a class="nav-link menu-link" href="#sidebarDashboards" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="sidebarDashboards">
                         <i class="ri-dashboard-2-line"></i> <span>@lang('translation.dashboards')</span>

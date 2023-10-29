@@ -1,13 +1,20 @@
 <?php
 return [
-    "master"        => "Masters",
-    "menu"          => "Menu",
-    "users"         => "Users",
-    "client"        => "Clients",
-    "insurance"     => "Insurance",
-    "bond"          => "Bonds",
-    "mutualfund"    => "Mutual Fund",
-
+    "master"         => "Masters",
+    "menu"           => "Menu",
+    "users"          => "Users",
+    "client"         => "Clients",
+    "insurance"      => "Insurance",
+    "bond"           => "Bonds",
+    "mutualfund"     => "Mutual Fund",
+    "life"             => "Life Insurance",
+    "medical"          => "Medical Insurance",
+    "general"          => "General Insurance",
+    "bond_user_entry"  => "Bonds",
+    "mf"               => "Mutual Fund",
+    "data_to_import"   => "Data To Import",
+    "report1"          => "Report 1",
+    "report2"          => "Report 2",
 
     "dashboards"=>"Dashboards",
     "analytics"=>"Analytics",

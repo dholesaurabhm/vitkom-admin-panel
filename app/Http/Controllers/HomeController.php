@@ -64,7 +64,57 @@ class HomeController extends Controller
         return view('user_master');
     }
 
-    
+    public function client_master()
+    {
+        return view('client_master');
+    }
+     public function insurance_master()
+    {
+        return view('insurance_master');
+    }
+     public function bonds_master()
+    {
+        return view('bonds_master');
+    }
+     public function mutualfund_master()
+    {
+        return view('mutualfund_master');
+    }
+     
+
+        public function life_master()
+    {
+        return view('life_master');
+    }
+
+    public function medical_master()
+    {
+        return view('medical_master');
+    }
+     public function general_master()
+    {
+        return view('general_master');
+    }
+     public function bond_user_entry_master()
+    {
+        return view('bond_user_entry_master');
+    }
+     public function mf_master()
+    {
+        return view('mf_master');
+    }
+     public function data_to_import_master()
+    {
+        return view('data_to_import_master');
+    }
+     public function report1_master()
+    {
+        return view('report1_master');
+    }
+     public function report2_master()
+    {
+        return view('report2_master');
+    }
 
     
     public function edit_restaurant($id)
