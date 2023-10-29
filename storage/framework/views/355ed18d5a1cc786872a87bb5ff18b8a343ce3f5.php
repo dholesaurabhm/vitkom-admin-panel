@@ -83,7 +83,7 @@
                         <div class="col-sm-6">
                             <div>
                                 <label for="schemeInput" class="form-label">Scheme Name<span class="red">*</span></label>
-                                <input type="number" class="form-control" id="number" placeholder="Enter Pollicy Number" required>
+                                <input type="name" class="form-control" id="name" placeholder="Enter Scheme Name" required>
                             </div>
                         </div><!--end col-->
                         <div class="col-sm-6">
