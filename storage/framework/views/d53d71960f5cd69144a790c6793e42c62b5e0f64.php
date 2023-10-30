@@ -66,8 +66,8 @@
                         </div><!--end col--> 
                         <div class="col-sm-6">
                             <div>
-                                <label for="investedamountInput" class="form-label">Renuwal Amount ₹<span class="red">*</span></label>
-                                <input type="pay-amount" class="form-control" id="amount" placeholder="Enter Invested Amount" required>
+                                <label for="RenualamountInput" class="form-label">Renuwal Amount ₹<span class="red">*</span></label>
+                                <input type="pay-amount" class="form-control" id="amount" placeholder="Enter Renuwal Amount" required>
                             </div>
                         </div><!--end col-->
                        
