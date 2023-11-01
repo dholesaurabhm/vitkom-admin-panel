@@ -95,31 +95,31 @@
                         </div><!--end col-->
                         <div class="col-sm-6">
                             <div>
-                                <label for="paymentInput" class="form-label">Payment End Date</label>
+                                <label for="paymentInput" class="form-label">Payment End Date<span class="red">*</span></label>
                                 <input type="date" class="form-control" id="date" placeholder="datepicker-range" required>
                             </div>
                         </div><!--end col--> 
                         <div class="col-sm-6">
                             <div>
-                                <label for="close-date-Input" class="form-label">Maturity Date</label>
+                                <label for="close-date-Input" class="form-label">Maturity Date<span class="red">*</span></label>
                                 <input type="date" class="form-control" id="date" placeholder="date" required>
                             </div>
                         </div><!--end col--> 
                         <div class="col-sm-6">
                             <div>
-                                <label for="sumassuredInput" class="form-label">Sum Assured</label>
+                                <label for="sumassuredInput" class="form-label">Sum Assured<span class="red">*</span></label>
                                 <input type="number" class="form-control" id="number" placeholder="Enter Number" >
                             </div>
                         </div><!--end col--> 
                         <div class="col-sm-6">
                             <div>
-                                <label for="primumInput" class="form-label">Primum</label>
+                                <label for="primumInput" class="form-label">Primum<span class="red">*</span></label>
                                 <input type="number" class="form-control" id="number" placeholder="Enter Number" >
                             </div>
                         </div><!--end col--> 
                         <div class="col-sm-6">
                             <div>
-                                <label for="dateofBirth" class="form-label">Mode</label>
+                                <label for="dateofBirth" class="form-label">Mode<span class="red">*</span></label>
                                 <select class="form-select mb-2" aria-label="Default select example">
                         
                                    <option value="1">1</option>
@@ -130,19 +130,19 @@
                         </div><!--end col--> 
                         <div class="col-sm-6">
                             <div>
-                                <label for="currentvalueInput" class="form-label">Current Value</label>
+                                <label for="currentvalueInput" class="form-label">Current Value<span class="red">*</span></label>
                                 <input type="number" class="form-control" id="number" placeholder="Enter Number" >
                             </div>
                         </div><!--end col-->
                         <div class="col-sm-6">
                             <div>
-                                <label for="maturityamountInput" class="form-label">Maturity Amount</label>
+                                <label for="maturityamountInput" class="form-label">Maturity Amount<span class="red">*</span></label>
                                 <input type="number" class="form-control" id="number" placeholder="Enter Number" >
                             </div>
                         </div><!--end col-->  
                         <div class="col-sm-6">
                             <div>
-                                <label for="nameInput" class="form-label">Nominee Name</label>
+                                <label for="nameInput" class="form-label">Nominee Name<span class="red">*</span></label>
                                 <input type="name" class="form-control" id="name" placeholder="Enter Nominee Name" >
                             </div>
                         </div><!--end col--> 
@@ -166,6 +166,19 @@
 
 @endsection
 @section('script')
+<script>
+function validateLifeInsuranceForm() {
+    var insuredPersonName = document.getElementById('insuredPersonName').value;
+    // You can perform similar validations for other fields
+    if (insuredPersonName.trim() === '') {
+        alert('Insured Person Name is required!');
+        return false;
+    }
+    // Perform other validation checks for different fields
+    return true; // If all validations pass, form will be submitted
+}
+</script>
+
 <!-- apexcharts -->
 
 <!--datatable js-->
