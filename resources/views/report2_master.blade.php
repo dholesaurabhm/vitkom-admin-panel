@@ -35,6 +35,10 @@
     </div> 
 </div>
 
+<form id="investorForm" onsubmit="return validateInvestorForm();">
+    <!-- Your form inputs here -->
+</form>
+
 <div class="modal fade" id="exampleModalgrid" tabindex="-1" aria-labelledby="exampleModalgridLabel" aria-modal="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -88,6 +92,24 @@
 
 @endsection
 @section('script')
+<script>
+function validateInvestorForm() {
+    var investorName = document.getElementById('name').value;
+    var renuwalAmount = document.getElementById('amount').value;
+
+    if (investorName.trim() === '') {
+        alert('Investor Name is required.');
+        return false;
+    }
+
+    if (isNaN(renuwalAmount) || renuwalAmount <= 0) {
+        alert('Please enter a valid Renuwal Amount.');
+        return false;
+    }
+
+    return true; // Submits the form if all validations pass
+}
+</script>
 <!-- apexcharts -->
 
 <!--datatable js-->
