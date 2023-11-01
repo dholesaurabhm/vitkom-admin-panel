@@ -136,7 +136,7 @@ function validateForm() {
     return true;
 }
 </script>
-<!-- Your remaining script references -->
+
 <!-- apexcharts -->
 
 <!--datatable js-->

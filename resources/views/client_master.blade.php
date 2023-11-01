@@ -29,7 +29,6 @@
                                 </thead>
                             </table>
                         </div>
-
                     </div>
                 </div>
             </div> 
@@ -42,10 +41,10 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalgridLabel">Client Details</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria        -label="Close"></button>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form action="javascript:void(0);">
+                <form id="clientForm" onsubmit="return validateClientForm();">
                     <div class="row g-3">
                         <div class="col-sm-6">
                             <div>
@@ -57,48 +56,42 @@
                         <div class="col-sm-6">
                             <div>
                                 <label for="MobileNumberInput" class="form-label">Mobile Number<span class="red">*</span></label>
-                                <input type="tel" class="form-control" id="phone" placeholder="Enter Mobile Number" pattern="[0-9]{3}-[0-9]{2}-[0-9]{3}"  required>
+                                <input type="tel" class="form-control" id="phone" placeholder="Enter Mobile Number" pattern="[0-9]{3}-[0-9]{2}-[0-9]{3}" required>
                             </div>
                         </div><!--end col-->
                         <div class="col-sm-6">
                             <div>
                                 <label for="emailInput" class="form-label">Email ID<span class="red">*</span></label>
-                                <input type="emailID" class="form-control" id="emailid" placeholder="Enter email id" required>
+                                <input type="email" class="form-control" id="emailid" placeholder="Enter email id" required>
                             </div>
                         </div><!--end col-->
                         <div class="col-sm-6">
                             <div>
                                 <label for="pancardInput" class="form-label">Pan NO<span class="red">*</span></label>
-                                <input type="pancard" class="form-control" id="pancard" placeholder="Enter Pancard Number" required>
+                                <input type="text" class="form-control" id="pancard" placeholder="Enter Pancard Number" required>
                             </div>
                         </div><!--end col-->
                         <div class="col-sm-6">
                             <div>
                                 <label for="aadharcardInput" class="form-label">Aadhar NO<span class="red">*</span></label>
-                                <input type="aadharcard" class="form-control" id="Aadhar" placeholder="Enter Aadhar Number" required>
-
+                                <input type="text" class="form-control" id="Aadhar" placeholder="Enter Aadhar Number" required>
                             </div>
                         </div><!--end col-->
                         <div class="col-sm-6">
                             <div>
                                 <label for="dateofBirth" class="form-label">Date Of Birth</label>
-                                <input type="date" class="form-control" id="dateofBirth" placeholder="birthday" >
+                                <input type="date" class="form-control" id="dateofBirth" required>
                             </div>
                         </div><!--end col--> 
                         <div class="col-sm-6">
                             <div>
                                 <label for="genderInput" class="form-label">Gender</label>
-                                <select class="form-select mb-2" aria-label="Default select example">
-                        
-                        <option value="1">Male</option>
-                        <option value="2">Female</option>
-                        
-                        </select>
+                                <select class="form-select mb-2" id="gender" aria-label="Default select example">
+                                    <option value="1">Male</option>
+                                    <option value="2">Female</option>
+                                </select>
                             </div>
                         </div><!--end col-->
-             
-                       
-                        
                         <div class="col-sm-12">
                             <div class="hstack gap-2 justify-content-end">
                                 <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
@@ -115,6 +108,51 @@
 
 @endsection
 @section('script')
+<script>
+function validateClientForm() {
+    var ClientName = document.getElementById('ClientName').value;
+    var phone = document.getElementById('phone').value;
+    var emailid = document.getElementById('emailid').value;
+    var pancard = document.getElementById('pancard').value;
+    var Aadhar = document.getElementById('Aadhar').value;
+    var dateofBirth = document.getElementById('dateofBirth').value;
+    var gender = document.getElementById('gender').value;
+
+    if (ClientName.trim() === '') {
+        alert('Please enter a Name');
+        return false;
+    }
+    
+    if (phone.trim() === '' || !phone.match(/[0-9]{3}-[0-9]{2}-[0-9]{3}/)) {
+        alert('Please enter a valid Mobile Number (e.g., XXX-XX-XXX)');
+        return false;
+    }
+    
+    if (emailid.trim() === '') {
+        alert('Please enter an Email ID');
+        return false;
+    }
+    
+    if (pancard.trim() === '') {
+        alert('Please enter a Pancard Number');
+        return false;
+    }
+
+    if (Aadhar.trim() === '') {
+        alert('Please enter an Aadhar Number');
+        return false;
+    }
+
+    if (dateofBirth.trim() === '') {
+        alert('Please enter a Date of Birth');
+        return false;
+    }
+
+    return true; // Form submission
+}
+</script>
+
+
 <!-- apexcharts -->
 
 <!--datatable js-->
