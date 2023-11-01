@@ -83,7 +83,7 @@
                         <div class="card-body">
                             <div class="tab-content  text-muted">
                                         <div class="tab-pane active show" id="Security Details" role="tabpanel">
-                                            <h6>Deal Details</h6>
+                                            <h6>Security Details</h6>
                             <table id="ajax-datatables" class="display table table-bordered dt-responsive" style="width:100%">
                                 <thead>
                                     <tr>

@@ -4,6 +4,9 @@
 
 <?php $__env->stopSection(); ?>
 <?php $__env->startSection('content'); ?>
+<form id="investorWiseForm" onsubmit="return validateInvestorWiseForm();">
+    <!-- Your form inputs here -->
+</form>
 <div class="row">
     <div class="col">
 
@@ -109,6 +112,31 @@
 
 <?php $__env->stopSection(); ?>
 <?php $__env->startSection('script'); ?>
+<script>
+function validateInvestorWiseForm() {
+    // Fetch values from the form
+    var investorName = document.getElementById('name').value;
+    var investedAmount = document.getElementById('amount').value;
+    var currentAmount = document.getElementById('currentAmount').value;
+    var lifeInsurance = document.getElementById('lifeInsurance').value;
+    var medicalInsurance = document.getElementById('medicalInsurance').value;
+
+    // Perform validation
+    if (investorName.trim() === '') {
+        alert('Investor Name is required.');
+        return false;
+    }
+
+    if (isNaN(investedAmount) || investedAmount <= 0) {
+        alert('Please enter a valid Invested Amount.');
+        return false;
+    }
+
+    // Add similar validations for other fields
+
+    return true; // If all validations pass, the form will be submitted
+}
+</script>
 <!-- apexcharts -->
 
 <!--datatable js-->
