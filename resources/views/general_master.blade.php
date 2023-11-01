@@ -101,25 +101,25 @@
                         </div><!--end col-->
                         <div class="col-sm-6">
                             <div>
-                                <label for="pickadateInput" class="form-label">Pick a Date</label>
+                                <label for="pickadateInput" class="form-label">Pick a Date<span class="red">*</span></label>
                                 <input type="date" class="form-control" id="date" placeholder="datepicker-range" required>
                             </div>
                         </div><!--end col--> 
                         <div class="col-sm-6">
                             <div>
-                                <label for="enddateInput" class="form-label">End Date</label>
+                                <label for="enddateInput" class="form-label">End Date<span class="red">*</span></label>
                                 <input type="date" class="form-control" id="date" placeholder="datepicker-range" required>
                             </div>
                         </div><!--end col--> 
                         <div class="col-sm-6">
                             <div>
-                                <label for="pickadateInput" class="form-label">Pick a date</label>
+                                <label for="pickadateInput" class="form-label">Pick a date<span class="red">*</span></label>
                                 <input type="date" class="form-control" id="date" placeholder="datepicker-range" required>
                             </div>
                         </div><!--end col--> 
                         <div class="col-sm-6">
                             <div>
-                                <label for="sumassuredInput" class="form-label">Sum Assured</label>
+                                <label for="sumassuredInput" class="form-label">Sum Assured<span class="red">*</span></label>
                                 <input type="number" class="form-control" id="number" placeholder="Enter Number" >
                             </div>
                         </div><!--end col--> 
@@ -127,7 +127,7 @@
                          
                         <div class="col-sm-6">
                             <div>
-                                <label for="primumamountInput" class="form-label">Premium Amount</label>
+                                <label for="primumamountInput" class="form-label">Premium Amount<span class="red">*</span></label>
                                 <input type="number" class="form-control" id="number" placeholder="Enter Number" >
                             </div>
                         </div><!--end col-->
@@ -152,6 +152,19 @@
 
 @endsection
 @section('script')
+<script>
+function validateGeneralInsuranceForm() {
+    // Perform validation for your form fields here
+    // Example: Validate the insured person's name
+    var insuredPersonName = document.getElementById('insuredPersonName').value;
+    if (insuredPersonName.trim() === '') {
+        alert('Insured Person Name is required!');
+        return false;
+    }
+    // Add other validation checks for different fields
+    return true; // Form will be submitted if all validations pass
+}
+</script>
 <!-- apexcharts -->
 
 <!--datatable js-->
