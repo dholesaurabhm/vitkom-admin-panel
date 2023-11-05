@@ -38,3 +38,5 @@ Route::get('data_to_import_master/', [App\Http\Controllers\HomeController::class
 Route::get('report1_master/', [App\Http\Controllers\HomeController::class, 'report1_master'])->name('report1_master');
 Route::get('report2_master/', [App\Http\Controllers\HomeController::class, 'report2_master'])->name('report2_master');
 
+Route::get('user_dashboard/', [App\Http\Controllers\HomeController::class, 'user_dashboard'])->name('user_dashboard');
+

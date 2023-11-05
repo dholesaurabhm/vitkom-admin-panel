@@ -41,59 +41,62 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalgridLabel">Grid Modals</h5>
+                <h5 class="modal-title" id="exampleModalgridLabel">Admin User</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
                 <form action="javascript:void(0);">
                     <div class="row g-3">
-                        <div class="col-xxl-6">
+                        <div class="col-sm-6">
                             <div>
-                                <label for="firstName" class="form-label">First Name</label>
-                                <input type="text" class="form-control" id="firstName" placeholder="Enter firstname">
+                                <label for="firstName" class="form-label">Employee Name<span class="red">*</span></label>
+                                <input type="text" class="form-control" id="firstName" placeholder="Emp name" required>
                             </div>
                         </div><!--end col-->
-                        <div class="col-xxl-6">
+                        <div class="col-sm-6">
                             <div>
-                                <label for="lastName" class="form-label">Last Name</label>
-                                <input type="text" class="form-control" id="lastName" placeholder="Enter lastname">
+                                <label for="empemailid" class="form-label">Employee Email ID<span class="red">*</span></label>
+                                <input type="empemailid" class="form-control" id="empemailid" placeholder="Emp email id" required>
                             </div>
                         </div><!--end col-->
-                        <div class="col-lg-12">
-                            <label for="genderInput" class="form-label">Gender</label>
+                        <div class="col-sm-6">
                             <div>
-                                <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1">
-                                    <label class="form-check-label" for="inlineRadio1">Male</label>
-                                </div>
-                                <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option2">
-                                    <label class="form-check-label" for="inlineRadio2">Female</label>
-                                </div>
-                                <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio3" value="option3">
-                                    <label class="form-check-label" for="inlineRadio3">Others</label>
-                                </div>
+                                <label for="passwordInput" class="form-label">Password<span class="red">*</span></label>
+                                <input type="password" class="form-control" id="passwordInput" value="451326546" required>
                             </div>
                         </div><!--end col-->
-                        <div class="col-xxl-6">
+                        <div class="col-sm-6">
                             <div>
-                                <label for="emailInput" class="form-label">Email</label>
-                                <input type="email" class="form-control" id="emailInput" placeholder="Enter your email">
+                                <label for="empjoiningdate" class="form-label">Employee Joining Date<span class="red">*</span></label>
+                                <input type="empjoiningdate" class="form-control" id="empjoiningdate" placeholder="Emp Joining Date" required>
+
                             </div>
                         </div><!--end col-->
-                        <div class="col-xxl-6">
+                        <div class="col-sm-6">
                             <div>
-                                <label for="passwordInput" class="form-label">Password</label>
-                                <input type="password" class="form-control" id="passwordInput" value="451326546">
+                                <label for="empenddate" class="form-label">Employee End Date</label>
+                                <input type="empenddate" class="form-control" id="empenddate" placeholder="Emp End Date" >
+                            </div>
+                        </div><!--end col--> 
+                        <div class="col-sm-6">
+                            <div>
+                                <label for="empenddate" class="form-label">Login Activation</label>
+                                <select class="form-select mb-3" aria-label="Default select example">
+                        
+                        <option value="1">Yes</option>
+                        <option value="2">No</option>
+                        
+                        </select>
                             </div>
                         </div><!--end col-->
-                        <div class="col-lg-12">
+                        
+                        <div class="col-sm-12">
                             <div class="hstack gap-2 justify-content-end">
                                 <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
                                 <button type="submit" class="btn btn-primary">Submit</button>
                             </div>
-                        </div><!--end col-->
+                        </div>
+                        <!--end col-->
                     </div><!--end row-->
                 </form>
             </div>

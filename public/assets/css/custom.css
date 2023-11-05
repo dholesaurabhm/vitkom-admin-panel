@@ -10,3 +10,25 @@ td {
 .red{
     color: red;
 }
+.dataTables_wrapper {
+    width: 100%;
+    font-size: 12px!important;
+}
+th.sorting {
+    font-size: 11px !IMPORTANT;    
+    padding: 5px;
+    text-align: center;
+}
+td {
+    font-size: 11px !IMPORTANT;
+    padding: 5px;
+}
+
+table.dataTable>thead .sorting:before, table.dataTable>thead .sorting:after, table.dataTable>thead .sorting_asc:before, table.dataTable>thead .sorting_asc:after, table.dataTable>thead .sorting_desc:before, table.dataTable>thead .sorting_desc:after, table.dataTable>thead .sorting_asc_disabled:before, table.dataTable>thead .sorting_asc_disabled:after, table.dataTable>thead .sorting_desc_disabled:before, table.dataTable>thead .sorting_desc_disabled:after
+{
+    top:5px !important;
+}
+table.dataTable>thead .sorting:before, table.dataTable>thead .sorting_asc:before, table.dataTable>thead .sorting_asc_disabled:before, table.dataTable>thead .sorting_desc:before, table.dataTable>thead .sorting_desc_disabled:before
+{
+    top:5px !important;
+}

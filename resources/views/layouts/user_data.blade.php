@@ -1,5 +1,5 @@
 @extends('layouts.master')
-@section('title') @lang('translation.report2') @endsection
+@section('title') @lang('translation.client') @endsection
 @section('css')
 
 @endsection
@@ -12,22 +12,24 @@
                 <div class="col-xl-12 col-md-12">
                     <div class="card">
                         <div class="card-header" style="padding: 10px;">
-                            <h5 class="card-title mb-0" style="width: 150px;clear: both;display: contents;line-height: 35px;"> Inestor Wise Total Investment Report </h5> 
+                            <h5 class="card-title mb-0" style="width: 150px;clear: both;display: contents;line-height: 35px;">Client Details</h5> 
                             <button type="button" class="btn btn-primary waves-effect waves-light" style="float: right;clear: both;display: block;"  data-bs-toggle="modal" data-bs-target="#exampleModalgrid">Add New +</button>
-                        </div>  
+                        </div>    
                         <div class="card-body">
-                            <table id="ajax-datatables" class="display table table-bordered dt-responsive" style="width:100%">
+                             <table id="ajax-datatables" class="display table table-bordered dt-responsive" style="width:100%">
                                 <thead>
                                     <tr>
-                                        <th>Investor</th>
-                                        <th>Insurance Type</th>
-                                        <th>Renuwal Amount ₹</th>
-                                        <th>Renewal Date</th>
-                                        
+                                        <th>Name</th>
+                                        <th>Mobile No</th>
+                                        <th>Email ID</th>
+                                        <th>Pancard Number</th>
+                                        <th>Aadhar Number</th>
+                                        <th>Action</th>
                                     </tr>
                                 </thead>
                             </table>
                         </div>
+
                     </div>
                 </div>
             </div> 
@@ -39,7 +41,7 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalgridLabel">Inestor Wise Total Investment Report</h5>
+                <h5 class="modal-title" id="exampleModalgridLabel">Client Details</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria        -label="Close"></button>
             </div>
             <div class="modal-body">
@@ -47,31 +49,56 @@
                     <div class="row g-3">
                         <div class="col-sm-6">
                             <div>
-                                <label for="nameInput" class="form-label">Investor Name<span class="red">*</span></label>
-                                <input type="name" class="form-control" id="name" placeholder="Enter Scheme Name" required>
-                        
-                                  
+                                <label for="nameInput" class="form-label">Name<span class="red">*</span></label>
+                                <input type="text" class="form-control" id="ClientName" placeholder="Enter name" required>
                             </div>
                         </div><!--end col-->
-                          <div class="col-sm-6">
+                        
+                        <div class="col-sm-6">
                             <div>
-                                <label for="typeinput" class="form-label">Insurance Type<span class="red">*</span></label>
-                                <select class="form-select mb-3" aria-label="Default select example">
-                        
-                                   <option value="1">1</option>
-                                   <option value="2">2</option>
-                        
-                                </select>
+                                <label for="MobileNumberInput" class="form-label">Mobile Number<span class="red">*</span></label>
+                                <input type="tel" class="form-control" id="phone" placeholder="Enter Mobile Number" pattern="[0-9]{3}-[0-9]{2}-[0-9]{3}"  required>
+                            </div>
+                        </div><!--end col-->
+                        <div class="col-sm-6">
+                            <div>
+                                <label for="emailInput" class="form-label">Email ID<span class="red">*</span></label>
+                                <input type="emailID" class="form-control" id="emailid" placeholder="Enter email id" required>
+                            </div>
+                        </div><!--end col-->
+                        <div class="col-sm-6">
+                            <div>
+                                <label for="pancardInput" class="form-label">Pan NO<span class="red">*</span></label>
+                                <input type="pancard" class="form-control" id="pancard" placeholder="Enter Pancard Number" required>
+                            </div>
+                        </div><!--end col-->
+                        <div class="col-sm-6">
+                            <div>
+                                <label for="aadharcardInput" class="form-label">Aadhar NO<span class="red">*</span></label>
+                                <input type="aadharcard" class="form-control" id="Aadhar" placeholder="Enter Aadhar Number" required>
+
+                            </div>
+                        </div><!--end col-->
+                        <div class="col-sm-6">
+                            <div>
+                                <label for="dateofBirth" class="form-label">Date Of Birth</label>
+                                <input type="date" class="form-control" id="dateofBirth" placeholder="birthday" >
                             </div>
                         </div><!--end col--> 
                         <div class="col-sm-6">
                             <div>
-                                <label for="RenualamountInput" class="form-label">Renuwal Amount ₹<span class="red">*</span></label>
-                                <input type="pay-amount" class="form-control" id="amount" placeholder="Enter Renuwal Amount" required>
+                                <label for="genderInput" class="form-label">Gender</label>
+                                <select class="form-select mb-2" aria-label="Default select example">
+                        
+                        <option value="1">Male</option>
+                        <option value="2">Female</option>
+                        
+                        </select>
                             </div>
                         </div><!--end col-->
+             
                        
-                                                
+                        
                         <div class="col-sm-12">
                             <div class="hstack gap-2 justify-content-end">
                                 <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>

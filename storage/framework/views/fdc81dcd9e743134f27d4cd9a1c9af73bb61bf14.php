@@ -1,9 +1,9 @@
-@extends('layouts.master')
-@section('title') @lang('translation.report2') @endsection
-@section('css')
 
-@endsection
-@section('content')
+<?php $__env->startSection('title'); ?> <?php echo app('translator')->get('translation.report1'); ?> <?php $__env->stopSection(); ?>
+<?php $__env->startSection('css'); ?>
+
+<?php $__env->stopSection(); ?>
+<?php $__env->startSection('content'); ?>
 <div class="row">
     <div class="col">
 
@@ -20,10 +20,11 @@
                                 <thead>
                                     <tr>
                                         <th>Investor</th>
-                                        <th>Insurance Type</th>
-                                        <th>Renuwal Amount ₹</th>
-                                        <th>Renewal Date</th>
-                                        
+                                        <th>Sub Type</th>
+                                        <th>Invested Amount ₹</th>
+                                        <th>Current Amount ₹</th>
+                                        <th>Life Insurance</th>
+                                        <th>Medical Insurance</th>
                                     </tr>
                                 </thead>
                             </table>
@@ -40,6 +41,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalgridLabel">Inestor Wise Total Investment Report</h5>
+                
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria        -label="Close"></button>
             </div>
             <div class="modal-body">
@@ -55,7 +57,7 @@
                         </div><!--end col-->
                           <div class="col-sm-6">
                             <div>
-                                <label for="typeinput" class="form-label">Insurance Type<span class="red">*</span></label>
+                                <label for="typeinput" class="form-label">Sub Type<span class="red">*</span></label>
                                 <select class="form-select mb-3" aria-label="Default select example">
                         
                                    <option value="1">1</option>
@@ -66,12 +68,30 @@
                         </div><!--end col--> 
                         <div class="col-sm-6">
                             <div>
-                                <label for="RenualamountInput" class="form-label">Renuwal Amount ₹<span class="red">*</span></label>
-                                <input type="pay-amount" class="form-control" id="amount" placeholder="Enter Renuwal Amount" required>
+                                <label for="investedamountInput" class="form-label">Invested Amount ₹<span class="red">*</span></label>
+                                <input type="pay-amount" class="form-control" id="amount" placeholder="Enter Invested Amount" required>
                             </div>
                         </div><!--end col-->
                        
-                                                
+                        <div class="col-sm-6">
+                            <div>
+                                <label for="currentamountInput" class="form-label">Current Amount ₹<span class="red">*</span></label>
+                                <input type="currentamount" class="form-control" id="amount" placeholder="Enter Current Amount" required>
+                            </div>
+                        </div><!--end col-->
+                        <div class="col-sm-6">
+                            <div>
+                                <label for="lifeinsuranceInput" class="form-label">Life Insurance<span class="red">*</span></label>
+                                <input type="lifeinsurance" class="form-control" id="lifeinsurance" placeholder="Enter Life Insurance" required>
+                            </div>
+                        </div><!--end col-->
+                        <div class="col-sm-6">
+                            <div>
+                                <label for="medicalinsuranceInput" class="form-label">Medical Insurance<span class="red">*</span></label>
+                                <input type="medicalinsurance" class="form-control" id="medicalinsurance" placeholder="Enter Medical Insurance" required>
+                            </div>
+                        </div><!--end col-->
+                        
                         <div class="col-sm-12">
                             <div class="hstack gap-2 justify-content-end">
                                 <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
@@ -86,8 +106,8 @@
     </div>
 </div>
 
-@endsection
-@section('script')
+<?php $__env->stopSection(); ?>
+<?php $__env->startSection('script'); ?>
 <!-- apexcharts -->
 
 <!--datatable js-->
@@ -101,7 +121,9 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
 
-<script src="{{ URL::asset('/assets/js/pages/datatables.init.js') }}"></script>
-<script src="{{ URL::asset('/assets/js/app.min.js') }}"></script>
+<script src="<?php echo e(URL::asset('/assets/js/pages/datatables.init.js')); ?>"></script>
+<script src="<?php echo e(URL::asset('/assets/js/app.min.js')); ?>"></script>
 
-@endsection
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('layouts.master', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH D:\wamp\www\vitkom-admin-panel\resources\views/report1_master.blade.php ENDPATH**/ ?>

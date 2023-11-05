@@ -115,6 +115,10 @@ class HomeController extends Controller
     {
         return view('report2_master');
     }
+     public function user_dashboard()
+    {
+        return view('user_dashboard');
+    }
 
     
     public function edit_restaurant($id)
