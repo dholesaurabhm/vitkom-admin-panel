@@ -45,48 +45,45 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form action="javascript:void(0);">
+                <form id="employeeForm" onsubmit="return validateForm();">
                     <div class="row g-3">
                         <div class="col-sm-6">
                             <div>
-                                <label for="firstName" class="form-label">Employee Name<span class="red">*</span></label>
+                                <label for="empnameInput" class="form-label">Employee Name<span class="red">*</span></label>
                                 <input type="text" class="form-control" id="firstName" placeholder="Emp name" required>
                             </div>
                         </div><!--end col-->
                         <div class="col-sm-6">
                             <div>
-                                <label for="empemailid" class="form-label">Employee Email ID<span class="red">*</span></label>
-                                <input type="empemailid" class="form-control" id="empemailid" placeholder="Emp email id" required>
+                                <label for="empemailidInput" class="form-label">Employee Email ID<span class="red">*</span></label>
+                                <input type="email" class="form-control" id="empemailid" placeholder="Emp email id" required>
                             </div>
                         </div><!--end col-->
                         <div class="col-sm-6">
                             <div>
                                 <label for="passwordInput" class="form-label">Password<span class="red">*</span></label>
-                                <input type="password" class="form-control" id="passwordInput" value="451326546" required>
+                                <input type="password" class="form-control" id="passwordInput" required>
                             </div>
                         </div><!--end col-->
                         <div class="col-sm-6">
                             <div>
                                 <label for="empjoiningdate" class="form-label">Employee Joining Date<span class="red">*</span></label>
-                                <input type="empjoiningdate" class="form-control" id="empjoiningdate" placeholder="Emp Joining Date" required>
-
+                                <input type="date" class="form-control" id="empjoiningdate" required>
                             </div>
                         </div><!--end col-->
                         <div class="col-sm-6">
                             <div>
                                 <label for="empenddate" class="form-label">Employee End Date</label>
-                                <input type="empenddate" class="form-control" id="empenddate" placeholder="Emp End Date" >
+                                <input type="date" class="form-control" id="empenddate">
                             </div>
                         </div><!--end col--> 
                         <div class="col-sm-6">
                             <div>
-                                <label for="empenddate" class="form-label">Login Activation</label>
-                                <select class="form-select mb-3" aria-label="Default select example">
-                        
-                        <option value="1">Yes</option>
-                        <option value="2">No</option>
-                        
-                        </select>
+                                <label for="loginActivation" class="form-label">Login Activation</label>
+                                <select class="form-select mb-3" id="loginActivation" aria-label="Default select example">
+                                    <option value="1">Yes</option>
+                                    <option value="2">No</option>
+                                </select>
                             </div>
                         </div><!--end col-->
                         
@@ -104,7 +101,42 @@
     </div>
 </div>
 @endsection
+
 @section('script')
+<script>
+function validateForm() {
+    var firstName = document.getElementById('firstName').value;
+    var empemailid = document.getElementById('empemailid').value;
+    var empjoiningdate = document.getElementById('empjoiningdate').value;
+    var passwordInput = document.getElementById('passwordInput').value;
+
+    if (firstName.trim() === '') {
+        alert('Please enter Employee Name');
+        return false; // Prevents form submission
+    }
+
+    if (empemailid.trim() === '') {
+        alert('Please enter Employee Email ID');
+        return false; // Prevents form submission
+    }
+
+    if (empjoiningdate.trim() === '') {
+        alert('Please enter Employee Joining Date');
+        return false; // Prevents form submission
+    }
+
+    if (passwordInput.trim() === '') {
+        alert('Please enter Password');
+        return false; // Prevents form submission
+    }
+
+    // Validation for other fields can be added similarly
+
+    // If all validations pass, the form will be submitted
+    return true;
+}
+</script>
+
 <!-- apexcharts -->
 
 <!--datatable js-->
