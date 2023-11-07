@@ -1,11 +1,11 @@
 function validateClientForm() {
-    var ClientName = document.getElementById('ClientName').value;
-    var phone = document.getElementById('phone').value;
-    var emailid = document.getElementById('emailid').value;
-    var pancard = document.getElementById('pancard').value;
-    var Aadhar = document.getElementById('Aadhar').value;
-    var dateofBirth = document.getElementById('dateofBirth').value;
-    var gender = document.getElementById('gender').value;
+    var ClientName = form.elements('ClientName').value;
+    var phone = form.elements('phone').value;
+    var emailid = form.elements('emailid').value;
+    var pancard = form.elements('pancard').value;
+    var Aadhar = form.elements('Aadhar').value;
+    var dateofBirth = form.elements('dateofBirth').value;
+    var gender = form.elements('gender').value;
 
     if (ClientName.trim() === '') {
         alert('Please enter a Name');
