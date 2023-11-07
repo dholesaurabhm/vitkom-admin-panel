@@ -15,7 +15,6 @@
                 <div class="col-xl-12 col-md-12">
                     <div class="card">
                         <div class="card-header" style="padding: 10px;">
-                            <h5 class="card-title mb-0" style="width: 150px;clear: both;display: contents;line-height: 35px;">Report 1 </h5></br>
                             <h5 class="card-title mb-0" style="width: 150px;clear: both;display: contents;line-height: 35px;"> Inestor Wise Total Investment Report </h5> 
                             <button type="button" class="btn btn-primary waves-effect waves-light" style="float: right;clear: both;display: block;"  data-bs-toggle="modal" data-bs-target="#exampleModalgrid">Add New +</button>
                         </div>  

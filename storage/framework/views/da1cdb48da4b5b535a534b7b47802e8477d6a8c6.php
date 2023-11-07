@@ -116,9 +116,12 @@ unset($__errorArgs, $__bag); ?>
                     </div>
                     <!-- end card -->
 
-                    <div class="mt-4 text-center">
-                        <p class="mb-0">Don't have an account ? <a href="#" class="fw-semibold text-primary text-decoration-underline"> Signup </a> </p>
-                    </div>
+                        <div class="text-center">
+                            <script>
+                                document.write(new Date().getFullYear())
+                            </script>  Crafted with <i
+                                    class="mdi mdi-heart text-danger"></i> by <a href="https://tlpl.in/"> TLPL.in</a></p>
+                        </div>
 
                 </div>
             </div>

@@ -63,7 +63,7 @@
                           <div class="col-sm-12">
                             <div>
                                 <label for="typeinput" class="form-label">Insurance Scheme Name<span class="red">*</span></label>
-                                <input type="name" class="form-control" id="name" placeholder="Enter Insurance Scheme Name" required>
+                                <input type="name" class="form-control insurance_scheme_name" id="insurance_scheme_name" placeholder="Enter Insurance Scheme Name" required>
                             </div>
                         </div>
                         
@@ -86,7 +86,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalgridLabel">Insurance Company</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria        -label="Close"></button>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
                 <form action="javascript:void(0);">
@@ -94,7 +94,7 @@
                         <div class="col-sm-12">
                             <div>
                                 <label for="nameInput" class="form-label">Insurance Company Name<span class="red">*</span></label>
-                                <input type="name" class="form-control" id="name" placeholder="Enter Insurance Company Name" required>
+                                <input type="name" class="form-control insurance_company_name" id="insurance_company_name" placeholder="Enter Insurance Company Name" required>
                             </div>
                         </div>
                         
@@ -131,5 +131,6 @@
 
 <script src="{{ URL::asset('/assets/js/pages/datatables.init.js') }}"></script>
 <script src="{{ URL::asset('/assets/js/app.min.js') }}"></script>
+<script src="{{ URL::asset('/assets/js/insurance_master.js') }}"></script>
 
 @endsection

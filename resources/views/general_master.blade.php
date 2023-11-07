@@ -83,44 +83,44 @@
                         <div class="col-sm-6">
                             <div>
                                 <label for="schemenameInput" class="form-label">Scheme Name<span class="red">*</span></label>
-                                <input type="name" class="form-control" id="name" placeholder="Enter Scheme Name" required>
+                                <input type="name" class="form-control scheme_name" id="scheme_name" placeholder="Enter Scheme Name" required>
                             </div>
                         </div><!--end col-->
                         <div class="col-sm-6">
                             <div>
                                 <label for="policynoInput" class="form-label">Policy No<span class="red">*</span></label>
-                                <input type="number" class="form-control" id="number" placeholder="Enter Pollicy Number" required>
+                                <input type="number" class="form-control scheme_name" id="scheme_name" placeholder="Enter Pollicy Number" required>
                             </div>
                         </div><!--end col-->
                         <div class="col-sm-6">
                             <div>
                                 <label for="startdateInput" class="form-label">Start Date<span class="red">*</span></label>
-                               <input type="date" class="form-control" id="date" placeholder="datepicker-range" required>
+                               <input type="date" class="form-control start_date" id="start_date" placeholder="datepicker-range" required>
 
                             </div>
                         </div><!--end col-->
                         <div class="col-sm-6">
                             <div>
                                 <label for="pickadateInput" class="form-label">Pick a Date<span class="red">*</span></label>
-                                <input type="date" class="form-control" id="date" placeholder="datepicker-range" required>
+                                <input type="date" class="form-control pick_a_date" id="pick_a_date" placeholder="datepicker-range" required>
                             </div>
                         </div><!--end col--> 
                         <div class="col-sm-6">
                             <div>
                                 <label for="enddateInput" class="form-label">End Date<span class="red">*</span></label>
-                                <input type="date" class="form-control" id="date" placeholder="datepicker-range" required>
+                                <input type="date" class="form-control end_date" id="end_date" placeholder="datepicker-range" required>
                             </div>
                         </div><!--end col--> 
                         <div class="col-sm-6">
                             <div>
                                 <label for="pickadateInput" class="form-label">Pick a date<span class="red">*</span></label>
-                                <input type="date" class="form-control" id="date" placeholder="datepicker-range" required>
+                                <input type="date" class="form-control pick_a_date" id="pick_a_date" placeholder="datepicker-range" required>
                             </div>
                         </div><!--end col--> 
                         <div class="col-sm-6">
                             <div>
                                 <label for="sumassuredInput" class="form-label">Sum Assured<span class="red">*</span></label>
-                                <input type="number" class="form-control" id="number" placeholder="Enter Number" >
+                                <input type="number" class="form-control sum_assured" id="sum_assured" placeholder="Enter Number" >
                             </div>
                         </div><!--end col--> 
                         
@@ -128,7 +128,7 @@
                         <div class="col-sm-6">
                             <div>
                                 <label for="primumamountInput" class="form-label">Premium Amount<span class="red">*</span></label>
-                                <input type="number" class="form-control" id="number" placeholder="Enter Number" >
+                                <input type="number" class="form-control premium_amount" id="premium_amount" placeholder="Enter Number" >
                             </div>
                         </div><!--end col-->
                         
@@ -150,19 +150,7 @@
 
 @endsection
 @section('script')
-<script>
-function validateGeneralInsuranceForm() {
-    // Perform validation for your form fields here
-    // Example: Validate the insured person's name
-    var insuredPersonName = document.getElementById('insuredPersonName').value;
-    if (insuredPersonName.trim() === '') {
-        alert('Insured Person Name is required!');
-        return false;
-    }
-    // Add other validation checks for different fields
-    return true; // Form will be submitted if all validations pass
-}
-</script>
+
 <!-- apexcharts -->
 
 <!--datatable js-->
@@ -178,5 +166,6 @@ function validateGeneralInsuranceForm() {
 
 <script src="{{ URL::asset('/assets/js/pages/datatables.init.js') }}"></script>
 <script src="{{ URL::asset('/assets/js/app.min.js') }}"></script>
+<script src="{{ URL::asset('/assets/js/general_master.js') }}"></script>
 
 @endsection

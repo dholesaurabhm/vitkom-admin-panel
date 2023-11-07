@@ -41,7 +41,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalgridLabel">Medical Insurance</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria        -label="Close"></button>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
                 <form action="javascript:void(0);">
@@ -83,44 +83,44 @@
                         <div class="col-sm-6">
                             <div>
                                 <label for="schemeInput" class="form-label">Scheme Name<span class="red">*</span></label>
-                                <input type="name" class="form-control" id="name" placeholder="Enter Scheme Name" required>
+                                <input type="name" class="form-control scheme_name" id="scheme_name" placeholder="Enter Scheme Name" required>
                             </div>
                         </div><!--end col-->
                         <div class="col-sm-6">
                             <div>
                                 <label for="policynoInput" class="form-label">Policy No<span class="red">*</span></label>
-                                <input type="number" class="form-control" id="number" placeholder="Enter Pollicy Number" required>
+                                <input type="number" class="form-control policy_number" id="policy_number" placeholder="Enter Pollicy Number" required>
                             </div>
                         </div><!--end col-->
                         <div class="col-sm-6">
                             <div>
                                 <label for="startdateInput" class="form-label">Start Date<span class="red">*</span></label>
-                               <input type="date" class="form-control" id="date" placeholder="datepicker-range" required>
+                               <input type="date" class="form-control start_date" id="start_date" placeholder="datepicker-range" required>
 
                             </div>
                         </div><!--end col-->
                         <div class="col-sm-6">
                             <div>
                                 <label for="pickadateInput" class="form-label">Pick a Date<span class="red">*</span></label>
-                                <input type="date" class="form-control" id="date" placeholder="datepicker-range" required>
+                                <input type="date" class="form-control pick_a_date" id="pick_a_date" placeholder="datepicker-range" required>
                             </div>
                         </div><!--end col--> 
                         <div class="col-sm-6">
                             <div>
                                 <label for="maturitydateInput" class="form-label">Maturity Date<span class="red">*</span></label>
-                                <input type="date" class="form-control" id="date" placeholder="datepicker-range" required>
+                                <input type="date" class="form-control Maturity_date" id="Maturity_date" placeholder="datepicker-range" required>
                             </div>
                         </div><!--end col--> 
                         <div class="col-sm-6">
                             <div>
                                 <label for="pickadateInput" class="form-label">Pick a date<span class="red">*</span></label>
-                                <input type="date" class="form-control" id="date" placeholder="datepicker-range" required>
+                                <input type="date" class="form-control pick_a_date" id="pick_a_date" placeholder="datepicker-range" required>
                             </div>
                         </div><!--end col--> 
                         <div class="col-sm-6">
                             <div>
                                 <label for="sumassuredInput" class="form-label">Sum Assured<span class="red">*</span></label>
-                                <input type="number" class="form-control" id="number" placeholder="Enter Number" >
+                                <input type="number" class="form-control sum_assured" id="sum_assured" placeholder="Enter Number" >
                             </div>
                         </div><!--end col--> 
                         
@@ -128,7 +128,7 @@
                         <div class="col-sm-6">
                             <div>
                                 <label for="primumamountInput" class="form-label">Premium Amount<span class="red">*</span></label>
-                                <input type="number" class="form-control" id="number" placeholder="Enter Number" >
+                                <input type="number" class="form-control premium_amount" id="premium_amount" placeholder="Enter Number" >
                             </div>
                         </div><!--end col-->
                         
@@ -152,18 +152,7 @@
 
 @endsection
 @section('script')
-<script>
-function validateMedicalInsuranceForm() {
-    var insuredPersonName = document.getElementById('insuredPersonName').value;
-    // You can perform similar validations for other fields
-    if (insuredPersonName.trim() === '') {
-        alert('Insured Person Name is required!');
-        return false;
-    }
-    // Perform other validation checks for different fields
-    return true; // If all validations pass, form will be submitted
-}
-</script>
+
 <!-- apexcharts -->
 
 <!--datatable js-->
@@ -179,5 +168,6 @@ function validateMedicalInsuranceForm() {
 
 <script src="{{ URL::asset('/assets/js/pages/datatables.init.js') }}"></script>
 <script src="{{ URL::asset('/assets/js/app.min.js') }}"></script>
+<script src="{{ URL::asset('/assets/js/medical_master.js') }}"></script>
 
 @endsection

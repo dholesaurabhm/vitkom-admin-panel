@@ -83,38 +83,38 @@
                         <div class="col-sm-6">
                             <div>
                                 <label for="policynoInput" class="form-label">Policy No<span class="red">*</span></label>
-                                <input type="number" class="form-control" id="number" placeholder="Enter Pollicy Number" required>
+                                <input type="number" class="form-control policy_number" id="policy_number" placeholder="Enter Pollicy Number" required>
                             </div>
                         </div><!--end col-->
                         <div class="col-sm-6">
                             <div>
                                 <label for="paymentInput" class="form-label">Payment Start Date<span class="red">*</span></label>
-                               <input type="date" class="form-control" id="date" placeholder="datepicker-range" required>
+                               <input type="date" class="form-control payment_start_date" id="payment_start_date" placeholder="datepicker-range" required>
 
                             </div>
                         </div><!--end col-->
                         <div class="col-sm-6">
                             <div>
                                 <label for="paymentInput" class="form-label">Payment End Date<span class="red">*</span></label>
-                                <input type="date" class="form-control" id="date" placeholder="datepicker-range" required>
+                                <input type="date" class="form-control payment_end_date" id="payment_end_date" placeholder="datepicker-range" required>
                             </div>
                         </div><!--end col--> 
                         <div class="col-sm-6">
                             <div>
                                 <label for="close-date-Input" class="form-label">Maturity Date<span class="red">*</span></label>
-                                <input type="date" class="form-control" id="date" placeholder="date" required>
+                                <input type="date" class="form-control maturity_date" id="maturity_date" placeholder="date" required>
                             </div>
                         </div><!--end col--> 
                         <div class="col-sm-6">
                             <div>
                                 <label for="sumassuredInput" class="form-label">Sum Assured<span class="red">*</span></label>
-                                <input type="number" class="form-control" id="number" placeholder="Enter Number" >
+                                <input type="number" class="form-control sum_number" id="sum_number" placeholder="Enter Number" >
                             </div>
                         </div><!--end col--> 
                         <div class="col-sm-6">
                             <div>
                                 <label for="primumInput" class="form-label">Primum<span class="red">*</span></label>
-                                <input type="number" class="form-control" id="number" placeholder="Enter Number" >
+                                <input type="number" class="form-control primum_number" id="primum_number" placeholder="Enter Number" >
                             </div>
                         </div><!--end col--> 
                         <div class="col-sm-6">
@@ -131,19 +131,19 @@
                         <div class="col-sm-6">
                             <div>
                                 <label for="currentvalueInput" class="form-label">Current Value<span class="red">*</span></label>
-                                <input type="number" class="form-control" id="number" placeholder="Enter Number" >
+                                <input type="number" class="form-control current_value" id="current_value" placeholder="Enter Number" >
                             </div>
                         </div><!--end col-->
                         <div class="col-sm-6">
                             <div>
                                 <label for="maturityamountInput" class="form-label">Maturity Amount<span class="red">*</span></label>
-                                <input type="number" class="form-control" id="number" placeholder="Enter Number" >
+                                <input type="number" class="form-control maturity_amount" id="maturity_amount" placeholder="Enter Number" >
                             </div>
                         </div><!--end col-->  
                         <div class="col-sm-6">
                             <div>
                                 <label for="nameInput" class="form-label">Nominee Name<span class="red">*</span></label>
-                                <input type="name" class="form-control" id="name" placeholder="Enter Nominee Name" >
+                                <input type="name" class="form-control nominee_name" id="nominee_name" placeholder="Enter Nominee Name" >
                             </div>
                         </div><!--end col--> 
                        
@@ -194,5 +194,6 @@ function validateLifeInsuranceForm() {
 
 <script src="{{ URL::asset('/assets/js/pages/datatables.init.js') }}"></script>
 <script src="{{ URL::asset('/assets/js/app.min.js') }}"></script>
+<script src="{{ URL::asset('/assets/js/life_master.js') }}"></script>
 
 @endsection

@@ -3,10 +3,10 @@
 
     <head>
     <meta charset="utf-8" />
-    <title><?php echo $__env->yieldContent('title'); ?> | Ventivity</title>
+    <title><?php echo $__env->yieldContent('title'); ?> | Vitkom</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta content="Premium Multipurpose Admin & Dashboard Template" name="description" />
-    <meta content="Themesbrand" name="author" />
+    <meta content="" />
+    <meta content="Vitkom Admin Panel" name="Saurabh Dhole" />
     <!-- App favicon -->
     <link rel="shortcut icon" href="<?php echo e(URL::asset('assets/images/favicon.ico')); ?>">
         <?php echo $__env->make('layouts.head-css', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>

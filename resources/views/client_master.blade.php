@@ -49,7 +49,7 @@
                         <div class="col-sm-6">
                             <div>
                                 <label for="nameInput" class="form-label">Name<span class="red">*</span></label>
-                                <input type="text" class="form-control" id="ClientName" placeholder="Enter name" required>
+                                <input type="text" class="form-control client_name" id="client_name" placeholder="Enter name" required>
                             </div>
                         </div><!--end col-->
                         
@@ -62,25 +62,25 @@
                         <div class="col-sm-6">
                             <div>
                                 <label for="emailInput" class="form-label">Email ID<span class="red">*</span></label>
-                                <input type="email" class="form-control" id="emailid" placeholder="Enter email id" required>
+                                <input type="email" class="form-control email_id" id="email_id" placeholder="Enter email id" required>
                             </div>
                         </div><!--end col-->
                         <div class="col-sm-6">
                             <div>
                                 <label for="pancardInput" class="form-label">Pan NO<span class="red">*</span></label>
-                                <input type="text" class="form-control" id="pancard" placeholder="Enter Pancard Number" required>
+                                <input type="text" class="form-control pancard_no" id="pancard_no" placeholder="Enter Pancard Number" required>
                             </div>
                         </div><!--end col-->
                         <div class="col-sm-6">
                             <div>
                                 <label for="aadharcardInput" class="form-label">Aadhar NO<span class="red">*</span></label>
-                                <input type="text" class="form-control" id="Aadhar" placeholder="Enter Aadhar Number" required>
+                                <input type="text" class="form-control pancard_no" id="aadhar_no" placeholder="Enter Aadhar Number" required>
                             </div>
                         </div><!--end col-->
                         <div class="col-sm-6">
                             <div>
                                 <label for="dateofBirth" class="form-label">Date Of Birth</label>
-                                <input type="date" class="form-control" id="dateofBirth" required>
+                                <input type="date" class="form-control" id="dateofbirth" required>
                             </div>
                         </div><!--end col--> 
                         <div class="col-sm-6">
@@ -108,49 +108,6 @@
 
 @endsection
 @section('script')
-<script>
-function validateClientForm() {
-    var ClientName = document.getElementById('ClientName').value;
-    var phone = document.getElementById('phone').value;
-    var emailid = document.getElementById('emailid').value;
-    var pancard = document.getElementById('pancard').value;
-    var Aadhar = document.getElementById('Aadhar').value;
-    var dateofBirth = document.getElementById('dateofBirth').value;
-    var gender = document.getElementById('gender').value;
-
-    if (ClientName.trim() === '') {
-        alert('Please enter a Name');
-        return false;
-    }
-    
-    if (phone.trim() === '' || !phone.match(/[0-9]{3}-[0-9]{2}-[0-9]{3}/)) {
-        alert('Please enter a valid Mobile Number (e.g., XXX-XX-XXX)');
-        return false;
-    }
-    
-    if (emailid.trim() === '') {
-        alert('Please enter an Email ID');
-        return false;
-    }
-    
-    if (pancard.trim() === '') {
-        alert('Please enter a Pancard Number');
-        return false;
-    }
-
-    if (Aadhar.trim() === '') {
-        alert('Please enter an Aadhar Number');
-        return false;
-    }
-
-    if (dateofBirth.trim() === '') {
-        alert('Please enter a Date of Birth');
-        return false;
-    }
-
-    return true; // Form submission
-}
-</script>
 
 
 <!-- apexcharts -->
@@ -168,5 +125,6 @@ function validateClientForm() {
 
 <script src="{{ URL::asset('/assets/js/pages/datatables.init.js') }}"></script>
 <script src="{{ URL::asset('/assets/js/app.min.js') }}"></script>
+<script src="{{ URL::asset('/assets/js/clients_master.js') }}"></script>
 
 @endsection
