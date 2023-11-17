@@ -24,7 +24,8 @@ class User extends Authenticatable
         'password',
         'normal_password',
         'avatar',
-        'seller_id',
+        'joinind_date',
+        'end_date',
         'role',
         'status'
     ];

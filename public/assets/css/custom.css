@@ -1,4 +1,4 @@
-th.sorting {
+/* th.sorting {
     font-size: 12px !important;
 }
 th.sorting {
@@ -31,4 +31,4 @@ table.dataTable>thead .sorting:before, table.dataTable>thead .sorting:after, tab
 table.dataTable>thead .sorting:before, table.dataTable>thead .sorting_asc:before, table.dataTable>thead .sorting_asc_disabled:before, table.dataTable>thead .sorting_desc:before, table.dataTable>thead .sorting_desc_disabled:before
 {
     top:5px !important;
-}
+} */
