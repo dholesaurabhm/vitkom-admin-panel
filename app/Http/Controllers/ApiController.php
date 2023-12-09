@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use Validator, Input, Redirect,Response,Hash,Storage,DB,Mail,URL,Session; 
 use App\Models\User;
 use App\Models\Client;
+use App\Models\InsurerMaster;
+use App\Models\SchemeMaster;
 
 class ApiController extends Controller
 {
@@ -344,4 +346,282 @@ class ApiController extends Controller
             return $e->getMessage();
         }
     }
+
+     /*Insurer Master Functions */
+
+     public function addinsurer_master(Request $request)
+     {
+         try {
+             $data=$request->all();
+             $rules = array(
+                 'insurance_type'=>'required',
+                 'company_name'=>'required',
+             );
+             $messages = [
+             'required' => 'The :attribute field is required.',
+             ];
+             $validator = Validator::make($request->all(), $rules,$messages);
+             
+             if ($validator->fails()) {
+                 return Response::json(array(
+                 'success' => false,
+                 'errors' => $validator->getMessageBag()->toArray(),
+                 'message'=>"Please Fill All Details"
+             ), 400); 
+             }
+             else{
+                 $insm=new InsurerMaster();
+                 $insm->insurance_type=$data['insurance_type'];
+                 $insm->company_name=$data['company_name'];
+                 $insm->isdelete=0;
+                 $insm->save();
+                 return Response::json(array( 'success' => true,'data' => $insm,'message'=>'Company Name Added Successfully.'), 200); 
+             }
+           
+           } catch (\Exception $e) {
+           
+               return $e->getMessage();
+           }
+     }
+ 
+     public function updateinsurer_master(Request $request, $id)
+     {
+         
+         try {
+             $data=$request->all();
+             $rules = array(
+                'insurance_type'=>'required',
+                'company_name'=>'required',
+             );
+             $messages = [
+             'required' => 'The :attribute field is required.',
+             ];
+             $validator = Validator::make($request->all(), $rules,$messages);
+             
+             if ($validator->fails()) {
+                 return Response::json(array(
+                 'success' => false,
+                 'errors' => $validator->getMessageBag()->toArray(),
+                 'message'=>"Please Fill All Details"
+             ), 400); 
+             }
+             else{
+                InsurerMaster::where('id',$id)->update(['insurance_type'=>$data['insurance_type'],'company_name'=>$data['company_name']]);
+                 return Response::json(array( 'success' => true,'data' => $data,'message'=>'Company Name Updated Successfully.'), 200); 
+             }
+           
+           } catch (\Exception $e) {
+           
+               return $e->getMessage();
+           }
+     }
+ 
+     public function listinsurer_master(Request $request)
+     {
+         try {
+             $data=$request->all();
+             $list=InsurerMaster::where('isdelete',0)->get();
+             $count=InsurerMaster::where('isdelete',0)->count();
+             return response()->json(['recordsTotal' => $count,'recordsFiltered' =>$count ,'data'=>$list]);
+ 
+         } catch (\Exception $e) {
+           
+             return $e->getMessage();
+         }
+     }
+ 
+ 
+     public function getinsurer_master(Request $request)
+     {
+         try {
+             $data=$request->all();
+             $list=InsurerMaster::select('id','insurance_type','company_name',DB::raw('replace(replace(replace(insurance_type, 1, "LIFE INSURANCE"),2,"HEALTH INSURANCE"),3,"GENERAL INSURANCE")as insurance_name'))->where('isdelete',0);
+             if(isset($data['type']))
+             {
+                $list=$list->where('insurance_type',$data['type']);
+             }
+
+             if(isset($data['insurer_id']))
+             {
+                $list=$list->where('id',$data['insurer_id'])->first();
+             }
+             else{
+                $list=$list->get();
+             }
+           
+             return Response::json(array( 'success' => true,'data' => $list,'message'=>'Insurer Master List.'), 200); 
+         } catch (\Exception $e) {
+           
+             return $e->getMessage();
+         }
+     }
+ 
+     public function deleteinsurer_master(Request $request)
+     {
+         try {
+             $data=$request->all();
+             $rules = array(
+                 'insurer_id'=>'required'
+             );
+             $messages = [
+             'required' => 'The :attribute field is required.',
+             ];
+             $validator = Validator::make($request->all(), $rules,$messages);
+             
+             if ($validator->fails()) {
+                 return Response::json(array(
+                 'success' => false,
+                 'errors' => $validator->getMessageBag()->toArray(),
+                 'message'=>"Please Fill All Details"
+             ), 400); 
+             }
+             else{
+               $client= InsurerMaster::where('id', $data['insurer_id'])->update(['isdelete'=>1]);
+                 return Response::json(array( 'success' => true,'data' => $client,'message'=>'Company Deleted Successfully.'), 200); 
+             }
+         } catch (\Exception $e) {
+           
+             return $e->getMessage();
+         }
+     }
+
+       /*Scheme Master Functions */
+
+       public function addscheme_master(Request $request)
+       {
+           try {
+               $data=$request->all();
+               $rules = array(
+                   'scheme_type'=>'required',
+                   'insurer_id'=>'required',
+                   'scheme_name'=>'required',
+                   'naa'=>'required'
+               );
+               $messages = [
+               'required' => 'The :attribute field is required.',
+               ];
+               $validator = Validator::make($request->all(), $rules,$messages);
+               
+               if ($validator->fails()) {
+                   return Response::json(array(
+                   'success' => false,
+                   'errors' => $validator->getMessageBag()->toArray(),
+                   'message'=>"Please Fill All Details"
+               ), 400); 
+               }
+               else{
+                   $insm=new SchemeMaster();
+                   $insm->scheme_type=$data['scheme_type'];
+                   $insm->insurer_id=$data['insurer_id'];
+                   $insm->scheme_name=$data['scheme_name'];
+                   $insm->naa=$data['naa'];
+                   $insm->isdelete=0;
+                   $insm->save();
+                   return Response::json(array( 'success' => true,'data' => $insm,'message'=>'Scheme Added Successfully.'), 200); 
+               }
+             
+             } catch (\Exception $e) {
+             
+                 return $e->getMessage();
+             }
+       }
+   
+       public function updatescheme_master(Request $request, $id)
+       {
+           
+           try {
+               $data=$request->all();
+               $rules = array(
+                'scheme_type'=>'required',
+                'insurer_id'=>'required',
+                'scheme_name'=>'required',
+                'naa'=>'required'
+               );
+               $messages = [
+               'required' => 'The :attribute field is required.',
+               ];
+               $validator = Validator::make($request->all(), $rules,$messages);
+               
+               if ($validator->fails()) {
+                   return Response::json(array(
+                   'success' => false,
+                   'errors' => $validator->getMessageBag()->toArray(),
+                   'message'=>"Please Fill All Details"
+               ), 400); 
+               }
+               else{
+                SchemeMaster::where('id',$id)->update(['scheme_type'=>$data['scheme_type'],'insurer_id'=>$data['insurer_id'],'scheme_name'=>$data['scheme_name'],'naa'=>$data['naa']]);
+                return Response::json(array( 'success' => true,'data' => $data,'message'=>'Scheme Updated Successfully.'), 200); 
+               }
+             
+             } catch (\Exception $e) {
+             
+                 return $e->getMessage();
+             }
+       }
+   
+       public function listscheme_master(Request $request)
+       {
+           try {
+               $data=$request->all();
+               $list=SchemeMaster::select('scheme_master.id','scheme_type','insurer_id','scheme_name','naa','insurer_master.company_name',DB::raw('replace(replace(replace(insurance_type, 1, "LIFE INSURANCE"),2,"HEALTH INSURANCE"),3,"GENERAL INSURANCE")as insurance_name'))->leftJoin('insurer_master', 'insurer_master.id', '=', 'scheme_master.insurer_id')->where('scheme_master.isdelete',0)->get();
+               $count=SchemeMaster::where('isdelete',0)->count();
+               return response()->json(['recordsTotal' => $count,'recordsFiltered' =>$count ,'data'=>$list]);
+   
+           } catch (\Exception $e) {
+             
+               return $e->getMessage();
+           }
+       }
+   
+   
+       public function getscheme_master(Request $request)
+       {
+           try {
+               $data=$request->all();
+               $list=SchemeMaster::select('scheme_master.id','scheme_type','insurer_id','scheme_name','naa','insurer_master.company_name',DB::raw('replace(replace(replace(insurance_type, 1, "LIFE INSURANCE"),2,"HEALTH INSURANCE"),3,"GENERAL INSURANCE")as insurance_name'))->leftJoin('insurer_master', 'insurer_master.id', '=', 'scheme_master.insurer_id')->where('scheme_master.isdelete',0);
+               
+               if(isset($data['scheme_id']))
+               {
+                  $list=$list->where('scheme_master.id',$data['scheme_id'])->first();
+               }
+               else{
+                  $list=$list->get();
+               }
+             
+               return Response::json(array( 'success' => true,'data' => $list,'message'=>'Scheme Master List.'), 200); 
+           } catch (\Exception $e) {
+             
+               return $e->getMessage();
+           }
+       }
+   
+       public function deletescheme_master(Request $request)
+       {
+           try {
+               $data=$request->all();
+               $rules = array(
+                   'scheme_id'=>'required'
+               );
+               $messages = [
+               'required' => 'The :attribute field is required.',
+               ];
+               $validator = Validator::make($request->all(), $rules,$messages);
+               
+               if ($validator->fails()) {
+                   return Response::json(array(
+                   'success' => false,
+                   'errors' => $validator->getMessageBag()->toArray(),
+                   'message'=>"Please Fill All Details"
+               ), 400); 
+               }
+               else{
+                 $client= SchemeMaster::where('id', $data['scheme_id'])->update(['isdelete'=>1]);
+                   return Response::json(array( 'success' => true,'data' => $client,'message'=>'Scheme Deleted Successfully.'), 200); 
+               }
+           } catch (\Exception $e) {
+             
+               return $e->getMessage();
+           }
+       }
 }
