@@ -20,6 +20,11 @@
 
 //             return true;
 //         }
+function showusermodel()
+{
+    $('#employeeForm')[0].reset()
+    $('#userModel').modal('show');
+}
 
 
         function saveuser()

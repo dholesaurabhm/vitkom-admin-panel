@@ -1,7 +1,11 @@
 
-var base_url='https://vitkom.tlpl.in/api/'
+// var base_url='https://vitkom.tlpl.in/api/'
 
-var file_url='https://vitkom.tlpl.in'
+// var file_url='https://vitkom.tlpl.in'
+
+var base_url='http://127.0.0.1:8000/api/'
+
+var file_url='http://127.0.0.1:8000'
 
 
 function alert_success(msg)

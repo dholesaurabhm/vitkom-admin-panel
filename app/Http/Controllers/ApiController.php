@@ -9,6 +9,8 @@ use App\Models\User;
 use App\Models\Client;
 use App\Models\InsurerMaster;
 use App\Models\SchemeMaster;
+use App\Models\FundMaster;
+use App\Models\FundPlan;
 
 class ApiController extends Controller
 {
@@ -495,7 +497,7 @@ class ApiController extends Controller
                    'scheme_type'=>'required',
                    'insurer_id'=>'required',
                    'scheme_name'=>'required',
-                   'naa'=>'required'
+                   'nav'=>'required'
                );
                $messages = [
                'required' => 'The :attribute field is required.',
@@ -514,7 +516,7 @@ class ApiController extends Controller
                    $insm->scheme_type=$data['scheme_type'];
                    $insm->insurer_id=$data['insurer_id'];
                    $insm->scheme_name=$data['scheme_name'];
-                   $insm->naa=$data['naa'];
+                   $insm->nav=$data['nav'];
                    $insm->isdelete=0;
                    $insm->save();
                    return Response::json(array( 'success' => true,'data' => $insm,'message'=>'Scheme Added Successfully.'), 200); 
@@ -535,7 +537,7 @@ class ApiController extends Controller
                 'scheme_type'=>'required',
                 'insurer_id'=>'required',
                 'scheme_name'=>'required',
-                'naa'=>'required'
+                'nav'=>'required'
                );
                $messages = [
                'required' => 'The :attribute field is required.',
@@ -550,7 +552,7 @@ class ApiController extends Controller
                ), 400); 
                }
                else{
-                SchemeMaster::where('id',$id)->update(['scheme_type'=>$data['scheme_type'],'insurer_id'=>$data['insurer_id'],'scheme_name'=>$data['scheme_name'],'naa'=>$data['naa']]);
+                SchemeMaster::where('id',$id)->update(['scheme_type'=>$data['scheme_type'],'insurer_id'=>$data['insurer_id'],'scheme_name'=>$data['scheme_name'],'nav'=>$data['nav']]);
                 return Response::json(array( 'success' => true,'data' => $data,'message'=>'Scheme Updated Successfully.'), 200); 
                }
              
@@ -564,7 +566,7 @@ class ApiController extends Controller
        {
            try {
                $data=$request->all();
-               $list=SchemeMaster::select('scheme_master.id','scheme_type','insurer_id','scheme_name','naa','insurer_master.company_name',DB::raw('replace(replace(replace(insurance_type, 1, "LIFE INSURANCE"),2,"HEALTH INSURANCE"),3,"GENERAL INSURANCE")as insurance_name'))->leftJoin('insurer_master', 'insurer_master.id', '=', 'scheme_master.insurer_id')->where('scheme_master.isdelete',0)->get();
+               $list=SchemeMaster::select('scheme_master.id','scheme_type','insurer_id','scheme_name','nav','insurer_master.company_name',DB::raw('replace(replace(replace(insurance_type, 1, "LIFE INSURANCE"),2,"HEALTH INSURANCE"),3,"GENERAL INSURANCE")as insurance_name'))->leftJoin('insurer_master', 'insurer_master.id', '=', 'scheme_master.insurer_id')->where('scheme_master.isdelete',0)->orderBy('scheme_master.created_at','DESC')->get();
                $count=SchemeMaster::where('isdelete',0)->count();
                return response()->json(['recordsTotal' => $count,'recordsFiltered' =>$count ,'data'=>$list]);
    
@@ -579,7 +581,7 @@ class ApiController extends Controller
        {
            try {
                $data=$request->all();
-               $list=SchemeMaster::select('scheme_master.id','scheme_type','insurer_id','scheme_name','naa','insurer_master.company_name',DB::raw('replace(replace(replace(insurance_type, 1, "LIFE INSURANCE"),2,"HEALTH INSURANCE"),3,"GENERAL INSURANCE")as insurance_name'))->leftJoin('insurer_master', 'insurer_master.id', '=', 'scheme_master.insurer_id')->where('scheme_master.isdelete',0);
+               $list=SchemeMaster::select('scheme_master.id','scheme_type','insurer_id','scheme_name','nav','insurer_master.company_name',DB::raw('replace(replace(replace(insurance_type, 1, "LIFE INSURANCE"),2,"HEALTH INSURANCE"),3,"GENERAL INSURANCE")as insurance_name'))->leftJoin('insurer_master', 'insurer_master.id', '=', 'scheme_master.insurer_id')->where('scheme_master.isdelete',0);
                
                if(isset($data['scheme_id']))
                {
@@ -624,4 +626,53 @@ class ApiController extends Controller
                return $e->getMessage();
            }
        }
+
+       public function getschemeReport(Request $request)
+       {
+           try {
+            ini_set('max_execution_time', 1800);
+            // $response = Http::get('https://www.amfiindia.com/spages/NAVAll.txt?t=17122023114157');
+            // dd($response);
+            //    return response()->json(['data'=>json_decode($response->body())]);
+            $file="https://www.amfiindia.com/spages/NAVAll.txt?t=17122023114157";
+            $doc=file_get_contents($file);
+
+            $line=explode("\n",$doc);
+            $sub = array_slice( $line, 4, null, true);
+            $fund_id=0;
+            foreach($sub as $k=>$v){
+                if(trim($v[1]) != '')
+                { 
+                    $check = explode(';',$v);
+                    if(count($check)==1)
+                    {
+                        $fm = FundMaster::firstOrNew(array('name' => $check[0]));
+                        $fm->name = $check[0];
+                        $fm->save();
+                        $fund_id=$fm->id;
+                        echo '<br>Name: '.$check[0].$fund_id; 
+                    }
+                    else{
+                        
+                        $plan=FundPlan::create([
+                            'fund_id'=>$fund_id,
+                            'scheme_code'=>$check[0] ??'-',
+                            'isin_code'=>$check[1] ??'-',
+                            'isin_reinvestment'=>$check[2] ?? '-',
+                            'scheme_name'=>$check[3] ??'-',
+                            'nav'=>$check[4] ??'-',
+                            'plan_date'=>date('Y-m-d', strtotime($check[5])) ??'-',
+                            'response'=>$v,
+                        ]);
+                        echo '<br>Fundid: '.$fund_id.'- Data'.$check[0].$check[1].$check[2].$check[3].$check[4].$check[5];
+                    }
+                }
+            }
+              return  $line;
+           } catch (\Exception $e) {
+             
+               return $e->getMessage();
+           }
+       }
+   
 }

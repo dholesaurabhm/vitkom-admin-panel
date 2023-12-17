@@ -13,7 +13,7 @@
                     <div class="card">
                         <div class="card-header" style="padding: 10px;">
                             <h5 class="card-title mb-0" style="width: 150px;clear: both;display: contents;line-height: 35px;">Client Details</h5> 
-                            <button type="button" class="btn btn-primary waves-effect waves-light" style="float: right;clear: both;display: block;"  data-bs-toggle="modal" data-bs-target="#clientModel">Add New +</button>
+                            <button type="button" class="btn btn-primary waves-effect waves-light" style="float: right;clear: both;display: block;"  onclick="showclientmodel()">Add New +</button>
                         </div>    
                         <div class="card-body">
                              <table id="client_table" class="display table table-bordered dt-responsive" style="width:100%">

@@ -40,3 +40,5 @@ Route::get('report2_master/', [App\Http\Controllers\HomeController::class, 'repo
 
 Route::get('user_dashboard/', [App\Http\Controllers\HomeController::class, 'user_dashboard'])->name('user_dashboard');
 
+Route::get('/cron', [App\Http\Controllers\ApiController::class, 'cron'])->name('cron');
+

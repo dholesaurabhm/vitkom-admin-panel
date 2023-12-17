@@ -9,5 +9,5 @@ class SchemeMaster extends Model
 {
     use HasFactory;
     protected $table = 'scheme_master';
-    protected $fillable = ['scheme_type','insurer_id','scheme_name','naa','isdelete'];
+    protected $fillable = ['scheme_type','insurer_id','scheme_name','nav','isdelete'];
 }

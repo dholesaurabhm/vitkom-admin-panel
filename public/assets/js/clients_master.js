@@ -39,6 +39,11 @@
 
 //     return true; 
 // }
+function showclientmodel()
+{
+    $('#clientForm')[0].reset()
+    $('#clientModel').modal('show');
+}
 
 
 function saveclient()
@@ -75,6 +80,7 @@ function saveclient()
                       if(result.success==true)
                       {
                           $('#client_table').DataTable().ajax.reload();
+                          $('#clientForm')[0].reset()
                       }      
                      $('#clientModel').modal('hide');
                      toast_success(result.message)

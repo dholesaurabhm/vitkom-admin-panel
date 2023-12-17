@@ -37,7 +37,8 @@ $('input[type=radio][name=scheme_type]').change(function() {
 function showschememodel()
 {
     $("#scheme_form")[0].reset()
-    $('.insurer_list').empty()
+   // $('.insurer_list').empty()
+    $('input[name="scheme_type"][value=1]').prop('checked', true).trigger('change');
     // $("#scheme_form").find('select').val("");
     // $("#scheme_form").find('input:radio, input:checkbox, select').removeAttr('checked').removeAttr('selected');
     $('#scheme_modal').modal('show');
@@ -63,6 +64,7 @@ function save()
                       console.log("ajax data=", result)
                       if(result.success==true)
                       {
+                        $('#insurer_form')[0].reset();
                         getinsurer()
                       }      
                      $('#insurer_modal').modal('hide');
@@ -127,7 +129,7 @@ function save()
 
     function savescheme()
         {
-          if($('#insurer_id').val() !='' && $('#scheme_name').val() !='' && $('#naa').val() !='')
+          if($('#insurer_id').val() !='' && $('#scheme_name').val() !='' && $('#z').val() !='')
           {
            
               if($('#scheme_id').val() =='')
@@ -181,7 +183,7 @@ function save()
                   $('input[name="scheme_type"][value='+result.data.scheme_type+']').prop('checked', true).trigger('change');
                   $('#scheme_name').val(result.data.scheme_name);
                   setInterval(function () {$('#insurer_id').val(result.data.insurer_id);}, 1000);
-                  $('#naa').val(result.data.naa);
+                  $('#nav').val(result.data.nav);
                   $('#scheme_modal').modal('show');
                 }      
               

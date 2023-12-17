@@ -29,7 +29,7 @@
                                         <th>ID</th>
                                         <th>Insurance Company</th>
                                         <th>Scheme Name</th>
-                                        <th>NAA</th>
+                                        <th>NAV</th>
                                         <th>Action</th>
                                     </tr>
                                 </thead>
@@ -89,8 +89,8 @@
 
                         <div class="col-sm-12">
                             <div>
-                                <label for="typeinput" class="form-label">NAA<span class="red">*</span></label>
-                                <input type="text" class="form-control" id="naa" name="naa" placeholder="Enter NAA" required>
+                                <label for="typeinput" class="form-label">NAV<span class="red">*</span></label>
+                                <input type="text" class="form-control" id="nav" name="nav" placeholder="Enter NAV" required>
                             </div>
                         </div>
                         
@@ -225,7 +225,7 @@
           { data: "id", render: function (data, type, row, meta) {return meta.row + meta.settings._iDisplayStart + 1;}},
           { data: 'company_name' },
           { data: 'scheme_name' },
-          { data: 'naa'},
+          { data: 'nav'},
           { data: 'id',render:function(data,type,row){ 
               return `<div class="dropdown">
                       <button class="btn btn-soft-secondary btn-sm dropdown" type="button" data-bs-toggle="dropdown" aria-expanded="false">
