@@ -1,7 +1,12 @@
 
 <?php $__env->startSection('title'); ?> <?php echo app('translator')->get('translation.dashboards'); ?> <?php $__env->stopSection(); ?>
 <?php $__env->startSection('css'); ?>
-
+<style>
+.client_row{
+    padding: 5px !important;
+    border: 1px solid darkgray;
+}
+    </style>
 <?php $__env->stopSection(); ?>
 <?php $__env->startSection('content'); ?>
 <div class="row">
@@ -136,8 +141,8 @@
                                 <div class="col-sm-12">
                                     <div>
                                         <div class="input-group" style="padding: 10px;">
-                                            <input type="text" class="form-control" aria-label="Recipient's username" aria-describedby="button-addon2">
-                                            <button class="btn btn-outline-success" type="button" id="button-addon2">Search</button>
+                                            <input type="text" class="form-control" aria-label="Recipient's username" aria-describedby="button-addon2" name="search" id="search">
+                                            <button class="btn btn-outline-success" type="button" id="button-addon2" onclick="getclient()">Search</button>
                                         </div>
                                     </div>
                                 </div>
@@ -147,76 +152,9 @@
                         <div class="card-body p-0 pb-2">
                             <div class="w-100">
                                <div class="table-responsive mt-3" style="padding: 5px 15px;">
-                                        <table class="table table-borderless table-sm table-centered align-middle table-nowrap mb-0">
+                                        <table class="table table-borderless table-sm table-centered align-middle table-nowrap mb-0" id="client_list">
                                             <tbody class="border-0">
-                                                <tr style="padding: 5px !important;border: 1px solid darkgray;">
-                                                    <td>
-                                                        <h4 class="text-truncate fs-14 fs-medium mb-0">ID: 0001</h4>
-                                                    </td>
-                                                    <td>
-                                                        <h4 class="text-truncate fs-14 fs-medium mb-0"><i class="ri-stop-fill align-middle fs-18 text-primary me-2"></i>Saurabh Dhole</h4>
-                                                    </td>
-                                                    <td>
-                                                        <p class="text-muted mb-0">dhlesauabhm@gmail.com</p>
-                                                    </td>
-                                                    <td>
-                                                        <p class="text-muted mb-0">+91 8421949746</p>
-                                                    </td>
-                                                    <td class="text-end">
-                                                       <a href="<?php echo e(url('/user_dashboard')); ?>">View Dashboad</a>
-                                                    </td>
-                                                </tr>
-                                                <tr style="padding: 5px !important;border: 1px solid darkgray;">
-                                                    <td>
-                                                        <h4 class="text-truncate fs-14 fs-medium mb-0">ID: 0001</h4>
-                                                    </td>
-                                                    <td>
-                                                        <h4 class="text-truncate fs-14 fs-medium mb-0"><i class="ri-stop-fill align-middle fs-18 text-primary me-2"></i>Saurabh Dhole</h4>
-                                                    </td>
-                                                    <td>
-                                                        <p class="text-muted mb-0">dhlesauabhm@gmail.com</p>
-                                                    </td>
-                                                    <td>
-                                                        <p class="text-muted mb-0">+91 8421949746</p>
-                                                    </td>
-                                                    <td class="text-end">
-                                                       <a href="<?php echo e(url('/user_dashboard')); ?>">View Dashboad</a>
-                                                    </td>
-                                                </tr>
-                                                <tr style="padding: 5px !important;border: 1px solid darkgray;">
-                                                    <td>
-                                                        <h4 class="text-truncate fs-14 fs-medium mb-0">ID: 0001</h4>
-                                                    </td>
-                                                    <td>
-                                                        <h4 class="text-truncate fs-14 fs-medium mb-0"><i class="ri-stop-fill align-middle fs-18 text-primary me-2"></i>Saurabh Dhole</h4>
-                                                    </td>
-                                                    <td>
-                                                        <p class="text-muted mb-0">dhlesauabhm@gmail.com</p>
-                                                    </td>
-                                                    <td>
-                                                        <p class="text-muted mb-0">+91 8421949746</p>
-                                                    </td>
-                                                    <td class="text-end">
-                                                       <a href="<?php echo e(url('/user_dashboard')); ?>">View Dashboad</a>
-                                                    </td>
-                                                </tr>
-                                                <tr style="padding: 5px !important;border: 1px solid darkgray;">
-                                                    <td>
-                                                        <h4 class="text-truncate fs-14 fs-medium mb-0">ID: 0001</h4>
-                                                    </td>
-                                                    <td>
-                                                        <h4 class="text-truncate fs-14 fs-medium mb-0"><i class="ri-stop-fill align-middle fs-18 text-primary me-2"></i>Saurabh Dhole</h4>
-                                                    </td>
-                                                    <td>
-                                                        <p class="text-muted mb-0">dhlesauabhm@gmail.com</p>
-                                                    </td>
-                                                    <td>
-                                                        <p class="text-muted mb-0">+91 8421949746</p>
-                                                    </td>
-                                                    <td class="text-end">
-                                                       <a href="<?php echo e(url('/user_dashboard')); ?>">View Dashboad</a>
-                                                    </td>
-                                                </tr>
+                                              
                                             </tbody>
                                         </table>
                                     </div>
@@ -235,7 +173,12 @@
 
 
 <script src="<?php echo e(URL::asset('/assets/js/app.min.js')); ?>"></script>
-
+<script src="<?php echo e(URL::asset('/assets/js/dashboard.js')); ?>"></script>
+<script>
+    $(document).ready(function(){
+        getclient()
+    });
+    </script>  
 <?php $__env->stopSection(); ?>
 
 <?php echo $__env->make('layouts.master', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH D:\xampp\htdocs\vitkom-admin-panel\resources\views/index.blade.php ENDPATH**/ ?>

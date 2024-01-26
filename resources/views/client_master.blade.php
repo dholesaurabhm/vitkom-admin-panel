@@ -49,41 +49,43 @@
                         <div class="col-sm-6">
                             <input type="hidden" class="form-control client_name" id="client_id" name="client_id" required>
                             <div>
-                                <label for="nameInput" class="form-label">Name<span class="red">*</span></label>
+                                <label for="nameInput" class="form-label">Name <span class="text-danger">*</span></label>
                                 <input type="text" class="form-control client_name" name="name" id="name" placeholder="Enter name" required>
                             </div>
                         </div><!--end col-->
                         
                         <div class="col-sm-6">
                             <div>
-                                <label for="MobileNumberInput" class="form-label">Mobile Number<span class="red">*</span></label>
+                                <label for="MobileNumberInput" class="form-label">Mobile Number <span class="text-danger">*</span></label>
                                 <input type="tel" class="form-control" id="mobile_no" name="mobile_no" placeholder="Enter Mobile Number" pattern="[0-9]{3}-[0-9]{2}-[0-9]{3}" required>
                             </div>
                         </div><!--end col-->
                         <div class="col-sm-6">
                             <div>
-                                <label for="emailInput" class="form-label">Email ID<span class="red">*</span></label>
+                                <label for="emailInput" class="form-label">Email ID <span class="text-danger">*</span></label>
                                 <input type="email" class="form-control email_id" id="email" name="email" placeholder="Enter email id" required>
                             </div>
                         </div><!--end col-->
                         <div class="col-sm-6">
                             <div>
-                                <label for="pancardInput" class="form-label">Pan NO<span class="red">*</span></label>
+                                <label for="pancardInput" class="form-label">Pan NO <span class="text-danger">*</span></label>
                                 <input type="text" class="form-control pancard_no" id="pan_no" name="pan_no" placeholder="Enter Pancard Number" required>
                             </div>
                         </div><!--end col-->
                         <div class="col-sm-6">
                             <div>
-                                <label for="aadharcardInput" class="form-label">Aadhar NO<span class="red">*</span></label>
-                                <input type="text" class="form-control aadhar_no" id="aadhar_no" name="aadhar_no" placeholder="Enter Aadhar Number" required>
-                            </div>
-                        </div><!--end col-->
-                        <div class="col-sm-6">
-                            <div>
-                                <label for="dateofBirth" class="form-label">Date Of Birth</label>
+                                <label for="dateofBirth" class="form-label">Date Of Birth </label>
                                 <input type="date" class="form-control" id="dob" name="dob" required>
                             </div>
                         </div><!--end col--> 
+
+                        <div class="col-sm-6">
+                            <div>
+                                <label for="aadharcardInput" class="form-label">Aadhar NO </label>
+                                <input type="text" class="form-control aadhar_no" id="aadhar_no" name="aadhar_no" placeholder="Enter Aadhar Number" required>
+                            </div>
+                        </div><!--end col-->
+                        
                         <div class="col-sm-6">
                             <div>
                                 <label for="genderInput" class="form-label">Gender</label>
@@ -174,8 +176,8 @@
       columns: [
          // { data: "id", render: function (data, type, row, meta) {return meta.row + meta.settings._iDisplayStart + 1;}},
           { data: 'name' },
-          { data: 'email' },
-          { data: 'mobile_no'},
+          { data: 'mobile_no' },
+          { data: 'email'},
           { data: 'pan_no' },
           { data: 'aadhar_no' },
           { data: 'id',render:function(data,type,row){ 

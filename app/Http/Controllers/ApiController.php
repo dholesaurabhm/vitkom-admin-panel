@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Validator, Input, Redirect,Response,Hash,Storage,DB,Mail,URL,Session; 
+use Carbon\Carbon;
 use App\Models\User;
 use App\Models\Client;
 use App\Models\InsurerMaster;
@@ -290,8 +291,16 @@ class ApiController extends Controller
     {
         try {
             $data=$request->all();
-            $list=Client::where('isdelete',0)->get();
-            $count=Client::where('isdelete',0)->count();
+            $query=Client::where('isdelete',0);
+            if($request->search['value'])
+            {
+                $query=$query->where('name','like', '%' . $request->search['value'] . '%');
+                $query=$query->orwhere('mobile_no','like', '%' . $request->search['value'] . '%');
+                $query=$query->orwhere('email','like', '%' . $request->search['value'] . '%');
+            }
+            $count=$query->count();
+            $list=$query->skip($data['start'])->take($data['length'])->get();
+           
             return response()->json(['recordsTotal' => $count,'recordsFiltered' =>$count ,'data'=>$list]);
 
         } catch (\Exception $e) {
@@ -310,7 +319,12 @@ class ApiController extends Controller
                 $list=Client::where('id',$data['client_id'])->first();
             }
             else{
-                $list=Client::get();
+                $list=Client::select('id','name','email','mobile_no');
+                if($data['search'])
+                {
+                    $list=$list->where('name','like', '%' . $data['search'] . '%');
+                }
+                $list=$list->get();
             }
           
             return Response::json(array( 'success' => true,'data' => $list,'message'=>'Client List.'), 200); 
@@ -630,15 +644,13 @@ class ApiController extends Controller
        public function getschemeReport(Request $request)
        {
            try {
-            ini_set('max_execution_time', 1800);
-            // $response = Http::get('https://www.amfiindia.com/spages/NAVAll.txt?t=17122023114157');
-            // dd($response);
-            //    return response()->json(['data'=>json_decode($response->body())]);
-            $file="https://www.amfiindia.com/spages/NAVAll.txt?t=17122023114157";
+            ini_set('max_execution_time', 72000);
+            $current_timestamp = date('dmYHis');
+            $file="https://www.amfiindia.com/spages/NAVAll.txt?t=".$current_timestamp;
             $doc=file_get_contents($file);
 
             $line=explode("\n",$doc);
-            $sub = array_slice( $line, 4, null, true);
+            $sub = array_slice( $line, 1, null, true);
             $fund_id=0;
             foreach($sub as $k=>$v){
                 if(trim($v[1]) != '')

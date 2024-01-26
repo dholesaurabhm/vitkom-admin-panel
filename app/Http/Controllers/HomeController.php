@@ -115,9 +115,9 @@ class HomeController extends Controller
     {
         return view('report2_master');
     }
-     public function user_dashboard()
+     public function user_dashboard($id)
     {
-        return view('user_dashboard');
+        return view('user_dashboard')->with('id',$id);
     }
 
     

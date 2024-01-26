@@ -87,10 +87,10 @@
                             </div>
                         </div>
 
-                        <div class="col-sm-12">
+                        <div class="col-sm-12" style="display: none">
                             <div>
                                 <label for="typeinput" class="form-label">NAV<span class="red">*</span></label>
-                                <input type="text" class="form-control" id="nav" name="nav" placeholder="Enter NAV" required>
+                                <input type="text" class="form-control" id="nav" name="nav" placeholder="Enter NAV" value="1" required>
                             </div>
                         </div>
                         
