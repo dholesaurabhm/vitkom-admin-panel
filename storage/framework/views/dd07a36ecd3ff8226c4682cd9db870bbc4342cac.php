@@ -176,7 +176,7 @@
 <script src="<?php echo e(URL::asset('/assets/js/dashboard.js')); ?>"></script>
 <script>
     $(document).ready(function(){
-        getclient()
+       // getclient()
     });
     </script>  
 <?php $__env->stopSection(); ?>

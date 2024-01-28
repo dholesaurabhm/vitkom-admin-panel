@@ -12,6 +12,7 @@ use App\Models\InsurerMaster;
 use App\Models\SchemeMaster;
 use App\Models\FundMaster;
 use App\Models\FundPlan;
+use App\Models\MutualFund;
 
 class ApiController extends Controller
 {
@@ -686,5 +687,224 @@ class ApiController extends Controller
                return $e->getMessage();
            }
        }
+
+
+
+         /*Mutual Fund Functions */
+
+         public function addmutual_fund(Request $request)
+         {
+             try {
+                 $data=$request->all();
+                 $rules = array(
+                     'client_id'=>'required',
+                     'amc_id'=>'required',
+                     'scheme_name'=>'required',
+                     'scheme_id'=>'required',
+                     'folio_no'=>'required',
+                     'plan'=>'required',
+                     'purchase_date'=>'required',
+                     'nav'=>'required',
+                     'invested_amount'=>'required',
+                     'current_unit'=>'required',
+                     'current_value'=>'required',
+                     'current_nav'=>'required',
+                     'profit_loss'=>'required'
+                 );
+                 $messages = [
+                 'required' => 'The :attribute field is required.',
+                 ];
+                 $validator = Validator::make($request->all(), $rules,$messages);
+                 
+                 if ($validator->fails()) {
+                     return Response::json(array(
+                     'success' => false,
+                     'errors' => $validator->getMessageBag()->toArray(),
+                     'message'=>"Please Fill All Details"
+                 ), 400); 
+                 }
+                 else{
+                     $insm=new MutualFund();
+                     $insm->client_id=$data['client_id'];
+                     $insm->amc_id=$data['amc_id'];
+                     $insm->scheme_name=$data['scheme_name'];
+                     $insm->scheme_id=$data['scheme_id'];
+                     $insm->folio_no=$data['folio_no'];
+                     $insm->plan=$data['plan'];
+                     $insm->purchase_date=$data['purchase_date'];
+                     $insm->nav=$data['nav'];
+                     $insm->invested_amount=$data['invested_amount'];
+                     $insm->current_unit=$data['current_unit'];
+                     $insm->current_value=$data['current_value'];
+                     $insm->current_nav=$data['current_nav'];
+                     $insm->profit_loss=$data['profit_loss'];
+                     $insm->isdelete=0;
+                     $insm->save();
+                     return Response::json(array( 'success' => true,'data' => $insm,'message'=>'Mutual Fund Added Successfully.'), 200); 
+                 }
+               
+               } catch (\Exception $e) {
+               
+                   return $e->getMessage();
+               }
+         }
+     
+         public function updatemutual_fund(Request $request, $id)
+         {
+             
+             try {
+                 $data=$request->all();
+                 $rules = array(
+                    'client_id'=>'required',
+                    'amc_id'=>'required',
+                    'scheme_name'=>'required',
+                    'scheme_id'=>'required',
+                    'folio_no'=>'required',
+                    'plan'=>'required',
+                    'purchase_date'=>'required',
+                    'nav'=>'required',
+                    'invested_amount'=>'required',
+                    'current_unit'=>'required',
+                    'current_value'=>'required',
+                    'current_nav'=>'required',
+                    'profit_loss'=>'required'
+                 );
+                 $messages = [
+                 'required' => 'The :attribute field is required.',
+                 ];
+                 $validator = Validator::make($request->all(), $rules,$messages);
+                 
+                 if ($validator->fails()) {
+                     return Response::json(array(
+                     'success' => false,
+                     'errors' => $validator->getMessageBag()->toArray(),
+                     'message'=>"Please Fill All Details"
+                 ), 400); 
+                 }
+                 else{
+                  SchemeMaster::where('id',$id)->update(['scheme_type'=>$data['scheme_type'],'insurer_id'=>$data['insurer_id'],'scheme_name'=>$data['scheme_name'],'nav'=>$data['nav']]);
+                  return Response::json(array( 'success' => true,'data' => $data,'message'=>'Scheme Updated Successfully.'), 200); 
+                 }
+               
+               } catch (\Exception $e) {
+               
+                   return $e->getMessage();
+               }
+         }
+     
+         public function listmutual_fund(Request $request)
+         {
+             try {
+                $data=$request->all();
+                $query=MutualFund::where('isdelete',0);
+                if($request->search['value'])
+                {
+                    $query=$query->where('scheme_name','like', '%' . $request->search['value'] . '%');
+                    $query=$query->orwhere('folio_no','like', '%' . $request->search['value'] . '%');
+                    $query=$query->orwhere('plan','like', '%' . $request->search['value'] . '%');
+                }
+                $count=$query->count();
+                $list=$query->skip($data['start'])->take($data['length'])->get();
+               
+                return response()->json(['recordsTotal' => $count,'recordsFiltered' =>$count ,'data'=>$list]);
+             } catch (\Exception $e) {
+               
+                 return $e->getMessage();
+             }
+         }
+     
+     
+         public function getmutual_fund(Request $request)
+         {
+             try {
+                 $data=$request->all();
+                 $list=SchemeMaster::select('scheme_master.id','scheme_type','insurer_id','scheme_name','nav','insurer_master.company_name',DB::raw('replace(replace(replace(insurance_type, 1, "LIFE INSURANCE"),2,"HEALTH INSURANCE"),3,"GENERAL INSURANCE")as insurance_name'))->leftJoin('insurer_master', 'insurer_master.id', '=', 'scheme_master.insurer_id')->where('scheme_master.isdelete',0);
+                 
+                 if(isset($data['scheme_id']))
+                 {
+                    $list=$list->where('scheme_master.id',$data['scheme_id'])->first();
+                 }
+                 else{
+                    $list=$list->get();
+                 }
+               
+                 return Response::json(array( 'success' => true,'data' => $list,'message'=>'Scheme Master List.'), 200); 
+             } catch (\Exception $e) {
+               
+                 return $e->getMessage();
+             }
+         }
+     
+         public function deletemutual_fund(Request $request)
+         {
+             try {
+                 $data=$request->all();
+                 $rules = array(
+                     'scheme_id'=>'required'
+                 );
+                 $messages = [
+                 'required' => 'The :attribute field is required.',
+                 ];
+                 $validator = Validator::make($request->all(), $rules,$messages);
+                 
+                 if ($validator->fails()) {
+                     return Response::json(array(
+                     'success' => false,
+                     'errors' => $validator->getMessageBag()->toArray(),
+                     'message'=>"Please Fill All Details"
+                 ), 400); 
+                 }
+                 else{
+                   $client= SchemeMaster::where('id', $data['scheme_id'])->update(['isdelete'=>1]);
+                     return Response::json(array( 'success' => true,'data' => $client,'message'=>'Scheme Deleted Successfully.'), 200); 
+                 }
+             } catch (\Exception $e) {
+               
+                 return $e->getMessage();
+             }
+         }
+  
+         public function getamc(Request $request)
+         {
+             try {
+                 $data=$request->all();
+                 $list=FundMaster::select('id','name')->where('isdelete',0);
+                 
+                 if(isset($data['amc_id']))
+                 {
+                    $list=$list->where('id',$data['amc_id'])->first();
+                 }
+                 else{
+                    $list=$list->get();
+                 }
+               
+                 return Response::json(array( 'success' => true,'data' => $list,'message'=>'AMC List.'), 200); 
+             } catch (\Exception $e) {
+               
+                 return $e->getMessage();
+             }
+         }
+
+         public function getamc_plan(Request $request)
+         {
+             try {
+                 $data=$request->all();
+                 $list=FundPlan::select('id','fund_id','scheme_code','isin_code','isin_reinvestment','scheme_name','nav','plan_date')->where('isdelete',0);
+                 
+                 if(isset($data['plan_id']))
+                 {
+                    $list=$list->where('id',$data['plan_id'])->first();
+                 }
+                 else{
+                    $list=$list->where('fund_id',$data['amc_id'])->orderBy('created_at', 'desc')->groupBy('scheme_name')->get();
+                 }
+               
+                 return Response::json(array( 'success' => true,'data' => $list,'message'=>'AMC Plans.'), 200); 
+             } catch (\Exception $e) {
+               
+                 return $e->getMessage();
+             }
+         }
+   
    
 }

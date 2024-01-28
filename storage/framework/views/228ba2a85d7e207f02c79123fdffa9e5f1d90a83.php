@@ -53,17 +53,16 @@
                                     <div class="tab-content text-muted">
                                         <div class="tab-pane active" id="mutual_fund" role="tabpanel">
                                             <div class="d-flex">
-					                            <table id="mf-datatables" class="display table table-bordered dt-responsive" style="width:100% !important">
+					                            <table id="mutual_fund_table" class="display table table-bordered dt-responsive" style="width:100% !important">
 					                                <thead>
 					                                    <tr>
 					                                        <th>Scheme Name</th>
 					                                        <th>Plan</th>
-					                                        <th>SIP Mode</th>
-					                                        <th>Start Date</th>
-					                                        <th>End Date</th>
-					                                        <th>Curr NAV</th>
-					                                        <th>Buy Value</th>
-					                                        <th>Curr Value</th>
+					                                        <th>Purchase Date</th>
+					                                        <th>NAV</th>
+					                                        <th>Invested Amount</th>
+					                                        <th>Current Unit</th>
+					                                        <th>Current Value</th>
 					                                        <th>Profit/Loss</th>
 					                                        <th>Action</th>
 					                                    </tr>
@@ -174,97 +173,86 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form action="javascript:void(0);">
+                <form id="mutualfund_form">
                     <div class="row g-3">
-                        <div class="col-sm-4">
-                            <div>
-                                <label for="nameInput" class="form-label">Holder Name<span class="red">*</span></label>
-                                <select class="form-select mb-2" aria-label="Default select example">
-                                  <option value="1">1</option>
-                                  <option value="2">2</option>
-                                </select>
-                            </div>
-                        </div>	
+                        <input type="hidden" name="client_id" id="client_id" value="<?php echo e($id); ?>">
+                        <input type="hidden" name="mutual_id" id="mutual_id" value="">
+                        
                         <div class="col-sm-4">
                             <div>
                                 <label for="insurancefirmInput" class="form-label">AMC Name<span class="red">*</span></label>
-                                <select class="form-select mb-2" aria-label="Default select example">
-                                   <option value="1">1</option>
-                                   <option value="2">2</option>
+                                <select class="form-select mb-2 amc_list" aria-label="Default select example" name="amc_id" id="amc_id">
                                 </select>
                             </div>
                         </div>
                         <div class="col-sm-4">
                             <div>
                                 <label for="schemenameInput" class="form-label">Scheme Name<span class="red">*</span></label>
-                                <select class="form-select mb-2" aria-label="Default select example">
-                                   <option value="1">1</option>
-                                   <option value="2">2</option>
+                                <select class="form-select mb-2 amcplan_list" aria-label="Default select example" name="scheme_id" id="scheme_id">
                                 </select>
                             </div>
                         </div>
+                        <input type="hidden" name="scheme_name" id="scheme_name" value="">
                         <div class="col-sm-4">
                             <div>
                                 <label for="schemenameInput" class="form-label">Folio No.<span class="red">*</span></label>
-                               <input type="text" class="form-control" id="date" required>
+                               <input type="text" class="form-control" name="folio_no" id="folio_no" placeholder="Enter Folio No" required>
                             </div>
                         </div>
                         <div class="col-sm-4">
                             <div>
                                 <label for="schemenameInput" class="form-label">Plan<span class="red">*</span></label>
-                                <select class="form-select mb-2" aria-label="Default select example">
-                                   <option value="1">1</option>
-                                   <option value="2">2</option>
+                                <select class="form-select mb-2" aria-label="Default select example" name="plan" id="plan">
+                                    <option value="">Select Plan</option>
+                                   <option value="SIP">SIP</option>
+                                   <option value="SWP">SWP</option>
                                 </select>
                             </div>
                         </div>
                         <div class="col-sm-4">
                             <div>
-                                <label for="schemenameInput" class="form-label">NAV<span class="red">*</span></label>
-                               <input type="text" class="form-control" id="date" required>
-                            </div>
-                        </div>
-                        <div class="col-sm-4">
-                            <div>
                                 <label for="paymentInput" class="form-label">Purchase Date<span class="red">*</span></label>
-                               <input type="date" class="form-control" id="date" placeholder="datepicker-range" required>
+                               <input type="date" class="form-control" name="purchase_date" id="purchase_date" placeholder="datepicker-range" required>
 
                             </div>
                         </div>
                         <div class="col-sm-4">
                             <div>
+                                <label for="schemenameInput" class="form-label">NAV<span class="red">*</span></label>
+                               <input type="text" class="form-control" id="nav" name="nav" placeholder="Enter nav" required>
+                            </div>
+                        </div>
+                      
+                        <div class="col-sm-4">
+                            <div>
                                 <label for="sumassuredInput" class="form-label">Invested Amount</label>
-                                <input type="number" class="form-control" id="number" placeholder="Enter Number" >
+                                <input type="number" class="form-control" id="invested_amount" name="invested_amount" placeholder="Enter Number" >
                             </div>
                         </div>
                         <div class="col-sm-4">
                             <div>
                                 <label for="sumassuredInput" class="form-label">Current Units</label>
-                                <input type="number" class="form-control" id="number" placeholder="Enter Number" >
+                                <input type="number" class="form-control" id="current_unit" name="current_unit" placeholder="Enter Number" >
                             </div>
                         </div>
+                        <input type="hidden" class="form-control" id="current_nav" name="current_nav" value="0">
                         <div class="col-sm-4">
                             <div>
                                 <label for="sumassuredInput" class="form-label">Current Value</label>
-                                <input type="number" class="form-control" id="number" placeholder="Enter Number" >
+                                <input type="number" class="form-control" id="current_value" name="current_value" placeholder="Enter Number" >
                             </div>
                         </div>
                         <div class="col-sm-4">
                             <div>
                                 <label for="sumassuredInput" class="form-label">Profit/Loss</label>
-                                <input type="number" class="form-control" id="number" placeholder="Enter Number" >
+                                <input type="number" class="form-control" id="profit_loss" name="profit_loss" placeholder="Enter Number" >
                             </div>
                         </div>
-                        <div class="col-sm-4">
-                            <div>
-                                <label for="nameInput" class="form-label">Nominee Name</label>
-                                <input type="name" class="form-control" id="name" placeholder="Enter Nominee Name" >
-                            </div>
-                        </div>
+                       
                         <div class="col-sm-12">
                             <div class="hstack gap-2 justify-content-end">
                                 <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
-                                <button type="submit" class="btn btn-primary">Save</button>
+                                <button type="button" class="btn btn-primary" onclick="savemutualfund()">Save</button>
                             </div>
                         </div>
                     </div>
@@ -1023,7 +1011,49 @@
 <!-- <script src="<?php echo e(URL::asset('/assets/js/pages/datatables.init.js')); ?>"></script> -->
 <script src="<?php echo e(URL::asset('/assets/js/user_dashboard.js')); ?>"></script>
 <script src="<?php echo e(URL::asset('/assets/js/app.min.js')); ?>"></script>
-
+<script>
+    $(document).ready(function(){
+      var mutual_fund_table =$('#mutual_fund_table').DataTable({
+      proccessing: true,
+      serverSide: true,
+      searching: true,
+      bFilter: true,
+      ajax: {
+          url: base_url+"mutual_fund/list",
+          type: "POST",
+          data:function(d) {
+         // d.res_id=$('[name=res_id]').val();
+      },
+          },
+      columns: [
+         // { data: "id", render: function (data, type, row, meta) {return meta.row + meta.settings._iDisplayStart + 1;}},
+          { data: 'scheme_name' },
+          { data: 'plan' },
+          { data: 'purchase_date'},
+          { data: 'nav' },
+          { data: 'invested_amount' },
+          {data:'current_unit'},
+          {data:'current_value'},
+          {data:'profit_loss'},
+          { data: 'id',render:function(data,type,row){ 
+              return `<div class="dropdown">
+                      <button class="btn btn-soft-secondary btn-sm dropdown" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                      <i class="ri-more-fill"></i>
+                      </button>
+                      <ul class="dropdown-menu dropdown-menu-end">
+                      <li><a class="dropdown-item edit-list" data-edit-id='${data}' href="#" onclick="editclient(${data})"><i class="ri-pencil-fill align-bottom me-2 text-muted"></i> Edit</a></li>
+                      <li class="dropdown-divider"></li>
+                      <li><a class="dropdown-item remove-list" href="#" data-id='${data}' onclick="deletemodel(${data})" ><i class="ri-delete-bin-fill align-bottom me-2 text-muted"></i> Delete</a></li>
+                      </ul>
+                      </div>`
+          } 
+           },
+          
+         
+      ]
+  });
+    });
+</script>
 <?php $__env->stopSection(); ?>
 
 <?php echo $__env->make('layouts.master', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH D:\xampp\htdocs\vitkom-admin-panel\resources\views/user_dashboard.blade.php ENDPATH**/ ?>

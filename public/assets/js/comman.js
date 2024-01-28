@@ -87,3 +87,37 @@ function continent_list()
   }
 });
 }
+
+function amc_list()
+{
+  $.ajax({
+  url: base_url+"getamc",
+  type: "POST",
+  success: function(result){
+      console.log(result);
+      var list = $(".amc_list");
+      list.append(new Option('Please Select AMC',''))
+      $.each(result.data, function(index, item) {
+      list.append(new Option(item.name, item.id));
+      });
+  }
+});
+}
+
+function amcplan_list(amc_id=null)
+{
+  console.log(amc_id)
+  $.ajax({
+  url: base_url+"getamc_plan",
+  type: "POST",
+  data:{amc_id:amc_id},
+  success: function(result){
+      console.log(result);
+      var list = $(".amcplan_list");
+      list.append(new Option('Please Select Scheme',''))
+      $.each(result.data, function(index, item) {
+        list.append(`<option value="${item.id}" data-nav="${item.nav}" data-scheme_name="${item.scheme_name}">${item.scheme_name}</option>`);
+      });
+  }
+});
+}

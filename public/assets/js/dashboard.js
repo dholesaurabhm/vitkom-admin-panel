@@ -23,7 +23,7 @@ function getclient()
                 <p class="text-muted mb-0">${item.mobile_no}</p>
             </td>
             <td class="text-end">
-               <a href="${file_url}/user_dashboard/${item.id}">View Dashboad</a>
+               <a href="${file_url}/user_dashboard/${item.id}" target="_blank">View Dashboad</a>
             </td>
         </tr>`;
         });

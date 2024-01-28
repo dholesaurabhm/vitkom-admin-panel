@@ -29,6 +29,18 @@
 
 $( document ).ready(function() {
     $('.mutual_fund_btn').show();  
+    amc_list();
+});
+
+$('#amc_id').change(function() {
+  amcplan_list(this.value);
+});
+
+$('#scheme_id').change(function() {
+  var scheme_name = $('#scheme_id option:selected').data('scheme_name');
+  var current_nav = $('#scheme_id option:selected').data('nav');
+  $('#scheme_name').val(scheme_name);
+  $('#current_nav').val(current_nav);
 });
 
 function show_only_mutual_fund()
@@ -81,3 +93,42 @@ function show_only_general_insurance()
 // life_insurance_btn
 // medical_insurance_btn
 // general_insurance_btn
+
+function savemutualfund()
+        {
+          if($('#amc_id').val() !='' && $('#scheme_id').val() !='' && $('#folio_no').val() !='' && $('#joining_date').val() !='')
+          {
+              if($('#mutual_id').val() =='')
+              {
+                  url=base_url+"mutual_fund/create"
+              }
+              else{
+                  url=base_url+"mutual_fund/update/"+$('#mutual_id').val()
+              }
+              $.ajax({
+                  type: "POST",
+                  url: url,
+                  data: $('#mutualfund_form').serialize(),
+                  success: function(result) {
+                      console.log("ajax data=", result)
+                      if(result.success==true)
+                      {
+                          $('#mutual_fund_table').DataTable().ajax.reload();
+                      }      
+                     $('#mutual_fund_modal').modal('hide');
+                     toast_success(result.message)
+                  },
+                  error: function(xhr, status, error) {
+                      let errors_msg="";
+                      $.each( xhr.responseJSON.errors, function( key, value ) {
+                                  errors_msg+=`${value}\n`;
+                       });
+                     //  $('#mutual_fund_modal').modal('hide');
+                      toast_error(errors_msg)
+                   }
+                  });
+          }
+          else{
+              toast_error('Please Fill the Form');
+          }
+        }

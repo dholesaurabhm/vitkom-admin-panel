@@ -40,3 +40,12 @@ Route::post('scheme_master/list', [App\Http\Controllers\ApiController::class, 'l
 Route::post('scheme_master/show', [App\Http\Controllers\ApiController::class, 'getscheme_master']);
 Route::post('scheme_master/delete', [App\Http\Controllers\ApiController::class, 'deletescheme_master']);
 Route::post('scheme_master/update/{id}', [App\Http\Controllers\ApiController::class, 'updatescheme_master']);
+
+Route::post('mutual_fund/create', [App\Http\Controllers\ApiController::class, 'addmutual_fund']);
+Route::post('mutual_fund/list', [App\Http\Controllers\ApiController::class, 'listmutual_fund']);
+Route::post('mutual_fund/show', [App\Http\Controllers\ApiController::class, 'getmutual_fund']);
+Route::post('mutual_fund/delete', [App\Http\Controllers\ApiController::class, 'deletemutual_fund']);
+Route::post('mutual_fund/update/{id}', [App\Http\Controllers\ApiController::class, 'updatemutual_fund']);
+
+Route::post('getamc', [App\Http\Controllers\ApiController::class, 'getamc']);
+Route::post('getamc_plan', [App\Http\Controllers\ApiController::class, 'getamc_plan']);

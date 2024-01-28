@@ -176,7 +176,7 @@
 <script src="{{ URL::asset('/assets/js/dashboard.js') }}"></script>
 <script>
     $(document).ready(function(){
-        getclient()
+       // getclient()
     });
     </script>  
 @endsection

@@ -23,7 +23,7 @@
             <ul class="navbar-nav" id="navbar-nav">
                 <li class="menu-title"><span><?php echo app('translator')->get('translation.menu'); ?></span></li>
                 <li class="nav-item">
-                    <a class="nav-link menu-link" href="index"  >
+                    <a class="nav-link menu-link" href="<?php echo e(url('/index')); ?>"  >
                         <i class="ri-dashboard-2-line" ></i> <span>Dashboard</span>
                     </a>
                 </li>  
@@ -34,13 +34,13 @@
                     <div class="collapse menu-dropdown" id="sidebarDashboards">
                         <ul class="nav nav-sm flex-column">
                             <li class="nav-item">
-                                <a href="user_master" class="nav-link"><?php echo app('translator')->get('translation.users'); ?></a>
+                                <a href="<?php echo e(url('/user_master')); ?>" class="nav-link"><?php echo app('translator')->get('translation.users'); ?></a>
                             </li>
                             <li class="nav-item">
-                                <a href="client_master" class="nav-link"><?php echo app('translator')->get('translation.client'); ?></a>
+                                <a href="<?php echo e(url('/client_master')); ?>" class="nav-link"><?php echo app('translator')->get('translation.client'); ?></a>
                             </li>
                             <li class="nav-item">
-                                <a href="insurance_master" class="nav-link"><?php echo app('translator')->get('translation.insurance'); ?></a>
+                                <a href="<?php echo e(url('/insurance_master')); ?>" class="nav-link"><?php echo app('translator')->get('translation.insurance'); ?></a>
                             </li>
                            <!--  <li class="nav-item">
                                 <a href="bonds_master" class="nav-link"><?php echo app('translator')->get('translation.bond'); ?></a>
@@ -53,19 +53,19 @@
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link menu-link" href="data_to_import_master">
+                    <a class="nav-link menu-link" href="<?php echo e(url('/data_to_import_master')); ?>">
                         <i class="ri-honour-line"></i> <span><?php echo app('translator')->get('translation.data_to_import'); ?></span>
                     </a>
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link menu-link" href="report1_master">
+                    <a class="nav-link menu-link" href="<?php echo e(url('/report1_master')); ?>">
                         <i class="ri-honour-line"></i> <span><?php echo app('translator')->get('translation.report1'); ?></span>
                     </a>
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link menu-link" href="report2_master">
+                    <a class="nav-link menu-link" href="<?php echo e(url('/report2_master')); ?>">
                         <i class="ri-honour-line"></i> <span><?php echo app('translator')->get('translation.report2'); ?></span>
                     </a>
                 </li>
