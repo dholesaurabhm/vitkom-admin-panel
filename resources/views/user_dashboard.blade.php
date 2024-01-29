@@ -57,6 +57,7 @@
 					                                <thead>
 					                                    <tr>
 					                                        <th>Scheme Name</th>
+                                                            <th>Folio No</th>
 					                                        <th>Plan</th>
 					                                        <th>Purchase Date</th>
 					                                        <th>NAV</th>
@@ -197,6 +198,7 @@
                             <div>
                                 <label for="schemenameInput" class="form-label">Scheme Name<span class="red">*</span></label>
                                 <select class="form-select mb-2 amcplan_list" aria-label="Default select example" name="scheme_id" id="scheme_id">
+                                    <option value="">Please Scheme Name</option>
                                 </select>
                             </div>
                         </div>
@@ -227,33 +229,33 @@
                         <div class="col-sm-4">
                             <div>
                                 <label for="schemenameInput" class="form-label">NAV<span class="red">*</span></label>
-                               <input type="text" class="form-control" id="nav" name="nav" placeholder="Enter nav" required>
+                               <input type="text" class="form-control" id="nav" name="nav" placeholder="Enter nav" readonly>
                             </div>
                         </div>
                       
                         <div class="col-sm-4">
                             <div>
                                 <label for="sumassuredInput" class="form-label">Invested Amount</label>
-                                <input type="number" class="form-control" id="invested_amount" name="invested_amount" placeholder="Enter Number" >
+                                <input type="number" class="form-control" id="invested_amount" name="invested_amount" placeholder="Enter Number" onchange="curr_unit()">
                             </div>
                         </div>
                         <div class="col-sm-4">
                             <div>
                                 <label for="sumassuredInput" class="form-label">Current Units</label>
-                                <input type="number" class="form-control" id="current_unit" name="current_unit" placeholder="Enter Number" >
+                                <input type="number" class="form-control" id="current_unit" name="current_unit" placeholder="Enter Number" readonly>
                             </div>
                         </div>
                         <input type="hidden" class="form-control" id="current_nav" name="current_nav" value="0">
                         <div class="col-sm-4">
                             <div>
                                 <label for="sumassuredInput" class="form-label">Current Value</label>
-                                <input type="number" class="form-control" id="current_value" name="current_value" placeholder="Enter Number" >
+                                <input type="number" class="form-control" id="current_value" name="current_value" placeholder="Enter Number" readonly>
                             </div>
                         </div>
                         <div class="col-sm-4">
                             <div>
                                 <label for="sumassuredInput" class="form-label">Profit/Loss</label>
-                                <input type="number" class="form-control" id="profit_loss" name="profit_loss" placeholder="Enter Number" >
+                                <input type="number" class="form-control" id="profit_loss" name="profit_loss" placeholder="Enter Number" readonly>
                             </div>
                         </div>
                        
@@ -999,7 +1001,32 @@
     </div>
 </div>
 <!----general_insurance_modal---->
+ <!-- removeItemModal -->
+ <div id="removeScheme" class="modal fade zoomIn" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+                    id="btn-close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="mt-2 text-center">
+                    <lord-icon src="https://cdn.lordicon.com/gsqxdxog.json" trigger="loop"
+                        colors="primary:#f7b84b,secondary:#f06548" style="width:100px;height:100px"></lord-icon>
+                    <div class="mt-4 pt-2 fs-15 mx-4 mx-sm-5">
+                        <h4>Are you Sure ?</h4>
+                        <p class="text-muted mx-4 mb-0">Are you Sure You want to Remove this Mutual Fund?</p>
+                    </div>
+                </div>
+                <div class="d-flex gap-2 justify-content-center mt-4 mb-2">
+                    <button type="button" class="btn w-sm btn-light" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn w-sm btn-danger" id="delete-mutual">Yes, Delete It!</button>
+                </div>
+            </div>
 
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
 
 @endsection
 @section('script')
@@ -1036,6 +1063,7 @@
       columns: [
          // { data: "id", render: function (data, type, row, meta) {return meta.row + meta.settings._iDisplayStart + 1;}},
           { data: 'scheme_name' },
+          { data: 'folio_no' },
           { data: 'plan' },
           { data: 'purchase_date'},
           { data: 'nav' },
@@ -1049,7 +1077,7 @@
                       <i class="ri-more-fill"></i>
                       </button>
                       <ul class="dropdown-menu dropdown-menu-end">
-                      <li><a class="dropdown-item edit-list" data-edit-id='${data}' href="#" onclick="editclient(${data})"><i class="ri-pencil-fill align-bottom me-2 text-muted"></i> Edit</a></li>
+                      <li><a class="dropdown-item edit-list" data-edit-id='${data}' href="#" onclick="editmutual(${data})"><i class="ri-pencil-fill align-bottom me-2 text-muted"></i> Edit</a></li>
                       <li class="dropdown-divider"></li>
                       <li><a class="dropdown-item remove-list" href="#" data-id='${data}' onclick="deletemodel(${data})" ><i class="ri-delete-bin-fill align-bottom me-2 text-muted"></i> Delete</a></li>
                       </ul>

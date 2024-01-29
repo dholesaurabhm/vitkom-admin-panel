@@ -33,7 +33,7 @@ $( document ).ready(function() {
 });
 
 $('#amc_id').change(function() {
-  amcplan_list(this.value);
+  amcplan_list($('#mutualfund_form').serialize());
 });
 
 $('#scheme_id').change(function() {
@@ -41,6 +41,16 @@ $('#scheme_id').change(function() {
   var current_nav = $('#scheme_id option:selected').data('nav');
   $('#scheme_name').val(scheme_name);
   $('#current_nav').val(current_nav);
+});
+
+$('#purchase_date').change(function() {
+  if($('#amc_id').val() !='' && $('#scheme_id').val() !='' && $('#purchase_date').val() !='')
+  {
+    amcplan($('#mutualfund_form').serialize());
+  }
+  else{
+    toast_error('Please Select Scheme Name and Purchase Date');
+  }
 });
 
 function show_only_mutual_fund()
@@ -132,3 +142,98 @@ function savemutualfund()
               toast_error('Please Fill the Form');
           }
         }
+
+
+function amcplan(data={})
+{
+  console.log(amc_id)
+  $.ajax({
+  url: base_url+"getamc_plan",
+  type: "POST",
+  data:data,
+  success: function(result){
+      console.log(result);
+     $('#nav').val(result.data.nav)
+  }
+});
+}
+
+function curr_unit()
+{
+  var amount=$('#invested_amount').val();
+ 
+  var nav=$('#nav').val();
+  var curr_nav=$('#current_nav').val();
+  var current_unit=(amount/nav).toFixed(4);
+  var current_value=(current_unit * curr_nav).toFixed(4);
+  console.log(current_unit * curr_nav )
+  $('#current_unit').val(current_unit);
+  $('#current_value').val(current_value);
+  $('#profit_loss').val((current_value - amount).toFixed(4));
+}
+
+
+function editmutual(id)
+{
+  console.log(id)
+  $.ajax({
+    type: "POST",
+    url: base_url+"mutual_fund/show",
+    data: {mutual_id:id},
+    success: function(result) {
+        console.log("ajax data=", result)
+        if(result.success==true)
+        {
+          $('#mutual_id').val(result.data.id);
+          $('#amc_id').val(result.data.amc_id).trigger('change');
+          $('#scheme_name').val(result.data.scheme_name);
+          $('#folio_no').val(result.data.folio_no);
+          $('#plan').val(result.data.plan);
+          $('#purchase_date').val(result.data.purchase_date);
+          $('#nav').val(result.data.nav);
+          $('#invested_amount').val(result.data.invested_amount);
+          $('#current_unit').val(result.data.current_unit);
+          $('#current_value').val(result.data.current_value);
+          $('#current_nav').val(result.data.current_nav);
+          $('#profit_loss').val(result.data.profit_loss);
+          $('#mutual_fund_modal').modal('show');
+          setInterval(function () {$('#scheme_id').val(result.data.scheme_id);}, 1000);
+        }      
+      
+    },
+    error: function(error) {
+        toast_error(error.responseJSON.message)
+     }
+    });
+}
+
+
+function deletemodel(id)
+{
+    console.log(id)
+    $('#removeScheme').modal('show');
+      $("#delete-mutual").replaceWith('<a href="#" class="btn btn-danger m-2" id="delete-mutual" onclick="deletemutual('+id+')">Yes, Delete it</a>');
+}
+
+function deletemutual(id)
+  {
+      $('#removeScheme').modal('hide');
+    $.ajax({
+            type: "POST",
+            url: base_url+"mutual_fund/delete",
+            data: {mutual_id:id},
+            success: function(result) {
+                console.log("ajax data=", result)
+                if(result.success==true)
+                {
+                    $('#mutual_fund_table').DataTable().ajax.reload();
+                }      
+                toast_success(result.message)
+            },
+            error: function(error) {
+                console.log(error)
+                toast_error(error.responseJSON.message)
+             }
+            });
+
+  }

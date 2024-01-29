@@ -782,8 +782,8 @@ class ApiController extends Controller
                  ), 400); 
                  }
                  else{
-                  SchemeMaster::where('id',$id)->update(['scheme_type'=>$data['scheme_type'],'insurer_id'=>$data['insurer_id'],'scheme_name'=>$data['scheme_name'],'nav'=>$data['nav']]);
-                  return Response::json(array( 'success' => true,'data' => $data,'message'=>'Scheme Updated Successfully.'), 200); 
+                    MutualFund::where('id',$id)->update(['client_id'=>$data['client_id'],'amc_id'=>$data['amc_id'],'scheme_id'=>$data['scheme_id'],'scheme_name'=>$data['scheme_name'],'folio_no'=>$data['folio_no'],'plan'=>$data['plan'],'purchase_date'=>$data['purchase_date'],'nav'=>$data['nav'],'invested_amount'=>$data['invested_amount'],'current_unit'=>$data['current_unit'],'current_value'=>$data['current_value'],'current_nav'=>$data['current_nav'],'profit_loss'=>$data['profit_loss']]);
+                  return Response::json(array( 'success' => true,'data' => $data,'message'=>'Mutual Fund Updated Successfully.'), 200); 
                  }
                
                } catch (\Exception $e) {
@@ -818,17 +818,17 @@ class ApiController extends Controller
          {
              try {
                  $data=$request->all();
-                 $list=SchemeMaster::select('scheme_master.id','scheme_type','insurer_id','scheme_name','nav','insurer_master.company_name',DB::raw('replace(replace(replace(insurance_type, 1, "LIFE INSURANCE"),2,"HEALTH INSURANCE"),3,"GENERAL INSURANCE")as insurance_name'))->leftJoin('insurer_master', 'insurer_master.id', '=', 'scheme_master.insurer_id')->where('scheme_master.isdelete',0);
+                 $list=MutualFund::select('mutual_funds.id','amc_id','scheme_name','scheme_id','plan','folio_no','purchase_date','nav','invested_amount','current_unit','current_value','current_nav','profit_loss')->leftJoin('fund_master', 'fund_master.id', '=', 'mutual_funds.amc_id')->where('mutual_funds.isdelete',0);
                  
-                 if(isset($data['scheme_id']))
+                 if(isset($data['mutual_id']))
                  {
-                    $list=$list->where('scheme_master.id',$data['scheme_id'])->first();
+                    $list=$list->where('mutual_funds.id',$data['mutual_id'])->first();
                  }
                  else{
                     $list=$list->get();
                  }
                
-                 return Response::json(array( 'success' => true,'data' => $list,'message'=>'Scheme Master List.'), 200); 
+                 return Response::json(array( 'success' => true,'data' => $list,'message'=>'Mutual Fund List.'), 200); 
              } catch (\Exception $e) {
                
                  return $e->getMessage();
@@ -840,7 +840,7 @@ class ApiController extends Controller
              try {
                  $data=$request->all();
                  $rules = array(
-                     'scheme_id'=>'required'
+                     'mutual_id'=>'required'
                  );
                  $messages = [
                  'required' => 'The :attribute field is required.',
@@ -855,8 +855,8 @@ class ApiController extends Controller
                  ), 400); 
                  }
                  else{
-                   $client= SchemeMaster::where('id', $data['scheme_id'])->update(['isdelete'=>1]);
-                     return Response::json(array( 'success' => true,'data' => $client,'message'=>'Scheme Deleted Successfully.'), 200); 
+                   $client= MutualFund::where('id', $data['mutual_id'])->update(['isdelete'=>1]);
+                     return Response::json(array( 'success' => true,'data' => $client,'message'=>'Mutual Fund Deleted Successfully.'), 200); 
                  }
              } catch (\Exception $e) {
                
@@ -894,9 +894,12 @@ class ApiController extends Controller
                  if(isset($data['plan_id']))
                  {
                     $list=$list->where('id',$data['plan_id'])->first();
+                 }else if(isset($data['scheme_id']) && isset($data['purchase_date']))
+                 {
+                    $list=$list->where('id',$data['scheme_id'])->orderBy('updated_at', 'desc')->first();
                  }
                  else{
-                    $list=$list->where('fund_id',$data['amc_id'])->orderBy('created_at', 'desc')->groupBy('scheme_name')->get();
+                    $list=$list->where('fund_id',$data['amc_id'])->orderBy('updated_at', 'desc')->groupBy('scheme_name')->get();
                  }
                
                  return Response::json(array( 'success' => true,'data' => $list,'message'=>'AMC Plans.'), 200); 

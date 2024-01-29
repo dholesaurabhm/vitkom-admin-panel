@@ -104,16 +104,17 @@ function amc_list()
 });
 }
 
-function amcplan_list(amc_id=null)
+function amcplan_list(data={})
 {
   console.log(amc_id)
   $.ajax({
   url: base_url+"getamc_plan",
   type: "POST",
-  data:{amc_id:amc_id},
+  data:data,
   success: function(result){
       console.log(result);
       var list = $(".amcplan_list");
+      list.empty();
       list.append(new Option('Please Select Scheme',''))
       $.each(result.data, function(index, item) {
         list.append(`<option value="${item.id}" data-nav="${item.nav}" data-scheme_name="${item.scheme_name}">${item.scheme_name}</option>`);
