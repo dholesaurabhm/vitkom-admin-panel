@@ -49,3 +49,7 @@ Route::post('mutual_fund/update/{id}', [App\Http\Controllers\ApiController::clas
 
 Route::post('getamc', [App\Http\Controllers\ApiController::class, 'getamc']);
 Route::post('getamc_plan', [App\Http\Controllers\ApiController::class, 'getamc_plan']);
+
+Route::post('importTransaction', [App\Http\Controllers\ApiController::class, 'importTransaction']);
+Route::post('listImportTransaction', [App\Http\Controllers\ApiController::class, 'listImportTransaction']);
+Route::post('deleteTransaction', [App\Http\Controllers\ApiController::class, 'deleteTransaction']);

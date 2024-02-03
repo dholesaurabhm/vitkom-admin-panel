@@ -48,17 +48,17 @@ function showclientmodel()
 
 function saveclient()
         {
-          if($('#name').val() !='' && $('#email').val() !='' && $('#mobile_no').val() !='' && $('#pan_no').val() !='' && $('#aadhar_no').val() !='' && $('#dob').val() !='' && $('#gender').val() !='')
+          if($('#name').val() !='' && $('#email').val() !='' && $('#mobile_no').val() !='' && $('#pan_no').val() !='' && $('#dob').val() !='')
           {
             if ($('#mobile_no').val() === '' || !$('#mobile_no').val().match(/^[7-9][0-9]{9}$/)) {
                 toast_error('Please enter a valid Mobile Number (e.g., XXXXXXXX)');
                 return false;
             }
-            var aadhar_regex = /(^[0-9]{4}[0-9]{4}[0-9]{4}$)|(^[0-9]{4}\s[0-9]{4}\s[0-9]{4}$)|(^[0-9]{4}-[0-9]{4}-[0-9]{4}$)/;
-            if (!aadhar_regex.test($("#aadhar_no").val())) {
-                toast_error("Please Enter Valid Aadhar card No.");
-                return false;
-            }
+            // var aadhar_regex = /(^[0-9]{4}[0-9]{4}[0-9]{4}$)|(^[0-9]{4}\s[0-9]{4}\s[0-9]{4}$)|(^[0-9]{4}-[0-9]{4}-[0-9]{4}$)/;
+            // if (!aadhar_regex.test($("#aadhar_no").val())) {
+            //     toast_error("Please Enter Valid Aadhar card No.");
+            //     return false;
+            // }
             var pan_regex = /^([a-zA-Z]){5}([0-9]){4}([a-zA-Z]){1}?$/;
             if (!pan_regex.test($("#pan_no").val())) {
                 toast_error("Please Enter Valid PAN card No.");

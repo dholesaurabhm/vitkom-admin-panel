@@ -33,7 +33,7 @@ $( document ).ready(function() {
 });
 
 $('#amc_id').change(function() {
-  amcplan_list($('#mutualfund_form').serialize());
+  amcplan_list({amc_id:$('#amc_id').val()});
 });
 
 $('#scheme_id').change(function() {
@@ -46,6 +46,7 @@ $('#scheme_id').change(function() {
 $('#purchase_date').change(function() {
   if($('#amc_id').val() !='' && $('#scheme_id').val() !='' && $('#purchase_date').val() !='')
   {
+    console.log('calling am')
     amcplan($('#mutualfund_form').serialize());
   }
   else{

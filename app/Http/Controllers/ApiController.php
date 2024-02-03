@@ -13,6 +13,10 @@ use App\Models\SchemeMaster;
 use App\Models\FundMaster;
 use App\Models\FundPlan;
 use App\Models\MutualFund;
+use App\Models\TransactionFile;
+use App\Models\TransactionReport;
+use App\Imports\ImportTransaction;
+use Maatwebsite\Excel\Facades\Excel;
 
 class ApiController extends Controller
 {
@@ -215,9 +219,9 @@ class ApiController extends Controller
                 'email'=>'required',
                 'mobile_no'=>'required',
                 'pan_no'=>'required',
-                'aadhar_no'=>'required',
+              //  'aadhar_no'=>'required',
                 'dob'=>'required',
-                'gender'=>'required'
+              //  'gender'=>'required'
             );
             $messages = [
             'required' => 'The :attribute field is required.',
@@ -237,9 +241,9 @@ class ApiController extends Controller
                 $client->email=$data['email'];
                 $client->mobile_no=$data['mobile_no'];
                 $client->pan_no=$data['pan_no'];
-                $client->aadhar_no=$data['aadhar_no'];
+                $client->aadhar_no=$data['aadhar_no'] ??'';
                 $client->dob=$data['dob'];
-                $client->gender=$data['gender'];
+                $client->gender=$data['gender'] ?? '';
                 $client->isdelete=0;
                 $client->save();
                 return Response::json(array( 'success' => true,'data' => $client,'message'=>'Client Added Successfully.'), 200); 
@@ -261,9 +265,9 @@ class ApiController extends Controller
                 'email'=>'required',
                 'mobile_no'=>'required',
                 'pan_no'=>'required',
-                'aadhar_no'=>'required',
+               // 'aadhar_no'=>'required',
                 'dob'=>'required',
-                'gender'=>'required',
+               // 'gender'=>'required',
             );
             $messages = [
             'required' => 'The :attribute field is required.',
@@ -278,7 +282,7 @@ class ApiController extends Controller
             ), 400); 
             }
             else{
-                Client::where('id',$id)->update(['name'=>$data['name'],'email'=>$data['email'],'mobile_no'=>$data['mobile_no'],'pan_no'=>$data['pan_no'],'aadhar_no'=>$data['aadhar_no'],'dob'=>$data['dob'],'gender'=>$data['gender']]);
+                Client::where('id',$id)->update(['name'=>$data['name'],'email'=>$data['email'],'mobile_no'=>$data['mobile_no'],'pan_no'=>$data['pan_no'],'aadhar_no'=>$data['aadhar_no'] ??'','dob'=>$data['dob'],'gender'=>$data['gender'] ??'']);
                 return Response::json(array( 'success' => true,'data' => $data,'message'=>'Client Updated Successfully.'), 200); 
             }
           
@@ -909,5 +913,191 @@ class ApiController extends Controller
              }
          }
    
-   
+         
+         public function importTransaction(Request $request)
+         {
+             try {
+                ini_set('max_execution_time', 72000);
+                $data=$request->all();
+                $rules = array(
+                    'user_id'=>'required',
+                    'file_type'=>'required',
+                    'transaction_file'=>'required|mimes:csv'
+                );
+                $messages = [
+                'required' => 'The :attribute field is required.',
+                ];
+                $validator = Validator::make($request->all(), $rules,$messages);
+                
+                if ($validator->fails()) {
+                    return Response::json(array(
+                    'success' => false,
+                    'errors' => $validator->getMessageBag()->toArray(),
+                    'message'=>"Please Fill All Details"
+                ), 400); 
+                }
+                else{
+                    if ($request->hasFile('transaction_file')){
+                       $file = $request->file('transaction_file');
+                       $extension = $file->getClientOriginalExtension(); // you can also use file name
+                       $fileName = $data['file_type'].'_'.time().'.'.$extension;
+                       $path = public_path().'/transactionfiles';
+                       $uplaod = $file->move($path,$fileName);
+                    }
+                    $trans=new TransactionFile();
+                    $trans->user_id=$data['user_id'];
+                    $trans->file_type=$data['file_type'];
+                    $trans->file_path='transactionfiles/'.$fileName;
+                    $trans->isdelete=0;
+                    $trans->save();
+                    $list=Excel::toArray(new ImportTransaction, $path.'/'.$fileName);
+                    
+                    if($data['file_type']=='1')
+                    {
+                      $report=$this->savePurchase($trans->id,$list[0]);
+                    }else if($data['file_type']=='2'){
+                        $report=$this->saveRedemption($trans->id,$list[0]);
+                    }
+                    return Response::json(array( 'success' => true,'data' => $report,'message'=>'Transaction File Uploaded Successfully.'), 200); 
+                } 
+             } catch (\Exception $e) {
+               
+                 return $e->getMessage();
+             }
+         }
+
+
+         public function savePurchase($id,$data)
+         {
+             try {
+                $data=array_slice($data,1);
+                 foreach($data as $k=>$v)
+                 {
+                    $client=Client::where('pan_no',$v[5])->first();
+                    $pur=new TransactionReport();
+                    $pur->trxn_type=1;
+                    $pur->trxn_mode=$v[1];
+                    $pur->employee_name=$v[2];
+                    $pur->group_name=$v[3];
+                    $pur->invester=$v[4];
+                    $pur->inverster_id=$client !=null ? $client->id:'';
+                    $pur->pan_no=$v[5];
+                    $pur->type=$v[6];
+                    $pur->trxn_date=date("Y-m-d", strtotime($v[7]));
+                    $pur->folio_no=$v[8];
+                    $pur->scheme=$v[9];
+                    $pur->nav=str_replace( ',', '', $v[10] );
+                    $pur->no_units=str_replace( ',', '', $v[11] );
+                    $pur->gross_amount=str_replace( ',', '', $v[12] );
+                    $pur->stamp_duty=str_replace( ',', '', $v[13] );
+                    $pur->broker_charge=str_replace( ',', '', $v[14] );
+                    $pur->trxn_charge=str_replace( ',', '', $v[15] );
+                    $pur->invest_amount=str_replace( ',', '', $v[16] );
+                    $pur->balance_unit=str_replace( ',', '', $v[17] );
+                    $pur->post_Date=date("Y-m-d", strtotime($v[18]));
+                    $pur->tr_no=$v[19];
+                    $pur->isin=$v[1];
+                    $pur->demat_account=substr($v[8], 0, 1) === '*' ? 'Yes':'No';
+                    $pur->isdelete=0;
+                    $pur->file_id=$id;
+                    $pur->save();
+                 }
+                 return "Purchase Report Uploaded";
+             } catch (\Exception $e) {
+               
+                 return $e->getMessage();
+             }
+         }
+
+         public function saveRedemption($id,$data)
+         {
+             try {
+                $data=array_slice($data,1);
+                 foreach($data as $k=>$v)
+                 {
+                    $client=Client::where('pan_no',$v[5])->first();
+                    $pur=new TransactionReport();
+                    $pur->trxn_type=2;
+                    $pur->trxn_mode=$v[1];
+                    $pur->employee_name=$v[2];
+                    $pur->group_name=$v[3];
+                    $pur->invester=$v[4];
+                    $pur->inverster_id=$client !=null ? $client->id:'';
+                    $pur->pan_no=$v[5];
+                    $pur->type=$v[6];
+                    $pur->trxn_date=date("Y-m-d", strtotime($v[7]));
+                    $pur->folio_no=$v[8];
+                    $pur->scheme=$v[9];
+                    $pur->nav=str_replace( ',', '', $v[10] );
+                    $pur->no_units=str_replace( ',', '', $v[11] );
+                    $pur->exit_load=str_replace( ',', '', $v[12] );
+                    $pur->stt=str_replace( ',', '', $v[13] );
+                    $pur->tds=str_replace( ',', '', $v[14] );
+                    $pur->broker_charge=str_replace( ',', '', $v[15] );
+                    $pur->invest_amount=str_replace( ',', '', $v[16] );
+                    $pur->post_Date=date("Y-m-d", strtotime($v[17]));
+                    $pur->tr_no=$v[18];
+                    $pur->isin=$v[1];
+                    $pur->demat_account=substr($v[8], 0, 1) === '*' ? 'Yes':'No';
+                    $pur->isdelete=0;
+                    $pur->file_id=$id;
+                    $pur->save();
+                 }
+                 return "Done";
+             } catch (\Exception $e) {
+               
+                 return $e->getMessage();
+             }
+         }
+
+         public function listImportTransaction(Request $request)
+         {
+             try {
+                $data=$request->all();
+                $query=TransactionFile::select('transaction_files.id','users.name as user_name','file_path',DB::raw('DATE_FORMAT(transaction_files.created_at, "%d-%m-%Y %H:%i:%s")as trans_date'),DB::raw('replace(replace(file_type, 1, "Pruchase"),2,"Redemption")as report_type'))->leftJoin('users', 'users.id', '=', 'transaction_files.user_id')->where('transaction_files.isdelete',0)->orderBy('transaction_files.created_at','DESC');
+                // if($request->search['value'])
+                // {
+                //     $query=$query->where('scheme_name','like', '%' . $request->search['value'] . '%');
+                //     $query=$query->orwhere('folio_no','like', '%' . $request->search['value'] . '%');
+                //     $query=$query->orwhere('plan','like', '%' . $request->search['value'] . '%');
+                // }
+                $count=$query->count();
+                $list=$query->skip($data['start'])->take($data['length'])->get();
+               
+                return response()->json(['recordsTotal' => $count,'recordsFiltered' =>$count ,'data'=>$list]);
+             } catch (\Exception $e) {
+               
+                 return $e->getMessage();
+             }
+         }
+
+         public function deleteTransaction(Request $request)
+         {
+             try {
+                 $data=$request->all();
+                 $rules = array(
+                     'transaction_id'=>'required'
+                 );
+                 $messages = [
+                 'required' => 'The :attribute field is required.',
+                 ];
+                 $validator = Validator::make($request->all(), $rules,$messages);
+                 
+                 if ($validator->fails()) {
+                     return Response::json(array(
+                     'success' => false,
+                     'errors' => $validator->getMessageBag()->toArray(),
+                     'message'=>"Please Fill All Details"
+                 ), 400); 
+                 }
+                 else{
+                   $trans= TransactionFile::where('id', $data['transaction_id'])->update(['isdelete'=>1]);
+                     return Response::json(array( 'success' => true,'data' => $trans,'message'=>'Transaction File Deleted Successfully.'), 200); 
+                 }
+             } catch (\Exception $e) {
+               
+                 return $e->getMessage();
+             }
+         }
+
 }
