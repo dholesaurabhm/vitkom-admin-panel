@@ -2,8 +2,4 @@ Sr. No.,Trxn Mode,Partner/Employee,Group,Investor,PAN,Type,Redemption Date,Folio
 (Rs.)","STT
 (Rs.)","TDS
 (Rs.)","Broker Charges
-(Rs.)",Amount(?),Post Date,Tr. No.
-,,,,,,,,,,,,,,,,,,
-,,,,,,,,,,,,,,,,,,
-,,,,,,,,,,,,,,,,,,
-,,,,,,,,,,,,,,,,,,
+(Rs.)",Amount(?),Post Date,Tr. No.,ISIN
