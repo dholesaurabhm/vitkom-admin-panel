@@ -8,8 +8,8 @@ function showreportmodel(form)
 
 function savefile(form_name)
 {
-    var form_type=$('#'+form_name+' [name=file_type]').val();
-    var formData = new FormData($('#'+form_name)[0]);
+    var form_type=$('#'+form_name+'Form [name=file_type]').val();
+    var formData = new FormData($('#'+form_name+'Form')[0]);
   if(form_type !='')
   {
     url=base_url+"importTransaction"
@@ -24,9 +24,9 @@ function savefile(form_name)
               console.log("ajax data=", result)
               if(result.success==true)
               {
-                  $('#user_table').DataTable().ajax.reload();
+                  $('#import_table').DataTable().ajax.reload();
               }      
-             $('#userModel').modal('hide');
+             $('#'+form_name+'Model').modal('hide');
              toast_success(result.message)
           },
           error: function(xhr, status, error) {

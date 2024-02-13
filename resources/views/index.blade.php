@@ -1,6 +1,7 @@
 @extends('layouts.master')
 @section('title') @lang('translation.dashboards') @endsection
 @section('css')
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" type="text/css" />
 <style>
 .client_row{
     padding: 5px !important;
@@ -138,14 +139,20 @@
 
                         <div class="card-header p-0 border-0 bg-light-subtle">
                             <div class="row text-center">
-                                <div class="col-sm-12">
-                                    <div>
-                                        <div class="input-group" style="padding: 10px;">
-                                            <input type="text" class="form-control" aria-label="Recipient's username" aria-describedby="button-addon2" name="search" id="search">
-                                            <button class="btn btn-outline-success" type="button" id="button-addon2" onclick="getclient()">Search</button>
+                               
+                                    <div class="col-sm-8 text-start px-4">
+                                        <div class="input-group">
+                                            <select class="form-select client_list js-example-data-array"  aria-label="Default select example" name="search" id="search">
+                                                <option value="">Please Client Name</option>
+                                            </select>
+                                            {{-- <input type="text" class="form-control" aria-label="Recipient's username" aria-describedby="button-addon2" name="search" id="search"> --}}
+                                            
                                         </div>
                                     </div>
-                                </div>
+                                    <div class="col-sm-4 text-start">
+                                        <button class="btn btn-outline-success" type="button" id="button-addon2" onclick="getclientlist()">Search</button>
+                                    </div>
+                               
                             </div>
                         </div>
 
@@ -171,12 +178,18 @@
 @section('script')
 <!-- apexcharts -->
 
+<!--jquery cdn-->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
 
+<!--select2 cdn-->
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
+<script src="{{ URL::asset('assets/js/pages/select2.init.js') }}"></script>
 <script src="{{ URL::asset('/assets/js/app.min.js') }}"></script>
 <script src="{{ URL::asset('/assets/js/dashboard.js') }}"></script>
 <script>
     $(document).ready(function(){
-       // getclient()
+        getclient()
     });
     </script>  
 @endsection

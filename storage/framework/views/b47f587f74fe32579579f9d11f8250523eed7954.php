@@ -74,7 +74,7 @@
                         <div class="col-sm-12">
                             <div class="hstack gap-2 justify-content-end">
                                 <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
-                                <button type="button" class="btn btn-primary" onclick="savefile('purchaseForm')">Submit</button>
+                                <button type="button" class="btn btn-primary" onclick="savefile('purchase')">Submit</button>
                             </div>
                         </div>
                         <!--end col-->
@@ -110,7 +110,7 @@
                         <div class="col-sm-12">
                             <div class="hstack gap-2 justify-content-end">
                                 <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
-                                <button type="button" class="btn btn-primary" onclick="savefile('redemptionForm')">Submit</button>
+                                <button type="button" class="btn btn-primary" onclick="savefile('redemption')">Submit</button>
                             </div>
                         </div>
                         <!--end col-->

@@ -42,3 +42,5 @@ Route::get('user_dashboard/{id}', [App\Http\Controllers\HomeController::class, '
 
 Route::get('/getschemeReport', [App\Http\Controllers\ApiController::class, 'getschemeReport'])->name('getschemeReport');
 
+Route::get('/calculateFund/{id}', [App\Http\Controllers\ApiController::class, 'calculateFund'])->name('calculateFund');
+

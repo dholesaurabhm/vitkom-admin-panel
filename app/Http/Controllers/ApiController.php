@@ -12,6 +12,7 @@ use App\Models\InsurerMaster;
 use App\Models\SchemeMaster;
 use App\Models\FundMaster;
 use App\Models\FundPlan;
+use App\Models\FundISIN;
 use App\Models\MutualFund;
 use App\Models\TransactionFile;
 use App\Models\TransactionReport;
@@ -45,7 +46,7 @@ class ApiController extends Controller
                 'email'=>'required',
                 'password'=>'required',
                 'joining_date'=>'required',
-                'end_date'=>'required',
+               // 'end_date'=>'required',
                 'status'=>'required',
             );
             $messages = [
@@ -66,7 +67,7 @@ class ApiController extends Controller
                 $user->email=$data['email'];
                 $user->password=Hash::make($data['password']);
                 $user->joining_date=$data['joining_date'];
-                $user->end_date=$data['end_date'];
+                $user->end_date=$data['end_date'] ??'';
                 $user->status=$data['status'];
                 $user->normal_password=$data['password'];
                 $user->save();
@@ -107,7 +108,7 @@ class ApiController extends Controller
                 'email'=>'required',
                 'password'=>'required',
                 'joining_date'=>'required',
-                'end_date'=>'required',
+                //'end_date'=>'required',
                 'status'=>'required',
             );
             $messages = [
@@ -123,7 +124,7 @@ class ApiController extends Controller
             ), 400); 
             }
             else{
-                User::where('id',$id)->update(['name'=>$data['name'],'email'=>$data['email'],'password'=>Hash::make($data['password']),'normal_password'=>$data['password'],'joining_date'=>$data['joining_date'],'end_date'=>$data['end_date'],'status'=>$data['status']]);
+                User::where('id',$id)->update(['name'=>$data['name'],'email'=>$data['email'],'password'=>Hash::make($data['password']),'normal_password'=>$data['password'],'joining_date'=>$data['joining_date'],'end_date'=>$data['end_date'] ??'','status'=>$data['status']]);
                 return Response::json(array( 'success' => true,'data' => $data,'message'=>'User Updated Successfully.'), 200); 
             }
           
@@ -325,9 +326,13 @@ class ApiController extends Controller
             }
             else{
                 $list=Client::select('id','name','email','mobile_no');
-                if($data['search'])
+                if(isset($data['search']))
                 {
                     $list=$list->where('name','like', '%' . $data['search'] . '%');
+                }
+                if(isset($data['limit']))
+                {
+                    $list=$list->take($data['limit']);
                 }
                 $list=$list->get();
             }
@@ -650,7 +655,7 @@ class ApiController extends Controller
        {
            try {
             ini_set('max_execution_time', 72000);
-            $current_timestamp = date('dmYHis');
+            $current_timestamp =isset($request->start_date)? date('dmYHis',strtotime($request->start_date)): date('dmYHis');
             $file="https://www.amfiindia.com/spages/NAVAll.txt?t=".$current_timestamp;
             $doc=file_get_contents($file);
 
@@ -670,18 +675,33 @@ class ApiController extends Controller
                         echo '<br>Name: '.$check[0].$fund_id; 
                     }
                     else{
-                        
-                        $plan=FundPlan::create([
-                            'fund_id'=>$fund_id,
-                            'scheme_code'=>$check[0] ??'-',
-                            'isin_code'=>$check[1] ??'-',
-                            'isin_reinvestment'=>$check[2] ?? '-',
-                            'scheme_name'=>$check[3] ??'-',
+                        $plan = FundPlan::firstOrNew(array('isin_code' => $check[1]));
+                        $plan->fund_id = $fund_id;
+                        $plan->scheme_code = $check[0] ??'-';
+                        $plan->isin_code = $check[1] ??'-';
+                        $plan->isin_reinvestment = $check[2] ?? '-';
+                        $plan->scheme_name =$check[3] ??'-';
+                        $plan->nav = $check[4] ??'-';
+                        $plan->plan_date = date('Y-m-d', strtotime($check[5])) ??'-';
+                        $plan->response = $v;
+                        $plan->save();
+                        // $plan=FundPlan::create([
+                        //     'fund_id'=>$fund_id,
+                        //     'scheme_code'=>$check[0] ??'-',
+                        //     'isin_code'=>$check[1] ??'-',
+                        //     'isin_reinvestment'=>$check[2] ?? '-',
+                        //     'scheme_name'=>$check[3] ??'-',
+                        //     'nav'=>$check[4] ??'-',
+                        //     'plan_date'=>date('Y-m-d', strtotime($check[5])) ??'-',
+                        //     'response'=>$v,
+                        // ]);
+                        $isin=FundISIN::create([
+                            'isin'=>$check[1] ??'-',
                             'nav'=>$check[4] ??'-',
                             'plan_date'=>date('Y-m-d', strtotime($check[5])) ??'-',
                             'response'=>$v,
                         ]);
-                        echo '<br>Fundid: '.$fund_id.'- Data'.$check[0].$check[1].$check[2].$check[3].$check[4].$check[5];
+                       
                     }
                 }
             }
@@ -705,9 +725,10 @@ class ApiController extends Controller
                      'amc_id'=>'required',
                      'scheme_name'=>'required',
                      'scheme_id'=>'required',
+                     'isin'=>'required',
                      'folio_no'=>'required',
                      'plan'=>'required',
-                     'purchase_date'=>'required',
+                   //  'purchase_date'=>'required',
                      'nav'=>'required',
                      'invested_amount'=>'required',
                      'current_unit'=>'required',
@@ -733,9 +754,10 @@ class ApiController extends Controller
                      $insm->amc_id=$data['amc_id'];
                      $insm->scheme_name=$data['scheme_name'];
                      $insm->scheme_id=$data['scheme_id'];
+                     $insm->isin=$data['isin'];
                      $insm->folio_no=$data['folio_no'];
                      $insm->plan=$data['plan'];
-                     $insm->purchase_date=$data['purchase_date'];
+                    // $insm->purchase_date=$data['purchase_date'];
                      $insm->nav=$data['nav'];
                      $insm->invested_amount=$data['invested_amount'];
                      $insm->current_unit=$data['current_unit'];
@@ -763,9 +785,10 @@ class ApiController extends Controller
                     'amc_id'=>'required',
                     'scheme_name'=>'required',
                     'scheme_id'=>'required',
+                    'isin'=>'required',
                     'folio_no'=>'required',
                     'plan'=>'required',
-                    'purchase_date'=>'required',
+                  //  'purchase_date'=>'required',
                     'nav'=>'required',
                     'invested_amount'=>'required',
                     'current_unit'=>'required',
@@ -786,7 +809,7 @@ class ApiController extends Controller
                  ), 400); 
                  }
                  else{
-                    MutualFund::where('id',$id)->update(['client_id'=>$data['client_id'],'amc_id'=>$data['amc_id'],'scheme_id'=>$data['scheme_id'],'scheme_name'=>$data['scheme_name'],'folio_no'=>$data['folio_no'],'plan'=>$data['plan'],'purchase_date'=>$data['purchase_date'],'nav'=>$data['nav'],'invested_amount'=>$data['invested_amount'],'current_unit'=>$data['current_unit'],'current_value'=>$data['current_value'],'current_nav'=>$data['current_nav'],'profit_loss'=>$data['profit_loss']]);
+                    MutualFund::where('id',$id)->update(['client_id'=>$data['client_id'],'amc_id'=>$data['amc_id'],'scheme_id'=>$data['scheme_id'],'scheme_name'=>$data['scheme_name'],'isin'=>$data['isin'],'folio_no'=>$data['folio_no'],'plan'=>$data['plan'],'nav'=>$data['nav'],'invested_amount'=>$data['invested_amount'],'current_unit'=>$data['current_unit'],'current_value'=>$data['current_value'],'current_nav'=>$data['current_nav'],'profit_loss'=>$data['profit_loss']]);
                   return Response::json(array( 'success' => true,'data' => $data,'message'=>'Mutual Fund Updated Successfully.'), 200); 
                  }
                
@@ -822,11 +845,13 @@ class ApiController extends Controller
          {
              try {
                  $data=$request->all();
-                 $list=MutualFund::select('mutual_funds.id','amc_id','scheme_name','scheme_id','plan','folio_no','purchase_date','nav','invested_amount','current_unit','current_value','current_nav','profit_loss')->leftJoin('fund_master', 'fund_master.id', '=', 'mutual_funds.amc_id')->where('mutual_funds.isdelete',0);
+                 $list=MutualFund::select('mutual_funds.id','client_id','amc_id','scheme_name','scheme_id','isin','plan','folio_no','purchase_date','nav','invested_amount','current_unit','current_value','current_nav','profit_loss')->leftJoin('fund_master', 'fund_master.id', '=', 'mutual_funds.amc_id')->where('mutual_funds.isdelete',0);
                  
                  if(isset($data['mutual_id']))
                  {
                     $list=$list->where('mutual_funds.id',$data['mutual_id'])->first();
+                    $report=TransactionReport::select(DB::raw('replace(replace(trxn_type, 1, "Pruchase"),2,"Redemption")as report_type'),'trxn_date','nav','invest_amount','no_units','stamp_duty','balance_unit')->where('client_id',$list->client_id)->where('isin',$list->isin)->where('folio_no',$list->folio_no)->where('isdelete',0)->get();
+                    $list['report']=$report;
                  }
                  else{
                     $list=$list->get();
@@ -872,7 +897,7 @@ class ApiController extends Controller
          {
              try {
                  $data=$request->all();
-                 $list=FundMaster::select('id','name')->where('isdelete',0);
+                 $list=FundMaster::select('id','name')->where('isdelete',0)->where('name', 'not like', "%open%");
                  
                  if(isset($data['amc_id']))
                  {
@@ -979,12 +1004,12 @@ class ApiController extends Controller
                     $pur->trxn_mode=$v[1] ?? '';
                     $pur->employee_name=$v[2] ??'';
                     $pur->group_name=$v[3] ??'';
-                    $pur->invester=$v[4] ??'';
-                    $pur->inverster_id=$client !=null ? $client->id:'';
+                    $pur->client=$v[4] ??'';
+                    $pur->client_id=$client !=null ? $client->id:'';
                     $pur->pan_no=$v[5]?? '';
                     $pur->type=$v[6]?? '';
                     $pur->trxn_date=date("Y-m-d", strtotime($v[7]));
-                    $pur->folio_no=$v[8]?? '';
+                    $pur->folio_no=str_replace( '*', '', $v[8] )?? '';
                     $pur->scheme=$v[9]?? '';
                     $pur->nav=str_replace( ',', '', $v[10] );
                     $pur->no_units=str_replace( ',', '', $v[11] );
@@ -1002,6 +1027,28 @@ class ApiController extends Controller
                     $pur->file_id=$id;
                     $pur->save();
                  }
+                 $funds=TransactionReport::where('file_id',$id)->where('isdelete',0)->groupBy(['client_id','folio_no','isin'])->get();
+                 foreach($funds as $k=>$v)
+                 {
+                    $amc=FundPlan::where('isin_code',$v->isin)->orderBy('updated_at', 'DESC')->first();
+                    if($amc)
+                    {
+                        $insm = MutualFund::firstOrNew(array('client_id' => $v->client_id,'folio_no'=>$v->folio_no,'isin'=>$v->isin));
+                        $insm->client_id=$v->client_id;
+                        $insm->amc_id=$amc->fund_id;
+                        $insm->scheme_name=$amc->scheme_name;
+                        $insm->scheme_id=$amc->id;
+                        $insm->isin=$amc->isin_code;
+                        $insm->folio_no=$v->folio_no;
+                        $insm->plan='SIP';
+                        $insm->isdelete=0;
+                        $insm->nav=$amc->nav;
+                        $insm->current_nav=$amc->nav;
+                        $insm->save();
+                        $this->calculateFund($insm->id);
+                    }
+                 }
+                 
                  return "Purchase Report Uploaded";
              } catch (\Exception $e) {
                
@@ -1021,12 +1068,12 @@ class ApiController extends Controller
                     $pur->trxn_mode=$v[1]?? '';
                     $pur->employee_name=$v[2]?? '';
                     $pur->group_name=$v[3]?? '';
-                    $pur->invester=$v[4]?? '';
-                    $pur->inverster_id=$client !=null ? $client->id:'';
+                    $pur->client=$v[4]?? '';
+                    $pur->client_id=$client !=null ? $client->id:'';
                     $pur->pan_no=$v[5]?? '';
                     $pur->type=$v[6]?? '';
                     $pur->trxn_date=date("Y-m-d", strtotime($v[7]));
-                    $pur->folio_no=$v[8]?? '';
+                    $pur->folio_no=str_replace( '*', '', $v[8] )?? '';
                     $pur->scheme=$v[9]?? '';
                     $pur->nav=str_replace( ',', '', $v[10] );
                     $pur->no_units=str_replace( ',', '', $v[11] );
@@ -1043,12 +1090,68 @@ class ApiController extends Controller
                     $pur->file_id=$id;
                     $pur->save();
                  }
+                 $funds=TransactionReport::where('file_id',$id)->where('isdelete',0)->groupBy(['client_id','folio_no','isin'])->get();
+                 foreach($funds as $k=>$v)
+                 {
+                    $amc=FundPlan::where('isin_code',$v->isin)->orderBy('updated_at', 'DESC')->first();
+                    if($amc)
+                    {
+                        $insm = MutualFund::firstOrNew(array('client_id' => $v->client_id,'folio_no'=>$v->folio_no,'isin'=>$v->isin));
+                        $insm->client_id=$v->client_id;
+                        $insm->amc_id=$amc->fund_id;
+                        $insm->scheme_name=$amc->scheme_name;
+                        $insm->scheme_id=$amc->id;
+                        $insm->isin=$amc->isin_code;
+                        $insm->folio_no=$v->folio_no;
+                        $insm->plan='SIP';
+                        $insm->isdelete=0;
+                        $insm->nav=$amc->nav;
+                        $insm->current_nav=$amc->nav;
+                        $insm->save();
+                        $this->calculateFund($insm->id);
+                    }
+                 }
                  return "Done";
              } catch (\Exception $e) {
                
                  return $e->getMessage();
              }
          }
+
+         public function calculateFund($id)
+         {
+             try {
+              
+                $fund=MutualFund::where('id',$id)->where('isdelete',0)->first();
+                $report=TransactionReport::where('client_id',$fund->client_id)->where('isin',$fund->isin)->where('folio_no',$fund->folio_no)->where('isdelete',0)->get();
+                $invested_amount=$current_unit=$current_value=$profit_loss=0;
+                foreach($report as $k=>$v)
+                 {
+                    if($v->trxn_type==1)
+                    {
+                     
+                      $invested_amount+=$v->invest_amount;
+                      $current_unit+=$v->no_units;
+                      $current_value+=$fund->nav * $v->no_units;
+                      $profit_loss+=$current_value -$invested_amount;
+                    }else if($v->trxn_type==2)
+                    {
+                        $invested_amount-=$v->invest_amount;
+                        $current_unit-=$v->no_units;
+                        $current_value-=$fund->nav * $v->no_units;
+                        $profit_loss+=$current_value -$invested_amount;
+                    }
+                 }
+                 $updatefund=MutualFund::where('id',$id)->update(['invested_amount'=>$invested_amount,'current_unit'=>$current_unit,'current_value'=>$current_value,'profit_loss'=>$profit_loss]);
+               
+                 return $updatefund;
+
+            } catch (\Exception $e) {
+               
+                return $e->getMessage();
+            }
+        }
+
 
          public function listImportTransaction(Request $request)
          {
@@ -1092,6 +1195,7 @@ class ApiController extends Controller
                  }
                  else{
                    $trans= TransactionFile::where('id', $data['transaction_id'])->update(['isdelete'=>1]);
+                   $report=TransactionReport::where('file_id',$data['transaction_id'])->update(['isdelete'=>1]);
                      return Response::json(array( 'success' => true,'data' => $trans,'message'=>'Transaction File Deleted Successfully.'), 200); 
                  }
              } catch (\Exception $e) {

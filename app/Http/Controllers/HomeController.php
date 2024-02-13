@@ -39,17 +39,10 @@ class HomeController extends Controller
     public function root()
     {
         //return Auth::user()->role;
-        if(Auth::user()->role==999)
-        {
-            $seller=Seller::where('id',Auth::user()->seller_id)->first();
-           // if($seller->)
-           if($seller->form_status==1)
-           {
-             return view('index');
-           }
-           else{
-            return view('seller_form')->with('status',0)->with('title','Add');
-           }
+        if(Auth::user()->status==0)
+        { 
+            Auth::logout();
+            return redirect('/');
            
         }
         else{

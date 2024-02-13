@@ -117,7 +117,7 @@ function amcplan_list(data={})
       list.empty();
       list.append(new Option('Please Select Scheme',''))
       $.each(result.data, function(index, item) {
-        list.append(`<option value="${item.id}" data-nav="${item.nav}" data-scheme_name="${item.scheme_name}">${item.scheme_name}</option>`);
+        list.append(`<option value="${item.id}" data-nav="${item.nav}" data-isin="${item.isin_code}" data-scheme_name="${item.scheme_name}">${item.scheme_name}</option>`);
       });
   }
 });

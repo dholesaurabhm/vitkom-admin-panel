@@ -1,4 +1,4 @@
-function getclient()
+function getclientlist()
 {
     var search=$('#search').val();
   $.ajax({
@@ -36,4 +36,25 @@ function getclient()
         toast_error(error.responseJSON.message)
      }
     });
+}
+
+
+function getclient(data={})
+{
+    var limit=20;
+    var search=$('#search').val();
+  $.ajax({
+  url: base_url+"client/show",
+  type: "POST",
+  data: {search:search,limit:limit},
+  success: function(result){
+      console.log(result);
+      var list = $(".client_list");
+      list.empty();
+      list.append(new Option('Please Select Client',''))
+      $.each(result.data, function(index, item) {
+        list.append(`<option value="${item.name}">${item.name}</option>`);
+      });
+  }
+});
 }

@@ -38,21 +38,24 @@ $('#amc_id').change(function() {
 
 $('#scheme_id').change(function() {
   var scheme_name = $('#scheme_id option:selected').data('scheme_name');
+  var isin = $('#scheme_id option:selected').data('isin');
   var current_nav = $('#scheme_id option:selected').data('nav');
   $('#scheme_name').val(scheme_name);
+  $('#isin').val(isin);
   $('#current_nav').val(current_nav);
+  $('#nav').val(current_nav);
 });
 
-$('#purchase_date').change(function() {
-  if($('#amc_id').val() !='' && $('#scheme_id').val() !='' && $('#purchase_date').val() !='')
-  {
-    console.log('calling am')
-    amcplan($('#mutualfund_form').serialize());
-  }
-  else{
-    toast_error('Please Select Scheme Name and Purchase Date');
-  }
-});
+// $('#purchase_date').change(function() {
+//   if($('#amc_id').val() !='' && $('#scheme_id').val() !='' && $('#purchase_date').val() !='')
+//   {
+//     console.log('calling am')
+//     amcplan($('#mutualfund_form').serialize());
+//   }
+//   else{
+//     toast_error('Please Select Scheme Name and Purchase Date');
+//   }
+// });
 
 function show_only_mutual_fund()
 {
@@ -107,7 +110,7 @@ function show_only_general_insurance()
 
 function savemutualfund()
         {
-          if($('#amc_id').val() !='' && $('#scheme_id').val() !='' && $('#folio_no').val() !='' && $('#joining_date').val() !='')
+          if($('#amc_id').val() !='' && $('#scheme_id').val() !='' && $('#folio_no').val() !='')
           {
               if($('#mutual_id').val() =='')
               {
@@ -190,7 +193,7 @@ function editmutual(id)
           $('#scheme_name').val(result.data.scheme_name);
           $('#folio_no').val(result.data.folio_no);
           $('#plan').val(result.data.plan);
-          $('#purchase_date').val(result.data.purchase_date);
+        //  $('#purchase_date').val(result.data.purchase_date);
           $('#nav').val(result.data.nav);
           $('#invested_amount').val(result.data.invested_amount);
           $('#current_unit').val(result.data.current_unit);
@@ -199,6 +202,21 @@ function editmutual(id)
           $('#profit_loss').val(result.data.profit_loss);
           $('#mutual_fund_modal').modal('show');
           setInterval(function () {$('#scheme_id').val(result.data.scheme_id);}, 1000);
+          let row='';
+          $.each(result.data.report, function(index, item) {
+              row+=`<tr>
+              <th scope="row">${item.report_type} </th>
+              <td>${item.trxn_date}7</td>
+              <td>${item.nav}</td>
+              <td>${item.invest_amount}</td>
+              <td>${item.no_units}</td>
+              <td>${item.stamp_duty}</td>
+              <td>${item.balance_unit}</td>
+          </tr>`;
+          });
+  
+            $('#mutual_report tbody').empty().append(row);
+
         }      
       
     },

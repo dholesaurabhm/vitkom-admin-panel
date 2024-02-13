@@ -1,9 +1,9 @@
-@extends('layouts.master')
-@section('title') @lang('translation.user_dashboard') @endsection
-@section('css')
 
-@endsection
-@section('content')
+<?php $__env->startSection('title'); ?> <?php echo app('translator')->get('translation.user_dashboard'); ?> <?php $__env->stopSection(); ?>
+<?php $__env->startSection('css'); ?>
+
+<?php $__env->stopSection(); ?>
+<?php $__env->startSection('content'); ?>
 <div class="row">
     <div class="col">
 
@@ -57,9 +57,9 @@
 					                                <thead>
 					                                    <tr>
 					                                        <th>Scheme Name</th>
-                                                            {{-- <th>Folio No</th> --}}
+                                                            
 					                                        <th>Plan</th>
-					                                        {{-- <th>Purchase Date</th> --}}
+					                                        
 					                                        <th>NAV</th>
 					                                        <th>Invested Amount</th>
 					                                        <th>Current Unit</th>
@@ -176,17 +176,9 @@
             <div class="modal-body">
                 <form id="mutualfund_form">
                     <div class="row g-3">
-                        <input type="hidden" name="client_id" id="client_id" value="{{$id}}">
+                        <input type="hidden" name="client_id" id="client_id" value="<?php echo e($id); ?>">
                         <input type="hidden" name="mutual_id" id="mutual_id" value="">
-                        {{-- <div class="col-sm-4">
-                            <div>
-                                <label for="nameInput" class="form-label">Holder Name<span class="red">*</span></label>
-                                <select class="form-select mb-2" aria-label="Default select example">
-                                  <option value="1">1</option>
-                                  <option value="2">2</option>
-                                </select>
-                            </div>
-                        </div>	 --}}
+                        
                         <div class="col-sm-4">
                             <div>
                                 <label for="insurancefirmInput" class="form-label">AMC Name<span class="red">*</span></label>
@@ -220,13 +212,7 @@
                                 </select>
                             </div>
                         </div>
-                        {{-- <div class="col-sm-4">
-                            <div>
-                                <label for="paymentInput" class="form-label">Purchase Date<span class="red">*</span></label>
-                               <input type="date" class="form-control" name="purchase_date" id="purchase_date" placeholder="datepicker-range" required>
-
-                            </div>
-                        </div> --}}
+                        
                         <div class="col-sm-4">
                             <div>
                                 <label for="schemenameInput" class="form-label">Current NAV<span class="red">*</span></label>
@@ -1050,8 +1036,8 @@
     </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
 
-@endsection
-@section('script')
+<?php $__env->stopSection(); ?>
+<?php $__env->startSection('script'); ?>
 <!-- apexcharts -->
 
 <!--datatable js-->
@@ -1065,9 +1051,9 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
 
-<!-- <script src="{{ URL::asset('/assets/js/pages/datatables.init.js') }}"></script> -->
-<script src="{{ URL::asset('/assets/js/user_dashboard.js')}}"></script>
-<script src="{{ URL::asset('/assets/js/app.min.js') }}"></script>
+<!-- <script src="<?php echo e(URL::asset('/assets/js/pages/datatables.init.js')); ?>"></script> -->
+<script src="<?php echo e(URL::asset('/assets/js/user_dashboard.js')); ?>"></script>
+<script src="<?php echo e(URL::asset('/assets/js/app.min.js')); ?>"></script>
 <script>
     $(document).ready(function(){
       var mutual_fund_table =$('#mutual_fund_table').DataTable({
@@ -1112,4 +1098,6 @@
   });
     });
 </script>
-@endsection
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('layouts.master', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH D:\xampp\htdocs\vitkom-admin-panel\resources\views/user_dashboard.blade.php ENDPATH**/ ?>
