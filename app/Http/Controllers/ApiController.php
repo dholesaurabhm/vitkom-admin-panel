@@ -823,7 +823,7 @@ class ApiController extends Controller
          {
              try {
                 $data=$request->all();
-                $query=MutualFund::where('isdelete',0);
+                $query=MutualFund::where('client_id',$data['client_id'])->where('isdelete',0);
                 if($request->search['value'])
                 {
                     $query=$query->where('scheme_name','like', '%' . $request->search['value'] . '%');
