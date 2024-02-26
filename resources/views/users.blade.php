@@ -91,11 +91,9 @@
                                                 <tr>
                                                     <th>Sr. No</th>
                                                     <th>Name</th>
-                                                
                                                     <th>Email</th>
                                                     <th>Mobile No</th>
                                                     <th>Status</th>
-                                                   
                                                     <th>Action</th>
                                                 </tr>
                                             </thead>
