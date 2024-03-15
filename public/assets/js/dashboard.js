@@ -1,6 +1,7 @@
 function getclientlist()
 {
     var search=$('#search').val();
+    console.log('call')
   $.ajax({
     type: "POST",
     url: base_url+"client/show",
@@ -46,7 +47,7 @@ function getclient(data={})
   $.ajax({
   url: base_url+"client/show",
   type: "POST",
-  data: {search:search,limit:limit},
+  data: {search:search},
   success: function(result){
       console.log(result);
       var list = $(".client_list");

@@ -1157,7 +1157,7 @@ class ApiController extends Controller
          {
              try {
                 $data=$request->all();
-                $query=TransactionFile::select('transaction_files.id','users.name as user_name','file_path',DB::raw('DATE_FORMAT(transaction_files.created_at, "%d-%m-%Y %H:%i:%s")as trans_date'),DB::raw('replace(replace(file_type, 1, "Pruchase"),2,"Redemption")as report_type'))->leftJoin('users', 'users.id', '=', 'transaction_files.user_id')->where('transaction_files.isdelete',0)->orderBy('transaction_files.created_at','DESC');
+                $query=TransactionFile::select('transaction_files.id','users.name as user_name','file_path',DB::raw('DATE_FORMAT(transaction_files.created_at, "%d-%m-%Y %h:%i %p")as trans_date'),DB::raw('replace(replace(file_type, 1, "Pruchase"),2,"Redemption")as report_type'))->leftJoin('users', 'users.id', '=', 'transaction_files.user_id')->where('transaction_files.isdelete',0)->orderBy('transaction_files.created_at','DESC');
                 // if($request->search['value'])
                 // {
                 //     $query=$query->where('scheme_name','like', '%' . $request->search['value'] . '%');
