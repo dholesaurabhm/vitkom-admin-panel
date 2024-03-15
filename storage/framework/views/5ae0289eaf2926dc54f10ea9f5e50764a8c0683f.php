@@ -1,6 +1,6 @@
-@extends('layouts.master')
-@section('title') @lang('translation.dashboards') @endsection
-@section('css')
+
+<?php $__env->startSection('title'); ?> <?php echo app('translator')->get('translation.dashboards'); ?> <?php $__env->stopSection(); ?>
+<?php $__env->startSection('css'); ?>
 <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" type="text/css" />
 <style>
 .client_row{
@@ -8,8 +8,8 @@
     border: 1px solid darkgray;
 }
     </style>
-@endsection
-@section('content')
+<?php $__env->stopSection(); ?>
+<?php $__env->startSection('content'); ?>
 <div class="row">
     <div class="col">
 
@@ -31,7 +31,7 @@
                             </div>
                             <div class="d-flex align-items-end justify-content-between mt-4">
                                 <div>
-                                    <h4 class="fs-22 fw-semibold ff-secondary mb-4"><span class="counter-value" data-target="559.25">0</span>k </h4>
+                                    <h4 class="fs-22 fw-semibold ff-secondary mb-4">$<span class="counter-value" data-target="559.25">0</span>k </h4>
                                 </div>
                                 <div class="avatar-sm flex-shrink-0">
                                     <span class="avatar-title bg-success-subtle rounded fs-3">
@@ -89,7 +89,7 @@
                             </div>
                             <div class="d-flex align-items-end justify-content-between mt-4">
                                 <div>
-                                    <h4 class="fs-22 fw-semibold ff-secondary mb-4"><span class="counter-value" data-target="183.35">0</span>K</h4>
+                                    <h4 class="fs-22 fw-semibold ff-secondary mb-4"><span class="counter-value" data-target="183.35">0</span>M </h4>
                                 </div>
                                 <div class="avatar-sm flex-shrink-0">
                                     <span class="avatar-title bg-warning-subtle rounded fs-3">
@@ -145,7 +145,7 @@
                                             <select class="form-select client_list js-example-data-array"  aria-label="Default select example" name="search" id="search">
                                                 <option value="">Please Client Name</option>
                                             </select>
-                                            {{-- <input type="text" class="form-control" aria-label="Recipient's username" aria-describedby="button-addon2" name="search" id="search"> --}}
+                                            
                                             
                                         </div>
                                     </div>
@@ -174,8 +174,8 @@
     </div> 
 </div>
 
-@endsection
-@section('script')
+<?php $__env->stopSection(); ?>
+<?php $__env->startSection('script'); ?>
 <!-- apexcharts -->
 
 <!--jquery cdn-->
@@ -184,12 +184,14 @@
 <!--select2 cdn-->
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
-<script src="{{ URL::asset('assets/js/pages/select2.init.js') }}"></script>
-<script src="{{ URL::asset('/assets/js/app.min.js') }}"></script>
-<script src="{{ URL::asset('/assets/js/dashboard.js') }}"></script>
+<script src="<?php echo e(URL::asset('assets/js/pages/select2.init.js')); ?>"></script>
+<script src="<?php echo e(URL::asset('/assets/js/app.min.js')); ?>"></script>
+<script src="<?php echo e(URL::asset('/assets/js/dashboard.js')); ?>"></script>
 <script>
     $(document).ready(function(){
         getclient()
     });
     </script>  
-@endsection
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('layouts.master', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\wamp64\www\vitkom-admin-panel\resources\views/index.blade.php ENDPATH**/ ?>
