@@ -206,7 +206,7 @@ function editmutual(id)
           $.each(result.data.report, function(index, item) {
               row+=`<tr>
               <th scope="row">${item.report_type} </th>
-              <td>${item.trxn_date}7</td>
+              <td>${item.trxn_date}</td>
               <td>${item.nav}</td>
               <td>${item.invest_amount}</td>
               <td>${item.no_units}</td>
