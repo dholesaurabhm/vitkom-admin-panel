@@ -17,7 +17,9 @@ div#medical-datatables_wrapper {
 div#general-datatables_wrapper {
     width: 100%;
 }
-
+.table-responsive.mt-4 {
+    height: 300px;
+}
 </style>
 @endsection
 @section('content')
