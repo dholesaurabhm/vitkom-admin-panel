@@ -17,7 +17,9 @@ div#medical-datatables_wrapper {
 div#general-datatables_wrapper {
     width: 100%;
 }
-
+.table-responsive.mt-4 {
+    height: 300px;
+}
 </style>
 <?php $__env->stopSection(); ?>
 <?php $__env->startSection('content'); ?>
@@ -1081,7 +1083,7 @@ div#general-datatables_wrapper {
           url: base_url+"mutual_fund/list",
           type: "POST",
           data:function(d) {
-         // d.res_id=$('[name=res_id]').val();
+          d.client_id=$('[name=client_id]').val();
       },
           },
       columns: [
