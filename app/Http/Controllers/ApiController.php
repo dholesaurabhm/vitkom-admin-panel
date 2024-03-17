@@ -590,8 +590,15 @@ class ApiController extends Controller
        {
            try {
                $data=$request->all();
-               $list=SchemeMaster::select('scheme_master.id','scheme_type','insurer_id','scheme_name','nav','insurer_master.company_name',DB::raw('replace(replace(replace(insurance_type, 1, "LIFE INSURANCE"),2,"HEALTH INSURANCE"),3,"GENERAL INSURANCE")as insurance_name'))->leftJoin('insurer_master', 'insurer_master.id', '=', 'scheme_master.insurer_id')->where('scheme_master.isdelete',0)->orderBy('scheme_master.created_at','DESC')->get();
-               $count=SchemeMaster::where('isdelete',0)->count();
+               $query=SchemeMaster::select('scheme_master.id','scheme_type','insurer_id','scheme_name','nav','insurer_master.company_name',DB::raw('replace(replace(replace(insurance_type, 1, "LIFE INSURANCE"),2,"HEALTH INSURANCE"),3,"GENERAL INSURANCE")as insurance_name'))->leftJoin('insurer_master', 'insurer_master.id', '=', 'scheme_master.insurer_id')->where('scheme_master.isdelete',0);
+            if($request->search['value'])
+            {
+                $query=$query->where('scheme_master.scheme_name','like', '%' . $request->search['value'] . '%');
+                $query=$query->orwhere('insurer_master.company_name','like', '%' . $request->search['value'] . '%');
+            }
+            $count=$query->count();
+            $list=$query->orderBy('scheme_master.created_at','DESC')->skip($data['start'])->take($data['length'])->get();
+
                return response()->json(['recordsTotal' => $count,'recordsFiltered' =>$count ,'data'=>$list]);
    
            } catch (\Exception $e) {
@@ -823,7 +830,7 @@ class ApiController extends Controller
          {
              try {
                 $data=$request->all();
-                $query=MutualFund::where('client_id',$data['client_id'])->where('isdelete',0);
+                $query=MutualFund::select('id','client_id','amc_id','scheme_name','scheme_id','isin','folio_no','plan','nav',DB::raw('FLOOR(invested_amount)as invested_amount'),'current_unit',DB::raw('FLOOR(current_value)as current_value'),'current_nav',DB::raw('FLOOR(profit_loss)as profit_loss'),)->where('client_id',$data['client_id'])->where('isdelete',0);
                 if($request->search['value'])
                 {
                     $query=$query->where('scheme_name','like', '%' . $request->search['value'] . '%');

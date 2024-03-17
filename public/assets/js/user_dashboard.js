@@ -210,8 +210,8 @@ function editmutual(id)
               <td>${item.nav}</td>
               <td>${item.invest_amount}</td>
               <td>${item.no_units}</td>
-              <td>${item.stamp_duty}</td>
-              <td>${item.balance_unit}</td>
+              <td>${item.stamp_duty ?? 0}</td>
+              <td>${item.balance_unit ?? 0}</td>
           </tr>`;
           });
   

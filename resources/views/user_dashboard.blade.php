@@ -1107,10 +1107,10 @@ div#general-datatables_wrapper {
           { data: 'plan' },
         //   { data: 'purchase_date'},
           { data: 'nav' },
-          { data: 'invested_amount' },
+          { data: 'invested_amount',render:function(data,type,row){return data.toLocaleString(); } },
           {data:'current_unit'},
-          {data:'current_value'},
-          {data:'profit_loss'},
+          {data:'current_value',render:function(data,type,row){return data.toLocaleString(); }},
+          {data:'profit_loss',render:function(data,type,row){return data.toLocaleString(); }},
           { data: 'id',render:function(data,type,row){ 
               return `<div class="dropdown">
                       <button class="btn btn-soft-secondary btn-sm dropdown" type="button" data-bs-toggle="dropdown" aria-expanded="false">

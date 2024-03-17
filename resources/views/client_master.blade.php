@@ -74,7 +74,7 @@
                         </div><!--end col-->
                         <div class="col-sm-6">
                             <div>
-                                <label for="dateofBirth" class="form-label">Date Of Birth </label>
+                                <label for="dateofBirth" class="form-label">Date Of Birth  <span class="text-danger">*</span></label>
                                 <input type="date" class="form-control" id="dob" name="dob" required>
                             </div>
                         </div><!--end col--> 

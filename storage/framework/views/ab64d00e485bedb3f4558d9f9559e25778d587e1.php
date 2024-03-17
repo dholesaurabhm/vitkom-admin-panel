@@ -33,7 +33,6 @@
                                 <img src="<?php echo e(URL::asset('assets/images/logo-light.png')); ?>" alt="" style="width: 135px;">
                             </a>
                         </div>
-                        
                     </div>
                 </div>
             </div>
@@ -116,13 +115,6 @@ unset($__errorArgs, $__bag); ?>
                     </div>
                     <!-- end card -->
 
-                        <div class="text-center">
-                            <script>
-                                document.write(new Date().getFullYear())
-                            </script>  Crafted with <i
-                                    class="mdi mdi-heart text-danger"></i> by <a href="https://tlpl.in/"> TLPL.in</a></p>
-                        </div>
-
                 </div>
             </div>
             <!-- end row -->
@@ -137,7 +129,7 @@ unset($__errorArgs, $__bag); ?>
             <div class="row">
                 <div class="col-lg-12">
                     <div class="text-center">
-                        <p class="mb-0 text-muted">&copy; <script>document.write(new Date().getFullYear())</script> Crafted with <i class="mdi mdi-heart text-danger"></i> by Themesbrand</p>
+                        <p class="mb-0 text-muted">&copy; <script>document.write(new Date().getFullYear())</script> Crafted with <i class="mdi mdi-heart text-danger"></i> by tlpl.in</p>
                     </div>
                 </div>
             </div>
