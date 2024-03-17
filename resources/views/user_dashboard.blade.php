@@ -20,6 +20,13 @@ div#general-datatables_wrapper {
 .table-responsive.mt-4 {
     height: 300px;
 }
+table#mutual_report td:nth-child(3),
+table#mutual_report td:nth-child(4),
+table#mutual_report td:nth-child(5),
+table#mutual_report td:nth-child(6) {
+    text-align: right !important;
+}
+
 </style>
 @endsection
 @section('content')
