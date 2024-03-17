@@ -7,6 +7,28 @@
     padding: 5px !important;
     border: 1px solid darkgray;
 }
+span.select2-selection.select2-selection--single {
+    height: 40px !important;
+    line-height: 40px;
+}
+.select2-container--default .select2-selection--single .select2-selection__rendered {
+    color: #444;
+    line-height: 40px !important;
+}
+.select2-container--default .select2-selection--single .select2-selection__arrow {
+    height: 40px;
+    position: absolute;
+    top: 1px;
+    right: 1px;
+    width: 20px;
+}
+.select2-container--default .select2-selection--single .select2-selection__arrow {
+    height: 40px;
+    position: absolute;
+    top: 1px;
+    right: 1px;
+    width: 20px;
+}
     </style>
 <?php $__env->stopSection(); ?>
 <?php $__env->startSection('content'); ?>
@@ -139,16 +161,14 @@
                         <div class="card-header p-0 border-0 bg-light-subtle">
                             <div class="row text-center">
                                
-                                    <div class="col-sm-8 text-start px-4">
+                                    <div class="col-sm-11 text-start px-4" style="padding-right: 0px !important;">
                                         <div class="input-group">
                                             <select class="form-select client_list js-example-data-array"  aria-label="Default select example" name="search" id="search">
                                                 <option value="">Please Client Name</option>
                                             </select>
-                                            
-                                            
                                         </div>
                                     </div>
-                                    <div class="col-sm-4 text-start">
+                                    <div class="col-sm-1 text-start">
                                         <button class="btn btn-outline-success" type="button" id="button-addon2" onclick="getclientlist()">Search</button>
                                     </div>
                                
