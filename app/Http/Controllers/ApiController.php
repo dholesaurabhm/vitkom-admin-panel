@@ -1203,7 +1203,18 @@ class ApiController extends Controller
                  else{
                    $trans= TransactionFile::where('id', $data['transaction_id'])->update(['isdelete'=>1]);
                    $report=TransactionReport::where('file_id',$data['transaction_id'])->update(['isdelete'=>1]);
-                     return Response::json(array( 'success' => true,'data' => $trans,'message'=>'Transaction File Deleted Successfully.'), 200); 
+
+                   $funds=TransactionReport::where('file_id',$data['transaction_id'])->where('isdelete',1)->groupBy(['client_id','folio_no','isin'])->get();
+
+                 foreach($funds as $k=>$v)
+                 {
+                    $mutul=MutualFund::where('client_id',$v->client_id)->where('folio_no',$v->folio_no)->where('isin',$v->isin)->first();
+                    if($mutul)
+                    {
+                        $this->calculateFund($mutul->id);
+                    }
+                 }
+                return Response::json(array( 'success' => true,'data' => $trans,'message'=>'Transaction File Deleted Successfully.'), 200); 
                  }
              } catch (\Exception $e) {
                
