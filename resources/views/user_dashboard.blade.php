@@ -92,9 +92,7 @@ table#mutual_report td:nth-child(6) {
 					                                <thead>
 					                                    <tr>
 					                                        <th>Scheme Name</th>
-                                                            {{-- <th>Folio No</th> --}}
 					                                        <th>Plan</th>
-					                                        {{-- <th>Purchase Date</th> --}}
 					                                        <th>NAV</th>
 					                                        <th>Invested Amount</th>
 					                                        <th>Current Unit</th>
@@ -103,6 +101,16 @@ table#mutual_report td:nth-child(6) {
 					                                        <th>Action</th>
 					                                    </tr>
 					                                </thead>
+                                                    <tfoot>
+                                                        <tr>
+                                                            <th colspan="3">Total</th>
+                                                            <th>0</th>
+                                                            <th>0</th>
+                                                            <th>0</th>
+                                                            <th>0</th>
+                                                            <th></th>
+                                                        </tr>
+                                                    </tfoot>
 					                            </table>
                                             </div>
                                         </div>

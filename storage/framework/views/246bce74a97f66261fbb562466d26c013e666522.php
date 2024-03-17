@@ -20,6 +20,22 @@ div#general-datatables_wrapper {
 .table-responsive.mt-4 {
     height: 300px;
 }
+table#mutual_fund_table td:nth-child(3),
+table#mutual_fund_table td:nth-child(4),
+table#mutual_fund_table td:nth-child(5),
+table#mutual_fund_table td:nth-child(6) {
+    text-align: right !important;
+}
+
+table#mutual_report td:nth-child(2),
+table#mutual_report td:nth-child(3),
+table#mutual_report td:nth-child(4),
+table#mutual_report td:nth-child(5),
+table#mutual_report td:nth-child(6) {
+    text-align: right !important;
+}
+
+
 </style>
 <?php $__env->stopSection(); ?>
 <?php $__env->startSection('content'); ?>
@@ -76,9 +92,7 @@ div#general-datatables_wrapper {
 					                                <thead>
 					                                    <tr>
 					                                        <th>Scheme Name</th>
-                                                            
 					                                        <th>Plan</th>
-					                                        
 					                                        <th>NAV</th>
 					                                        <th>Invested Amount</th>
 					                                        <th>Current Unit</th>
@@ -87,6 +101,16 @@ div#general-datatables_wrapper {
 					                                        <th>Action</th>
 					                                    </tr>
 					                                </thead>
+                                                    <tfooter>
+                                                        <tr>
+                                                            <th colspan="3">Total</th>
+                                                            <th>Invested Amount</th>
+                                                            <th>Current Unit</th>
+                                                            <th>Current Value</th>
+                                                            <th>Profit/Loss</th>
+                                                            <th></th>
+                                                        </tr>
+                                                    </tfooter>
 					                            </table>
                                             </div>
                                         </div>
