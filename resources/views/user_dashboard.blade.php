@@ -27,11 +27,11 @@ table#mutual_fund_table td:nth-child(6) {
     text-align: right !important;
 }
 
-table#mutual_report td:nth-child(2),
 table#mutual_report td:nth-child(3),
 table#mutual_report td:nth-child(4),
 table#mutual_report td:nth-child(5),
-table#mutual_report td:nth-child(6) {
+table#mutual_report td:nth-child(6),
+table#mutual_report td:nth-child(7) {
     text-align: right !important;
 }
 
