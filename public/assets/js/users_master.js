@@ -94,3 +94,32 @@ function showusermodel()
             });
         }
         
+        function opendeletmodel(id)
+        {
+            console.log(id)
+            $('#removeUser').modal('show');
+              $("#delete-user").replaceWith('<a href="#" class="btn btn-danger m-2" id="delete-table" onclick="deleteUser('+id+')">Yes, Delete it</a>');
+        }
+    
+        function deleteUser(id)
+          {
+              $('#removeUser').modal('hide');
+            $.ajax({
+                    type: "POST",
+                    url: base_url+"user/delete",
+                    data: {user_id:id},
+                    success: function(result) {
+                        console.log("ajax data=", result)
+                        if(result.success==true)
+                        {
+                            $('#user_table').DataTable().ajax.reload();
+                        }      
+                        toast_success(result.message)
+                    },
+                    error: function(error) {
+                        console.log(error)
+                        toast_error(error.responseJSON.message)
+                     }
+                    });
+        
+          }

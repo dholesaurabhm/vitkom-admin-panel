@@ -27,7 +27,8 @@ class User extends Authenticatable
         'joinind_date',
         'end_date',
         'role',
-        'status'
+        'status',
+        'isdelete'
     ];
 
     /**

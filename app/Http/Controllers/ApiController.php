@@ -151,8 +151,8 @@ class ApiController extends Controller
     {
         try {
             $data=$request->all();
-            $list=User::get();
-            $count=User::count();
+            $list=User::where('isdelete',0)->get();
+            $count=User::where('isdelete',0)->count();
             return response()->json(['recordsTotal' => $count,'recordsFiltered' =>$count ,'data'=>$list]);
 
         } catch (\Exception $e) {
@@ -202,7 +202,7 @@ class ApiController extends Controller
             ), 400); 
             }
             else{
-              $user= User::where('id', $data['user_id'])->delete();
+              $user= User::where('id', $data['user_id'])->update(['isdelete'=>1,'status'=>0]);
                 return Response::json(array( 'success' => true,'data' => $user,'message'=>'User Deleted Successfully.'), 200); 
             }
         } catch (\Exception $e) {
@@ -1304,12 +1304,11 @@ class ApiController extends Controller
              try {
                 $data=$request->all();
                 $query=TransactionFile::select('transaction_files.id','users.name as user_name','file_path',DB::raw('DATE_FORMAT(transaction_files.created_at, "%d-%m-%Y %h:%i %p")as trans_date'),DB::raw('replace(replace(replace(replace(file_type, 1, "Pruchase"),2,"Redemption"),3,"Life Insurance"),4,"Health Insurance")as report_type'))->leftJoin('users', 'users.id', '=', 'transaction_files.user_id')->where('transaction_files.isdelete',0)->orderBy('transaction_files.created_at','DESC');
-                // if($request->search['value'])
-                // {
-                //     $query=$query->where('scheme_name','like', '%' . $request->search['value'] . '%');
-                //     $query=$query->orwhere('folio_no','like', '%' . $request->search['value'] . '%');
-                //     $query=$query->orwhere('plan','like', '%' . $request->search['value'] . '%');
-                // }
+                if($request->search['value'])
+                {
+                    $query=$query->where('user_name','like', '%' . $request->search['value'] . '%');
+                    $query=$query->orwhere('report_type','like', '%' . $request->search['value'] . '%');
+                }
                 $count=$query->count();
                 $list=$query->skip($data['start'])->take($data['length'])->get();
                
