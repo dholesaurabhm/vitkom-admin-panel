@@ -206,14 +206,15 @@ function editmutual(id)
           $.each(result.data.report, function(index, item) {
               row+=`<tr>
               <th scope="row">${item.report_type} </th>
-              <td>${item.trxn_date}</td>
+              <td>${item.trasaction_date}</td>
               <td>${item.nav}</td>
               <td>${item.invest_amount}</td>
               <td>${item.no_units}</td>
               <td>${item.stamp_duty ?? 0}</td>
-              <td>${item.balance_unit ?? 0}</td>
+           
           </tr>`;
           });
+          //   <td>${item.balance_unit ?? 0}</td>
   
             $('#mutual_report tbody').empty().append(row);
 

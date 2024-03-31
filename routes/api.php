@@ -53,3 +53,7 @@ Route::post('getamc_plan', [App\Http\Controllers\ApiController::class, 'getamc_p
 Route::post('importTransaction', [App\Http\Controllers\ApiController::class, 'importTransaction']);
 Route::post('listImportTransaction', [App\Http\Controllers\ApiController::class, 'listImportTransaction']);
 Route::post('deleteTransaction', [App\Http\Controllers\ApiController::class, 'deleteTransaction']);
+
+Route::post('getlife_insurance', [App\Http\Controllers\ApiController::class, 'getlife_insurance']);
+Route::post('gethealth_insurance', [App\Http\Controllers\ApiController::class, 'gethealth_insurance']);
+Route::post('getgeneral_insurance', [App\Http\Controllers\ApiController::class, 'getgeneral_insurance']);

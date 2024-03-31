@@ -14,19 +14,35 @@
                     <div class="card">
                         <div class="card-header" style="padding: 10px;">
                             <div class="row g-4">
-                                <div class="col-sm-4">
+                                <div class="col-sm-3">
                                     <h5 class="card-title mb-0" style="width: 150px;clear: both;display: contents;line-height: 35px;">Import Client Data</h5> 
                                 </div>
-                                <div class="col-sm-8 text-end">
+                                <div class="col-sm-9 text-end">
                                    
-                                <button class="btn btn-success" onclick="showreportmodel('purchaseModel')"><i
-                                                class="ri-add-line align-bottom me-1"></i> Import Purchase Report</button>
-                                   
-                                <button class="btn btn-success" onclick="showreportmodel('redemptionModel')"><i
-                                            class="ri-add-line align-bottom me-1"></i> Import Redemption Report</button>
+                                
                                        
                                 </div>
                                
+                            </div>
+                            <div class="row g-4">
+                                <div class="col-md-3">
+                                     <button class="btn btn-success" onclick="showreportmodel('purchaseModel')"><i
+                                    class="ri-add-line align-bottom me-1"></i> Import Purchase Report</button>
+                                </div>
+                                    <div class="col-md-3">
+                                        <button class="btn btn-success" onclick="showreportmodel('redemptionModel')"><i
+                                        class="ri-add-line align-bottom me-1"></i> Import Redemption Report</button>
+                                    </div>
+                                    <div class="col-md-3"> 
+                                        <button class="btn btn-success" onclick="showreportmodel('lifeModel')"><i 
+                                        class="ri-add-line align-bottom me-1"></i> Import Life Insurance Report</button>
+                                    </div>
+                                    <div class="col-md-3"> 
+                                         <button class="btn btn-success" onclick="showreportmodel('healthModel')"><i
+                                        class="ri-add-line align-bottom me-1"></i> Import Health Insurance Report</button>       
+                                      </div>
+                       
+                    
                             </div>
                         </div>    
                         <div class="card-body">
@@ -111,6 +127,78 @@
                             <div class="hstack gap-2 justify-content-end">
                                 <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
                                 <button type="button" class="btn btn-primary" onclick="savefile('redemption')">Submit</button>
+                            </div>
+                        </div>
+                        <!--end col-->
+                    </div><!--end row-->
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="lifeModel" tabindex="-1" aria-labelledby="exampleModalgridLabel" aria-modal="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalgridLabel">Life Insurance Report</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="lifeForm"  enctype="multipart/form-data">
+                    <input type="hidden" name="file_type" id="file_type" value="3" class="form-control">
+                    <input type="hidden" name="user_id" id="user_id" value="<?php echo e(Auth::user()->id); ?>" class="form-control">
+                    <h4>Downlod Life Insurance Report Format - <a href="<?php echo e(url('/')); ?>/products/life_format.csv" class="btn btn-primary" target="download"><i class="ri-file-download-fill"></i> Download</a></h4>
+                    <div class="row g-3">
+                        
+                        <div class="col-sm-6">
+                            <div>
+                                <label for="redemptionreport" class="form-label">Import Life Insurance Report<span class="red">*</span></label>
+                                <input type="file" name="transaction_file" class="form-control transaction_file" id="transaction_file" required>
+                            </div>
+                        </div><!--end col-->
+                     
+                        
+                        <div class="col-sm-12">
+                            <div class="hstack gap-2 justify-content-end">
+                                <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
+                                <button type="button" class="btn btn-primary" onclick="savefile('life')">Submit</button>
+                            </div>
+                        </div>
+                        <!--end col-->
+                    </div><!--end row-->
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="healthModel" tabindex="-1" aria-labelledby="exampleModalgridLabel" aria-modal="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalgridLabel">Health Insurance Report</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="healthForm"  enctype="multipart/form-data">
+                    <input type="hidden" name="file_type" id="file_type" value="4" class="form-control">
+                    <input type="hidden" name="user_id" id="user_id" value="<?php echo e(Auth::user()->id); ?>" class="form-control">
+                    <h4>Downlod Health Insurance Report Format - <a href="<?php echo e(url('/')); ?>/products/health_format.csv" class="btn btn-primary" target="download"><i class="ri-file-download-fill"></i> Download</a></h4>
+                    <div class="row g-3">
+                        
+                        <div class="col-sm-6">
+                            <div>
+                                <label for="redemptionreport" class="form-label">Import Health Insurance Report<span class="red">*</span></label>
+                                <input type="file" name="transaction_file" class="form-control transaction_file" id="transaction_file" required>
+                            </div>
+                        </div><!--end col-->
+                     
+                        
+                        <div class="col-sm-12">
+                            <div class="hstack gap-2 justify-content-end">
+                                <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
+                                <button type="button" class="btn btn-primary" onclick="savefile('health')">Submit</button>
                             </div>
                         </div>
                         <!--end col-->

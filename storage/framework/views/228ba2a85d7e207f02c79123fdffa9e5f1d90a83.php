@@ -92,9 +92,7 @@ table#mutual_report td:nth-child(6) {
 					                                <thead>
 					                                    <tr>
 					                                        <th>Scheme Name</th>
-                                                            
 					                                        <th>Plan</th>
-					                                        
 					                                        <th>NAV</th>
 					                                        <th>Invested Amount</th>
 					                                        <th>Current Unit</th>
@@ -103,6 +101,16 @@ table#mutual_report td:nth-child(6) {
 					                                        <th>Action</th>
 					                                    </tr>
 					                                </thead>
+                                                    <tfoot>
+                                                        <tr>
+                                                            <th colspan="3">Total</th>
+                                                            <th>0</th>
+                                                            <th>0</th>
+                                                            <th>0</th>
+                                                            <th>0</th>
+                                                            <th></th>
+                                                        </tr>
+                                                    </tfoot>
 					                            </table>
                                             </div>
                                         </div>
@@ -128,7 +136,7 @@ table#mutual_report td:nth-child(6) {
 
                                         <div class="tab-pane" id="lifeinsurance" role="tabpanel">
                                             <div class="d-flex">
-					                            <table id="life-datatables" class="display table table-bordered dt-responsive" style="width:100% !important">
+					                            <table id="life_table" class="display table table-bordered dt-responsive" style="width:100% !important">
 					                                <thead>
 					                                    <tr>
 					                                        <th>Insured Person Name</th>
@@ -139,7 +147,7 @@ table#mutual_report td:nth-child(6) {
 					                                        <th>Start Date</th>
 					                                        <th>Maturity Date</th>
 					                                        <th>Premium Amount</th>
-					                                        <th>Current Value</th>
+					                                        <th>Status</th>
 					                                        <th>Action</th>
 					                                    </tr>
 					                                </thead>
@@ -149,7 +157,7 @@ table#mutual_report td:nth-child(6) {
 
                                         <div class="tab-pane" id="medicalinsurance" role="tabpanel">
                                             <div class="d-flex">
-					                            <table id="medical-datatables" class="display table table-bordered dt-responsive" style="width:100% !important">
+					                            <table id="health_table" class="display table table-bordered dt-responsive" style="width:100% !important">
 					                                <thead>
 					                                    <tr>
 					                                        <th>Insured Person Name</th>
@@ -300,7 +308,7 @@ table#mutual_report td:nth-child(6) {
                                     <th scope="col">Amount</th>
                                     <th scope="col">Units</th>
                                     <th scope="col">Stamp Duty</th>
-                                    <th scope="col">Balance Unit</th>
+                                    
                                 </tr>
                             </thead>
                             <tbody>
@@ -1130,6 +1138,91 @@ table#mutual_report td:nth-child(6) {
          
       ]
   });
+
+
+  var life_table =$('#life_table').DataTable({
+      proccessing: true,
+      serverSide: true,
+      searching: true,
+      bFilter: true,
+      ajax: {
+          url: base_url+"getlife_insurance",
+          type: "POST",
+          data:function(d) {
+          d.client_id=$('[name=client_id]').val();
+      },
+          },
+      columns: [
+         // { data: "id", render: function (data, type, row, meta) {return meta.row + meta.settings._iDisplayStart + 1;}},
+          { data: 'proposer_name' },
+          { data: 'plan_type' },
+          { data: 'policy_no' },
+          { data: 'company_name'},
+          { data: 'plan_name' },
+          { data: 'login_date', },
+          {data:'issue_date'},
+          {data:'total_permium'},
+          {data:'status'},
+          { data: 'id',render:function(data,type,row){ 
+              return `<div class="dropdown">
+                      <button class="btn btn-soft-secondary btn-sm dropdown" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                      <i class="ri-more-fill"></i>
+                      </button>
+                      <ul class="dropdown-menu dropdown-menu-end">
+                      <li><a class="dropdown-item edit-list" data-edit-id='${data}' href="#" onclick="editmutual(${data})"><i class="ri-pencil-fill align-bottom me-2 text-muted"></i> Edit</a></li>
+                      <li class="dropdown-divider"></li>
+                      <li><a class="dropdown-item remove-list" href="#" data-id='${data}' onclick="deletemodel(${data})" ><i class="ri-delete-bin-fill align-bottom me-2 text-muted"></i> Delete</a></li>
+                      </ul>
+                      </div>`
+          } 
+           },
+          
+         
+      ]
+  });
+
+
+  var health_table =$('#health_table').DataTable({
+      proccessing: true,
+      serverSide: true,
+      searching: true,
+      bFilter: true,
+      ajax: {
+          url: base_url+"gethealth_insurance",
+          type: "POST",
+          data:function(d) {
+          d.client_id=$('[name=client_id]').val();
+      },
+          },
+      columns: [
+         // { data: "id", render: function (data, type, row, meta) {return meta.row + meta.settings._iDisplayStart + 1;}},
+          { data: 'proposer_name' },
+          { data: 'plan_type' },
+          { data: 'policy_no' },
+          { data: 'company_name'},
+          { data: 'plan_name' },
+          { data: 'login_date', },
+          {data:'issue_date'},
+          {data:'total_permium'},
+          {data:'sum_assured'},
+          { data: 'id',render:function(data,type,row){ 
+              return `<div class="dropdown">
+                      <button class="btn btn-soft-secondary btn-sm dropdown" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                      <i class="ri-more-fill"></i>
+                      </button>
+                      <ul class="dropdown-menu dropdown-menu-end">
+                      <li><a class="dropdown-item edit-list" data-edit-id='${data}' href="#" onclick="editmutual(${data})"><i class="ri-pencil-fill align-bottom me-2 text-muted"></i> Edit</a></li>
+                      <li class="dropdown-divider"></li>
+                      <li><a class="dropdown-item remove-list" href="#" data-id='${data}' onclick="deletemodel(${data})" ><i class="ri-delete-bin-fill align-bottom me-2 text-muted"></i> Delete</a></li>
+                      </ul>
+                      </div>`
+          } 
+           },
+          
+         
+      ]
+  });
+
     });
 </script>
 <?php $__env->stopSection(); ?>

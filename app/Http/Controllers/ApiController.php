@@ -16,6 +16,8 @@ use App\Models\FundISIN;
 use App\Models\MutualFund;
 use App\Models\TransactionFile;
 use App\Models\TransactionReport;
+use App\Models\LifeReport;
+use App\Models\HealthReport;
 use App\Imports\ImportTransaction;
 use Maatwebsite\Excel\Facades\Excel;
 
@@ -857,7 +859,7 @@ class ApiController extends Controller
                  if(isset($data['mutual_id']))
                  {
                     $list=$list->where('mutual_funds.id',$data['mutual_id'])->first();
-                    $report=TransactionReport::select(DB::raw('replace(replace(trxn_type, 1, "Pruchase"),2,"Redemption")as report_type'),'trxn_date','nav','invest_amount','no_units','stamp_duty','balance_unit')->where('client_id',$list->client_id)->where('isin',$list->isin)->where('folio_no',$list->folio_no)->where('isdelete',0)->get();
+                    $report=TransactionReport::select(DB::raw('replace(replace(trxn_type, 1, "Pruchase"),2,"Redemption")as report_type'),DB::raw('DATE_FORMAT(trxn_date, "%d-%m-%Y")as trasaction_date'),'nav','invest_amount','no_units','stamp_duty','balance_unit')->where('client_id',$list->client_id)->where('isin',$list->isin)->where('folio_no',$list->folio_no)->where('isdelete',0)->groupBy('tr_no')->orderBy('trxn_date','ASC')->get();
                     $list['report']=$report;
                  }
                  else{
@@ -954,7 +956,7 @@ class ApiController extends Controller
                 $rules = array(
                     'user_id'=>'required',
                     'file_type'=>'required',
-                    'transaction_file'=>'required|mimes:csv'
+                    'transaction_file'=>'required'
                 );
                 $messages = [
                 'required' => 'The :attribute field is required.',
@@ -984,11 +986,17 @@ class ApiController extends Controller
                     $trans->save();
                     $list=Excel::toArray(new ImportTransaction, $path.'/'.$fileName);
                     
-                    if($data['file_type']=='1')
+                    if($data['file_type']=='1')  //Purchase
                     {
                       $report=$this->savePurchase($trans->id,$list[0]);
-                    }else if($data['file_type']=='2'){
+                    }else if($data['file_type']=='2'){  //Redemption
                         $report=$this->saveRedemption($trans->id,$list[0]);
+                    }
+                    else if($data['file_type']=='3'){  // Life
+                        $report=$this->saveLife($trans->id,$list[0]);
+                    }
+                    else if($data['file_type']=='4'){  // Health
+                        $report=$this->saveHealth($trans->id,$list[0]);
                     }
                     return Response::json(array( 'success' => true,'data' => $report,'message'=>'Transaction File Uploaded Successfully.'), 200); 
                 } 
@@ -1125,12 +1133,143 @@ class ApiController extends Controller
              }
          }
 
+         public function saveLife($id,$data)
+         {
+             try {
+                $finaldata=array_slice($data,1);
+                 foreach($finaldata as $k=>$v)
+                 {
+                    $client=Client::where('pan_no',$v[24])->first();
+                   $check_company=InsurerMaster::where('insurance_type',1)->where('company_name',$v[3])->first();
+                   $plan_id='';
+                   if($check_company) //If Company is present
+                   {
+                     $check_scheme=SchemeMaster::where('insurer_id',$check_company->id)->where('scheme_name',$v[4])->first();
+                     if($check_scheme) //Check scheme is present
+                     {
+                        $plan_id=$check_scheme->id;
+                     }
+                     else{
+                        $plan=SchemeMaster::create(['scheme_type'=>1,'insurer_id'=>$insurer->id,'scheme_name'=>$v[4],'nav'=>1]);
+                    $plan_id=$plan->id;
+                     }
+                   }
+                   else{  //If Company Name is not Present
+                    $insurer = InsurerMaster::create(['insurance_type' => 1,'company_name' => $v[3], 'isdelete' => 0 ]);
+                    $plan=SchemeMaster::create(['scheme_type'=>1,'insurer_id'=>$insurer->id,'scheme_name'=>$v[4],'nav'=>1]);
+                    $plan_id=$plan->id;
+                   }
+                   
+                    $pur=new LifeReport();
+                    $pur->client_id=$client !=null ? $client->id:'';
+                    $pur->tar_no=$v[1] ?? '';
+                    $pur->plan_type=$v[2] ?? '';
+                    $pur->company_name=$v[3] ??'';
+                    $pur->plan_name=$v[4] ??'';
+                    $pur->plan_id=$plan_id;
+                    $pur->proposer_name=$v[5]?? '';
+                    $pur->application_no=$v[6]?? '';
+                    $pur->policy_no=$v[7]?? '';
+                    $pur->sum_assured=str_replace( ',', '', $v[8] ?? 0 );
+                    $pur->gross_premium=str_replace( ',', '', $v[9]?? 0 );
+                    $pur->net_premium=str_replace( ',', '', $v[10]?? 0 );
+                    $pur->endorsement_premium=str_replace( ',', '', $v[11]?? 0 );
+                    $pur->total_permium=str_replace( ',', '', $v[12]?? 0 );
+                    $pur->permium_term=str_replace( ',', '', $v[13]?? 0 );
+                    $pur->policy_term=str_replace( ',', '', $v[14]?? 0 );
+                    $pur->mode_payment=$v[15] ?? '';
+                    $pur->login_date=date("Y-m-d", strtotime($v[16]));
+                    $pur->issue_date=date("Y-m-d", strtotime($v[17]));
+                    $pur->risk_date=date("Y-m-d", strtotime($v[18]));
+                    $pur->post_date=date("Y-m-d", strtotime($v[19]));
+                    $pur->status=$v[20]??'';
+                    $pur->reason=$v[21]??'';
+                    $pur->remark=$v[22]??'';
+                    $pur->mode=$v[23]??'';
+                    $pur->pan_no=$v[24]??'';
+                    $pur->isdelete=0;
+                    $pur->file_id=$id;
+                    $pur->save();
+                 }
+                 return "Life Report Uploaded";
+             } catch (\Exception $e) {
+               
+                 return $e->getMessage();
+             }
+         }
+
+         public function saveHealth($id,$data)
+         {
+             try {
+                $finaldata=array_slice($data,1);
+                 foreach($finaldata as $k=>$v)
+                 {
+                    $client=Client::where('pan_no',$v[25])->first();
+                   $check_company=InsurerMaster::where('company_name',$v[4])->first();
+                   $plan_id='';
+                   if($check_company) //If Company is present
+                   {
+                     $check_scheme=SchemeMaster::where('insurer_id',$check_company->id)->where('scheme_name',$v[5])->first();
+                     if($check_scheme) //Check scheme is present
+                     {
+                        $plan_id=$check_scheme->id;
+                     }
+                     else{
+                        $plan=SchemeMaster::create(['scheme_type'=>2,'insurer_id'=>$insurer->id,'scheme_name'=>$v[5],'nav'=>1]);
+                    $plan_id=$plan->id;
+                     }
+                   }
+                   else{  //If Company Name is not Present
+                    $insurer = InsurerMaster::create(['insurance_type' => 2,'company_name' => $v[4], 'isdelete' => 0 ]);
+                    $plan=SchemeMaster::create(['scheme_type'=>2,'insurer_id'=>$insurer->id,'scheme_name'=>$v[5],'nav'=>1]);
+                    $plan_id=$plan->id;
+                   }
+                   
+                    $pur=new HealthReport();
+                    $pur->client_id=$client !=null ? $client->id:'';
+                    $pur->tar_no=$v[1] ?? '';
+                    $pur->transaction_type=$v[2] ?? '';
+                    $pur->plan_type=$v[3] ?? '';
+                    $pur->company_name=$v[4] ??'';
+                    $pur->plan_name=$v[5] ??'';
+                    $pur->plan_id=$plan_id;
+                    $pur->proposer_name=$v[6]?? '';
+                    $pur->application_no=$v[7]?? '';
+                    $pur->policy_no=$v[8]?? '';
+                    $pur->sum_assured=str_replace( ',', '', $v[9] ?? 0 );
+                    $pur->gross_premium=str_replace( ',', '', $v[10]?? 0 );
+                    $pur->net_premium=str_replace( ',', '', $v[11]?? 0 );
+                    $pur->endorsement_premium=str_replace( ',', '', $v[12]?? 0 );
+                    $pur->total_permium=str_replace( ',', '', $v[13]?? 0 );
+                    $pur->login_date=date("Y-m-d", strtotime($v[14]));
+                    $pur->issue_date=date("Y-m-d", strtotime($v[15]));
+                    $pur->risk_date=date("Y-m-d", strtotime($v[16]));
+                    $pur->risk_exp_date=date("Y-m-d", strtotime($v[17]));
+                    $pur->post_date=date("Y-m-d", strtotime($v[18]));
+                    $pur->status=$v[19]??'';
+                    $pur->reason=$v[20]??'';
+                    $pur->remark=$v[21]??'';
+                    $pur->policy_copy=$v[22]?? '';
+                    $pur->mode=$v[23]??'';
+                    $pur->vehicle_no=$v[24]?? '';
+                    $pur->pan_no=$v[25]??'';
+                    $pur->isdelete=0;
+                    $pur->file_id=$id;
+                    $pur->save();
+                 }
+                 return "Health Report Uploaded";
+             } catch (\Exception $e) {
+               
+                 return $e->getMessage();
+             }
+         }
+
          public function calculateFund($id)
          {
              try {
               
                 $fund=MutualFund::where('id',$id)->where('isdelete',0)->first();
-                $report=TransactionReport::where('client_id',$fund->client_id)->where('isin',$fund->isin)->where('folio_no',$fund->folio_no)->where('isdelete',0)->get();
+                $report=TransactionReport::where('client_id',$fund->client_id)->where('isin',$fund->isin)->where('folio_no',$fund->folio_no)->where('isdelete',0)->groupBy('tr_no')->orderBy('trxn_date','ASC')->get();
                 $invested_amount=$current_unit=$current_value=$profit_loss=0;
                 foreach($report as $k=>$v)
                  {
@@ -1164,7 +1303,7 @@ class ApiController extends Controller
          {
              try {
                 $data=$request->all();
-                $query=TransactionFile::select('transaction_files.id','users.name as user_name','file_path',DB::raw('DATE_FORMAT(transaction_files.created_at, "%d-%m-%Y %h:%i %p")as trans_date'),DB::raw('replace(replace(file_type, 1, "Pruchase"),2,"Redemption")as report_type'))->leftJoin('users', 'users.id', '=', 'transaction_files.user_id')->where('transaction_files.isdelete',0)->orderBy('transaction_files.created_at','DESC');
+                $query=TransactionFile::select('transaction_files.id','users.name as user_name','file_path',DB::raw('DATE_FORMAT(transaction_files.created_at, "%d-%m-%Y %h:%i %p")as trans_date'),DB::raw('replace(replace(replace(replace(file_type, 1, "Pruchase"),2,"Redemption"),3,"Life Insurance"),4,"Health Insurance")as report_type'))->leftJoin('users', 'users.id', '=', 'transaction_files.user_id')->where('transaction_files.isdelete',0)->orderBy('transaction_files.created_at','DESC');
                 // if($request->search['value'])
                 // {
                 //     $query=$query->where('scheme_name','like', '%' . $request->search['value'] . '%');
@@ -1201,21 +1340,81 @@ class ApiController extends Controller
                  ), 400); 
                  }
                  else{
+                    $tran_report=TransactionFile::where('id', $data['transaction_id'])->first();
                    $trans= TransactionFile::where('id', $data['transaction_id'])->update(['isdelete'=>1]);
-                   $report=TransactionReport::where('file_id',$data['transaction_id'])->update(['isdelete'=>1]);
-
-                   $funds=TransactionReport::where('file_id',$data['transaction_id'])->where('isdelete',1)->groupBy(['client_id','folio_no','isin'])->get();
-
-                 foreach($funds as $k=>$v)
-                 {
-                    $mutul=MutualFund::where('client_id',$v->client_id)->where('folio_no',$v->folio_no)->where('isin',$v->isin)->first();
-                    if($mutul)
+                   if( $tran_report->file_type==1 || $tran_report->file_type==2)
+                   {
+                    $report=TransactionReport::where('file_id',$data['transaction_id'])->update(['isdelete'=>1]);
+                    $funds=TransactionReport::where('file_id',$data['transaction_id'])->where('isdelete',1)->groupBy(['client_id','folio_no','isin'])->get();
+ 
+                    foreach($funds as $k=>$v)
                     {
-                        $this->calculateFund($mutul->id);
+                        $mutul=MutualFund::where('client_id',$v->client_id)->where('folio_no',$v->folio_no)->where('isin',$v->isin)->first();
+                        if($mutul)
+                        {
+                            $this->calculateFund($mutul->id);
+                        }
                     }
-                 }
+                   }
+                   else if($tran_report->file_type==3)
+                   {
+                    $report=LifeReport::where('file_id',$data['transaction_id'])->update(['isdelete'=>1]);
+                   }
+                   else if($tran_report->file_type==4)
+                   {
+                    $report=HealthReport::where('file_id',$data['transaction_id'])->update(['isdelete'=>1]);
+                   }
+                  
                 return Response::json(array( 'success' => true,'data' => $trans,'message'=>'Transaction File Deleted Successfully.'), 200); 
                  }
+             } catch (\Exception $e) {
+               
+                 return $e->getMessage();
+             }
+         }
+
+
+         public function getlife_insurance(Request $request)
+         {
+             try {
+                 $data=$request->all();
+                 $query=LifeReport::where('isdelete',0)->where('client_id',$data['client_id']);
+                 if($request->search['value'])
+                 {
+                     $query=$query->where('company_name','like', '%' . $request->search['value'] . '%');
+                     $query=$query->orwhere('plan_name','like', '%' . $request->search['value'] . '%');
+                     $query=$query->orwhere('application_no','like', '%' . $request->search['value'] . '%');
+                     $query=$query->orwhere('policy_no','like', '%' . $request->search['value'] . '%');
+                 }
+                 $count=$query->count();
+                 $list=$query->skip($data['start'])->take($data['length'])->get();
+                
+                 return response()->json(['recordsTotal' => $count,'recordsFiltered' =>$count ,'data'=>$list]);
+     
+             } catch (\Exception $e) {
+               
+                 return $e->getMessage();
+             }
+         }
+
+
+         public function gethealth_insurance(Request $request)
+         {
+             try {
+                 $data=$request->all();
+                 $query=HealthReport::where('isdelete',0)->where('client_id',$data['client_id']);
+                 if($request->search['value'])
+                 {
+                     $query=$query->where('company_name','like', '%' . $request->search['value'] . '%');
+                     $query=$query->orwhere('plan_name','like', '%' . $request->search['value'] . '%');
+                     $query=$query->orwhere('application_no','like', '%' . $request->search['value'] . '%');
+                     $query=$query->orwhere('policy_no','like', '%' . $request->search['value'] . '%');
+                 }
+                 $count=$query->count();
+                 $list=$query->groupBy('policy_no')->skip($data['start'])->take($data['length'])->get();
+                
+                 return response()->json(['recordsTotal' => $count,'recordsFiltered' =>$count ,'data'=>$list]);
+     
              } catch (\Exception $e) {
                
                  return $e->getMessage();
