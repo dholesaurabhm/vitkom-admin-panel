@@ -41,7 +41,11 @@
                                          <button class="btn btn-success" onclick="showreportmodel('healthModel')"><i
                                         class="ri-add-line align-bottom me-1"></i> Import Health Insurance Report</button>       
                                       </div>
-                       
+
+                                      <div class="col-md-3"> 
+                                        <button class="btn btn-success" onclick="showreportmodel('bondModel')"><i
+                                       class="ri-add-line align-bottom me-1"></i> Import Bonds Report</button>       
+                                     </div>
                     
                             </div>
                         </div>    
@@ -82,7 +86,7 @@
                         <div class="col-sm-6">
                             <div>
                                 <label for="purchasereport" class="form-label">Import Purchase Report<span class="red">*</span></label>
-                                <input type="file" name="transaction_file" class="form-control transaction_file" id="transaction_file" required>
+                                <input type="file" name="transaction_file" class="form-control transaction_file" id="transaction_file" accept=".csv" required>
                             </div>
                         </div><!--end col-->
                      
@@ -118,7 +122,7 @@
                         <div class="col-sm-6">
                             <div>
                                 <label for="redemptionreport" class="form-label">Import Redemption Report<span class="red">*</span></label>
-                                <input type="file" name="transaction_file" class="form-control transaction_file" id="transaction_file" required>
+                                <input type="file" name="transaction_file" class="form-control transaction_file" id="transaction_file" accept=".csv" required>
                             </div>
                         </div><!--end col-->
                      
@@ -154,7 +158,7 @@
                         <div class="col-sm-6">
                             <div>
                                 <label for="redemptionreport" class="form-label">Import Life Insurance Report<span class="red">*</span></label>
-                                <input type="file" name="transaction_file" class="form-control transaction_file" id="transaction_file" required>
+                                <input type="file" name="transaction_file" class="form-control transaction_file" id="transaction_file" accept=".csv" required>
                             </div>
                         </div><!--end col-->
                      
@@ -190,7 +194,7 @@
                         <div class="col-sm-6">
                             <div>
                                 <label for="redemptionreport" class="form-label">Import Health Insurance Report<span class="red">*</span></label>
-                                <input type="file" name="transaction_file" class="form-control transaction_file" id="transaction_file" required>
+                                <input type="file" name="transaction_file" class="form-control transaction_file" id="transaction_file" accept=".csv" required >
                             </div>
                         </div><!--end col-->
                      
@@ -199,6 +203,42 @@
                             <div class="hstack gap-2 justify-content-end">
                                 <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
                                 <button type="button" class="btn btn-primary" onclick="savefile('health')">Submit</button>
+                            </div>
+                        </div>
+                        <!--end col-->
+                    </div><!--end row-->
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="bondModel" tabindex="-1" aria-labelledby="exampleModalgridLabel" aria-modal="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalgridLabel">Bonds Report</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="bondForm"  enctype="multipart/form-data">
+                    <input type="hidden" name="file_type" id="file_type" value="5" class="form-control">
+                    <input type="hidden" name="user_id" id="user_id" value="<?php echo e(Auth::user()->id); ?>" class="form-control">
+                    <h4>Downlod Bond Report Format - <a href="<?php echo e(url('/')); ?>/products/bond_format.csv" class="btn btn-primary" target="download"><i class="ri-file-download-fill"></i> Download</a></h4>
+                    <div class="row g-3">
+                        
+                        <div class="col-sm-6">
+                            <div>
+                                <label for="redemptionreport" class="form-label">Import Bond Report<span class="red">*</span></label>
+                                <input type="file" name="transaction_file" class="form-control transaction_file" id="transaction_file" accept=".csv" required >
+                            </div>
+                        </div><!--end col-->
+                     
+                        
+                        <div class="col-sm-12">
+                            <div class="hstack gap-2 justify-content-end">
+                                <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
+                                <button type="button" class="btn btn-primary" onclick="savefile('bond')">Submit</button>
                             </div>
                         </div>
                         <!--end col-->

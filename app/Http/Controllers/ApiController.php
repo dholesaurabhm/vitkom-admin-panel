@@ -18,6 +18,8 @@ use App\Models\TransactionFile;
 use App\Models\TransactionReport;
 use App\Models\LifeReport;
 use App\Models\HealthReport;
+use App\Models\BondReport;
+use App\Models\BondMaster;
 use App\Imports\ImportTransaction;
 use Maatwebsite\Excel\Facades\Excel;
 
@@ -956,10 +958,11 @@ class ApiController extends Controller
                 $rules = array(
                     'user_id'=>'required',
                     'file_type'=>'required',
-                    'transaction_file'=>'required'
+                    'transaction_file'=>'required|mimes:csv'
                 );
                 $messages = [
                 'required' => 'The :attribute field is required.',
+                'mimes'=>'Only CSV File is allowed to Upload'
                 ];
                 $validator = Validator::make($request->all(), $rules,$messages);
                 
@@ -997,6 +1000,9 @@ class ApiController extends Controller
                     }
                     else if($data['file_type']=='4'){  // Health
                         $report=$this->saveHealth($trans->id,$list[0]);
+                    }
+                    else if($data['file_type']=='5'){  // Bond
+                        $report=$this->saveBond($trans->id,$list[0]);
                     }
                     return Response::json(array( 'success' => true,'data' => $report,'message'=>'Transaction File Uploaded Successfully.'), 200); 
                 } 
@@ -1264,6 +1270,80 @@ class ApiController extends Controller
              }
          }
 
+         public function saveBond($id,$data)
+         {
+             try {
+                $finaldata=array_slice($data,1);
+                 foreach($finaldata as $k=>$v)
+                 {
+                    $client=Client::where('pan_no',$v[9])->first();
+                    $pur=new BondReport();
+                    $pur->client_id=$client !=null ? $client->id:'';
+                    $pur->date_from=$v[0] ?? '';
+                    $pur->client_code=$v[1] ?? '';
+                    $pur->client_name=$v[2] ??'';
+                    $pur->scrip_name=$v[3] ??'';
+                    $pur->bond_name=$v[4]?? '';
+                    $pur->tot_purchase=$v[5]?? '';
+                    $pur->tot_sale=$v[6]?? '';
+                    $pur->platform=$v[7]?? '';
+                    $pur->status=$v[8]??'';
+                    $pur->pan_no=$v[9]??'';
+                    $pur->isdelete=0;
+                    $pur->file_id=$id;
+                    $pur->save();
+                 }
+                 $bonds=BondReport::where('file_id',$id)->where('isdelete',0)->groupBy(['client_id','scrip_name','client_code'])->get();
+                 foreach($bonds as $k=>$v)
+                 {
+                        $bm = BondMaster::firstOrNew(array('client_id' => $v->client_id,'scrip_name'=>$v->scrip_name,'client_code'=>$v->client_code));
+                        $bm->client_id=$v->client_id;
+                        $bm->start_date=$v->date_from;
+                        $bm->client_code=$v->client_code;
+                        $bm->client_name=$v->client_name;
+                        $bm->scrip_name=$v->scrip_name;
+                        $bm->bond_name=$v->bond_name;
+                        $bm->total=0;
+                        $bm->platform=$v->platform;
+                        $bm->isdelete=0;
+                        $bm->save();
+                        $this->calculateBond($bm->id);
+                    
+                 }
+
+                 return "Bond Report Uploaded";
+             } catch (\Exception $e) {
+               
+                 return $e->getMessage();
+             }
+         }
+
+         public function calculateBond($id)
+         {
+            try {
+                
+                $bond=BondMaster::where('id',$id)->where('isdelete',0)->first();
+                $report=BondReport::where('client_id',$bond->client_id)->where('scrip_name',$bond->scrip_name)->where('client_code',$bond->client_code)->where('isdelete',0)->orderBy('date_from','ASC')->get();
+                $total=0;
+                foreach($report as $k=>$v)
+                 {
+                    if($v->status=='BUY')
+                    {
+                      $total+=$v->tot_purchase;
+                    }else if($v->status=='SELL')
+                    {
+                        $total-=$v->tot_sale;
+                    }
+                 }
+                 $updatebond=BondMaster::where('id',$id)->update(['total'=>$total]);
+
+                return "Bond Report Uploaded";
+            } catch (\Exception $e) {
+            
+                return $e->getMessage();
+            }
+         }
+
          public function calculateFund($id)
          {
              try {
@@ -1303,7 +1383,7 @@ class ApiController extends Controller
          {
              try {
                 $data=$request->all();
-                $query=TransactionFile::select('transaction_files.id','users.name as user_name','file_path',DB::raw('DATE_FORMAT(transaction_files.created_at, "%d-%m-%Y %h:%i %p")as trans_date'),DB::raw('replace(replace(replace(replace(file_type, 1, "Pruchase"),2,"Redemption"),3,"Life Insurance"),4,"Health Insurance")as report_type'))->leftJoin('users', 'users.id', '=', 'transaction_files.user_id')->where('transaction_files.isdelete',0)->orderBy('transaction_files.created_at','DESC');
+                $query=TransactionFile::select('transaction_files.id','users.name as user_name','file_path',DB::raw('DATE_FORMAT(transaction_files.created_at, "%d-%m-%Y %h:%i %p")as trans_date'),DB::raw('replace(replace(replace(replace(replace(file_type, 1, "Pruchase"),2,"Redemption"),3,"Life Insurance"),4,"Health Insurance"),5,"Bonds")as report_type'))->leftJoin('users', 'users.id', '=', 'transaction_files.user_id')->where('transaction_files.isdelete',0)->orderBy('transaction_files.created_at','DESC');
                 if($request->search['value'])
                 {
                     $query=$query->where('user_name','like', '%' . $request->search['value'] . '%');
@@ -1363,6 +1443,10 @@ class ApiController extends Controller
                    {
                     $report=HealthReport::where('file_id',$data['transaction_id'])->update(['isdelete'=>1]);
                    }
+                   else if($tran_report->file_type==4)
+                   {
+                    $report=HealthReport::where('file_id',$data['transaction_id'])->update(['isdelete'=>1]);
+                   }
                   
                 return Response::json(array( 'success' => true,'data' => $trans,'message'=>'Transaction File Deleted Successfully.'), 200); 
                  }
@@ -1411,6 +1495,30 @@ class ApiController extends Controller
                  }
                  $count=$query->count();
                  $list=$query->groupBy('policy_no')->skip($data['start'])->take($data['length'])->get();
+                
+                 return response()->json(['recordsTotal' => $count,'recordsFiltered' =>$count ,'data'=>$list]);
+     
+             } catch (\Exception $e) {
+               
+                 return $e->getMessage();
+             }
+         }
+
+         public function getbonds(Request $request)
+         {
+             try {
+                 $data=$request->all();
+                 $query=BondMaster::where('isdelete',0)->where('client_id',$data['client_id']);
+                 if($request->search['value'])
+                 {
+                     $query=$query->where('client_code','like', '%' . $request->search['value'] . '%');
+                     $query=$query->orwhere('client_name','like', '%' . $request->search['value'] . '%');
+                     $query=$query->orwhere('scrip_name','like', '%' . $request->search['value'] . '%');
+                     $query=$query->orwhere('bond_name','like', '%' . $request->search['value'] . '%');
+                     $query=$query->orwhere('platform','like', '%' . $request->search['value'] . '%');
+                 }
+                 $count=$query->count();
+                 $list=$query->skip($data['start'])->take($data['length'])->get();
                 
                  return response()->json(['recordsTotal' => $count,'recordsFiltered' =>$count ,'data'=>$list]);
      
