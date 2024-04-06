@@ -58,3 +58,5 @@ Route::post('getlife_insurance', [App\Http\Controllers\ApiController::class, 'ge
 Route::post('gethealth_insurance', [App\Http\Controllers\ApiController::class, 'gethealth_insurance']);
 Route::post('getgeneral_insurance', [App\Http\Controllers\ApiController::class, 'getgeneral_insurance']);
 Route::post('getbonds', [App\Http\Controllers\ApiController::class, 'getbonds']);
+
+Route::post('getdashboard_count', [App\Http\Controllers\ApiController::class, 'getdashboard_count']);

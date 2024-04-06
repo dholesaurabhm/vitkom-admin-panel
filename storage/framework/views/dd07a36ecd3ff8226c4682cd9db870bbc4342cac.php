@@ -45,15 +45,11 @@ span.select2-selection.select2-selection--single {
                                 <div class="flex-grow-1 overflow-hidden">
                                     <p class="text-uppercase fw-medium text-muted text-truncate mb-0"> Total AUM</p>
                                 </div>
-                                <div class="flex-shrink-0">
-                                    <h5 class="text-success fs-14 mb-0">
-                                        <i class="ri-arrow-right-up-line fs-13 align-middle"></i> +16.24 %
-                                    </h5>
-                                </div>
+                                
                             </div>
                             <div class="d-flex align-items-end justify-content-between mt-4">
                                 <div>
-                                    <h4 class="fs-22 fw-semibold ff-secondary mb-4"><span class="counter-value" data-target="559.25">0</span>k </h4>
+                                    <h4 class="fs-22 fw-semibold ff-secondary mb-4"><span class="counter-value" id="anum" data-target="0.00">0</span> </h4>
                                 </div>
                                 <div class="avatar-sm flex-shrink-0">
                                     <span class="avatar-title bg-success-subtle rounded fs-3">
@@ -73,16 +69,12 @@ span.select2-selection.select2-selection--single {
                                 <div class="flex-grow-1 overflow-hidden">
                                  <p class="text-uppercase fw-medium text-muted text-truncate mb-0">Total SIP</p>
                                 </div>
-                                <div class="flex-shrink-0">
-                                    <h5 class="text-danger fs-14 mb-0">
-                                        <i class="ri-arrow-right-down-line fs-13 align-middle"></i> -3.57 %
-                                    </h5>
-                                </div>
+                                
                             </div>
                             <div class="d-flex align-items-end justify-content-between mt-4">
                                 <div>
                                     <h4 class="fs-22 fw-semibold ff-secondary mb-4">
-                                        <span class="counter-value" data-target="36894">0</span>
+                                        <span class="counter-value" id="sip" data-target="0.00">0</span>
                                     </h4>
                                 </div>
                                 <div class="avatar-sm flex-shrink-0">
@@ -103,15 +95,11 @@ span.select2-selection.select2-selection--single {
                                 <div class="flex-grow-1 overflow-hidden">
                                     <p class="text-uppercase fw-medium text-muted text-truncate mb-0">Renewal</p>
                                 </div>
-                                <div class="flex-shrink-0">
-                                    <h5 class="text-success fs-14 mb-0">
-                                        <i class="ri-arrow-right-up-line fs-13 align-middle"></i> +29.08 %
-                                    </h5>
-                                </div>
+                                
                             </div>
                             <div class="d-flex align-items-end justify-content-between mt-4">
                                 <div>
-                                    <h4 class="fs-22 fw-semibold ff-secondary mb-4"><span class="counter-value" data-target="183.35">0</span>K</h4>
+                                    <h4 class="fs-22 fw-semibold ff-secondary mb-4"><span class="counter-value" id="renewal" data-target="0.00">0</span></h4>
                                 </div>
                                 <div class="avatar-sm flex-shrink-0">
                                     <span class="avatar-title bg-warning-subtle rounded fs-3">
@@ -131,15 +119,11 @@ span.select2-selection.select2-selection--single {
                                 <div class="flex-grow-1 overflow-hidden">
                                     <p class="text-uppercase fw-medium text-muted text-truncate mb-0"> Redemption</p>
                                 </div>
-                                <div class="flex-shrink-0">
-                                    <h5 class="text-muted fs-14 mb-0">
-                                        +0.00 %
-                                    </h5>
-                                </div>
+                                
                             </div>
                             <div class="d-flex align-items-end justify-content-between mt-4">
                                 <div>
-                                    <h4 class="fs-22 fw-semibold ff-secondary mb-4">$<span class="counter-value" data-target="165.89">0</span>k </h4>
+                                    <h4 class="fs-22 fw-semibold ff-secondary mb-4"><span class="counter-value" id="redemption" data-target="0.00">0</span> </h4>
                                 </div>
                                 <div class="avatar-sm flex-shrink-0">
                                     <span class="avatar-title bg-primary-subtle rounded fs-3">
@@ -208,7 +192,8 @@ span.select2-selection.select2-selection--single {
 <script src="<?php echo e(URL::asset('/assets/js/dashboard.js')); ?>"></script>
 <script>
     $(document).ready(function(){
-        getclient()
+        getclient();
+        getcount();
     });
     </script>  
 <?php $__env->stopSection(); ?>

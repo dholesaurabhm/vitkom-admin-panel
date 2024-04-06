@@ -1667,7 +1667,7 @@ table#mutual_report td:nth-child(6) {
 
                       <ul class="dropdown-menu dropdown-menu-end">
 
-                      <li><a class="dropdown-item edit-list" data-edit-id='${data}' href="#" onclick="editmutual(${data})"><i class="ri-pencil-fill align-bottom me-2 text-muted"></i> Edit</a></li>
+                      <li><a class="dropdown-item edit-list" data-edit-id='${data}' href="#" ><i class="ri-pencil-fill align-bottom me-2 text-muted"></i> Edit</a></li>
 
                       <li class="dropdown-divider"></li>
 
@@ -1751,7 +1751,7 @@ table#mutual_report td:nth-child(6) {
 
                       <ul class="dropdown-menu dropdown-menu-end">
 
-                      <li><a class="dropdown-item edit-list" data-edit-id='${data}' href="#" onclick="editmutual(${data})"><i class="ri-pencil-fill align-bottom me-2 text-muted"></i> Edit</a></li>
+                      <li><a class="dropdown-item edit-list" data-edit-id='${data}' href="#" ><i class="ri-pencil-fill align-bottom me-2 text-muted"></i> Edit</a></li>
 
                       <li class="dropdown-divider"></li>
 
@@ -1823,7 +1823,7 @@ columns: [
 
                 <ul class="dropdown-menu dropdown-menu-end">
 
-                <li><a class="dropdown-item edit-list" data-edit-id='${data}' href="#" onclick="editbond(${data})"><i class="ri-pencil-fill align-bottom me-2 text-muted"></i> Edit</a></li>
+                <li><a class="dropdown-item edit-list" data-edit-id='${data}' href="#" ><i class="ri-pencil-fill align-bottom me-2 text-muted"></i> Edit</a></li>
 
                 <li class="dropdown-divider"></li>
 

@@ -59,3 +59,30 @@ function getclient(data={})
   }
 });
 }
+
+function convert(num)
+{
+    var conv=(num/1000).toFixed(2)
+    return conv + "k";
+}
+
+function getcount(data={})
+{
+ 
+  $.ajax({
+  url: base_url+"getdashboard_count",
+  type: "POST",
+  data: {},
+  success: function(result){
+      console.log(result);
+      if(result.success==true)
+      {
+        $("#anum").html(convert(result.data.anum));
+        $("#sip").html(convert(result.data.sip));
+        $("#redemption").html(convert(result.data.redemption));
+        $("#renewal").html(convert(result.data.renewal));
+     
+      }
+  }
+});
+}
