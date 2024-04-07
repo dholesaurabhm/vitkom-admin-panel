@@ -1350,26 +1350,65 @@ class ApiController extends Controller
               
                 $fund=MutualFund::where('id',$id)->where('isdelete',0)->first();
                 $report=TransactionReport::select('id','trxn_type','invest_amount',DB::raw('cast(no_units AS DECIMAL(16,4))as no_units'),'trxn_date','nav')->where('client_id',$fund->client_id)->where('isin',$fund->isin)->where('folio_no',$fund->folio_no)->where('isdelete',0)->groupBy('tr_no')->orderBy('trxn_date','ASC')->get();
-                $invested_amount=$current_unit=$current_value=$profit_loss=0;
-                foreach($report as $k=>$v)
-                 {
-                    if($v->trxn_type==1)
-                    {
+                $investedAmount=$current_unit=$current_value=$profit_loss=0;
+                $unitsBought = []; // Associative array to store units bought with their purchase prices
+                // foreach($report as $k=>$v)
+                //  {
+                //     if($v->trxn_type==1)
+                //     {
                      
-                      $invested_amount+=(float)$v->invest_amount;
-                      $current_unit+=(float)$v->no_units;
-                      $current_value+=(float)$fund->nav *(float)$v->no_units;
-                      $profit_loss+=(float)$current_value -(float)$invested_amount;
-                    }else if($v->trxn_type==2)
-                    {
-                        $invested_amount-=(float)$v->invest_amount;
-                        $current_unit-=(float)$v->no_units;
-                        $current_value-=(float)$fund->nav * (float)$v->no_units;
-                        $profit_loss+=(float)$current_value -(float)$invested_amount;
+                //       $invested_amount+=(float)$v->invest_amount;
+                //       $current_unit+=(float)$v->no_units;
+                //       $current_value+=(float)$fund->nav *(float)$v->no_units;
+                //       $profit_loss+=(float)$current_value -(float)$invested_amount;
+                //     }else if($v->trxn_type==2)
+                //     {
+                //         $invested_amount-=(float)$v->invest_amount;
+                //         $current_unit-=(float)$v->no_units;
+                //         $current_value-=(float)$fund->nav * (float)$v->no_units;
+                //         $profit_loss+=(float)$current_value -(float)$invested_amount;
+                //     }
+                //     $current_unit=round($current_unit,4);
+                //  }
+
+                foreach ($report as $transaction) {
+                    if ($transaction['trxn_type'] === "2") {
+                        $unitsSold = $transaction['no_units'];
+                        foreach ($unitsBought as $priceAtPurchase => &$units) {
+                            if ($units >= $unitsSold) {
+                                $unitsSold = number_format($unitsSold, 2, '.', '');
+                                $foo = $unitsSold * $priceAtPurchase;
+                                $investedAmount -= number_format($foo, 2, '.', '');
+                                if($investedAmount<0) { $investedAmount = '0.00'; }
+                                $units -= $unitsSold;
+                                $units = number_format($units, 2, '.', '');
+                                if($units<0) { $units = '0.00'; }
+                                break;
+                            } else {
+                                $units = number_format($units, 2, '.', '');
+                                $foo = $units * $priceAtPurchase;
+                                $investedAmount -=number_format($foo, 2, '.', '');
+                                $investedAmount = number_format($investedAmount, 2, '.', '');
+                                if($investedAmount<0) { $investedAmount = '0.00'; }
+                                $unitsSold -= $units;
+                                $unitsSold = number_format($unitsSold, 2, '.', '');
+                                $units = 0;
+                            }
+                        }
+                        $current_unit-=(float)$transaction->no_units;
+                        $current_value-=(float)$fund->nav * (float)$transaction->no_units;
+                        $profit_loss-=(float)$current_value +(float)$investedAmount;
+                    } elseif ($transaction['trxn_type'] === "1") {
+                        $unitsBought[$transaction['nav']] = isset($unitsBought[$transaction['nav']]) ? $unitsBought[$transaction['nav']] + $transaction['no_units'] : $transaction['no_units'];
+                        $investedAmount += $transaction['invest_amount'] ;
+                        $current_unit+=(float)$transaction->no_units;
+                        $current_value+=(float)$fund->nav * (float)$transaction->no_units;
+                        $profit_loss+=(float)$current_value -(float)$investedAmount;
                     }
                     $current_unit=round($current_unit,4);
-                 }
-                 $updatefund=MutualFund::where('id',$id)->update(['invested_amount'=>$invested_amount,'current_unit'=>$current_unit,'current_value'=>$current_value,'profit_loss'=>$profit_loss]);
+                }
+
+                $updatefund=MutualFund::where('id',$id)->update(['invested_amount'=>$investedAmount,'current_unit'=>$current_unit,'current_value'=>$current_value,'profit_loss'=>$profit_loss]);
                
                  return $updatefund;
 
@@ -1458,11 +1497,11 @@ class ApiController extends Controller
          }
 
 
-         public function getlife_insurance(Request $request)
+         public function listlife_insurance(Request $request)
          {
              try {
                  $data=$request->all();
-                 $query=LifeReport::where('isdelete',0)->where('client_id',$data['client_id']);
+                 $query=LifeReport::select('*',DB::raw('DATE_FORMAT(issue_date, "%d-%m-%Y") as issue_date'),DB::raw('DATE_FORMAT(risk_date, "%d-%m-%Y") as risk_date'))->where('isdelete',0)->where('client_id',$data['client_id']);
                  if($request->search['value'])
                  {
                      $query=$query->where('company_name','like', '%' . $request->search['value'] . '%');
@@ -1481,12 +1520,33 @@ class ApiController extends Controller
              }
          }
 
+         public function getlife_insurance(Request $request)
+         {
+             try {
+                $data=$request->all();
+                $query=LifeReport::where('isdelete',0);
+
+                if(isset($data['life_id']))
+                {
+                   $list=$query->where('id',$data['life_id'])->first();
+                }
+                else{
+                   $list=$list->get();
+                }
+              
+                return Response::json(array( 'success' => true,'data' => $list,'message'=>'Life List.'), 200); 
+             } catch (\Exception $e) {
+               
+                 return $e->getMessage();
+             }
+         }
+
 
          public function gethealth_insurance(Request $request)
          {
              try {
                  $data=$request->all();
-                 $query=HealthReport::where('isdelete',0)->where('client_id',$data['client_id']);
+                 $query=HealthReport::select('*',DB::raw('DATE_FORMAT(issue_date, "%d-%m-%Y") as issue_date'),DB::raw('DATE_FORMAT(risk_exp_date, "%d-%m-%Y") as risk_exp_date'))->where('isdelete',0)->where('client_id',$data['client_id']);
                  if($request->search['value'])
                  {
                      $query=$query->where('company_name','like', '%' . $request->search['value'] . '%');
@@ -1505,7 +1565,7 @@ class ApiController extends Controller
              }
          }
 
-         public function getbonds(Request $request)
+         public function listbonds(Request $request)
          {
              try {
                  $data=$request->all();
@@ -1530,6 +1590,32 @@ class ApiController extends Controller
          }
 
 
+         public function getbonds(Request $request)
+         {
+             try {
+                 $data=$request->all();
+                 $query=BondMaster::where('isdelete',0);
+
+                 if(isset($data['bond_id']))
+                 {
+                    $list=$query->where('id',$data['bond_id'])->first();
+                    $report=BondReport::select('platform','date_from','tot_purchase','tot_sale','status')->where('client_id',$list->client_id)->where('client_code',$list->client_code)->where('scrip_name',$list->scrip_name)->where('isdelete',0)->orderBy('date_from','ASC')->get();
+                    $list['report']=$report;
+                 }
+                 else{
+                    $list=$list->get();
+                 }
+               
+                 return Response::json(array( 'success' => true,'data' => $list,'message'=>'Bond Fund List.'), 200); 
+     
+             } catch (\Exception $e) {
+               
+                 return $e->getMessage();
+             }
+         }
+
+
+
          public function getdashboard_count(Request $request)
          {
              try {
@@ -1539,9 +1625,11 @@ class ApiController extends Controller
                  
                  $mutul=MutualFund::where('isdelete',0)->sum('current_value');
                  $bond=BondMaster::where('isdelete',0)->sum('total');
-                 $final['renewal']=0;
-                 $final['sip']=0;
-                 $final['redemption']=TransactionReport::where('isdelete',0)->where('trxn_type',2)->sum('invest_amount');
+                 $mutul_client=MutualFund::where('isdelete',0)->where('current_unit','>','1')->count();
+                 $bond_client=BondMaster::where('isdelete',0)->where('total','>','1')->count();
+                 $final['active_client']=$bond_client +$mutul_client;
+                 $final['sip']=TransactionReport::where('isdelete',0)->where('type','like','%SIP%')->groupBy('folio_no')->sum('invest_amount');
+                 $final['redemption']=TransactionReport::where('isdelete',0)->whereMonth('trxn_date', Carbon::now()->month)->where('trxn_type',2)->sum('invest_amount');
                  $final['anum']=$mutul+$bond;
                  return Response::json(array( 'success' => true,'data' => $final,'message'=>'Transaction File Uploaded Successfully.'), 200); 
      
@@ -1549,6 +1637,15 @@ class ApiController extends Controller
                
                  return $e->getMessage();
              }
+         }
+
+         public function recalculate()
+         {
+            $mutual=MutualFund::where('isdelete',0)->get();
+            foreach ($mutual as $mu) {
+                $this->calculateFund($mu->id);
+            }
+            return 'Done';
          }
 
 }

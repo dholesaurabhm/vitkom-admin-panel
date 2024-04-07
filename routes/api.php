@@ -55,8 +55,13 @@ Route::post('listImportTransaction', [App\Http\Controllers\ApiController::class,
 Route::post('deleteTransaction', [App\Http\Controllers\ApiController::class, 'deleteTransaction']);
 
 Route::post('getlife_insurance', [App\Http\Controllers\ApiController::class, 'getlife_insurance']);
+Route::post('listlife_insurance', [App\Http\Controllers\ApiController::class, 'listlife_insurance']);
+
+
 Route::post('gethealth_insurance', [App\Http\Controllers\ApiController::class, 'gethealth_insurance']);
 Route::post('getgeneral_insurance', [App\Http\Controllers\ApiController::class, 'getgeneral_insurance']);
+
 Route::post('getbonds', [App\Http\Controllers\ApiController::class, 'getbonds']);
+Route::post('listbonds', [App\Http\Controllers\ApiController::class, 'listbonds']);
 
 Route::post('getdashboard_count', [App\Http\Controllers\ApiController::class, 'getdashboard_count']);

@@ -257,3 +257,80 @@ function deletemutual(id)
             });
 
   }
+
+
+  
+function editbond(id)
+{
+  console.log(id)
+  $.ajax({
+    type: "POST",
+    url: base_url+"getbonds",
+    data: {bond_id:id},
+    success: function(result) {
+        console.log("ajax data=", result)
+        if(result.success==true)
+        {
+          $('#bond_id').val(result.data.id);
+          $('#bond_name').val(result.data.bond_name);
+          $('#scrip_name').val(result.data.scrip_name);
+          $('#total').val(result.data.total);
+          $('#platform').val(result.data.platform);
+          $('#client_code').val(result.data.client_code);
+
+          $('#bonds_modal').modal('show');
+          let row='';
+          $.each(result.data.report, function(index, item) {
+              row+=`<tr>
+              <th scope="row">${item.platform} </th>
+              <td>${item.date_from}</td>
+              <td>${item.status =='BUY' ? item.tot_purchase :item.tot_sale}</td>
+              <td>${item.status}</td>
+           
+          </tr>`;
+          });
+          //   <td>${item.balance_unit ?? 0}</td>
+  
+            $('#bond_report tbody').empty().append(row);
+
+        }      
+      
+    },
+    error: function(error) {
+        toast_error(error.responseJSON.message)
+     }
+    });
+}
+
+function editlife(id)
+{
+  console.log(id)
+  $.ajax({
+    type: "POST",
+    url: base_url+"getlife_insurance",
+    data: {life_id:id},
+    success: function(result) {
+        console.log("ajax data=", result)
+        if(result.success==true)
+        {
+          $('#bond_id').val(result.data.id);
+          $('#proposer_name').val(result.data.proposer_name);
+          $('#mode').val(result.data.mode);
+          $('#total_permium').val(result.data.total_permium);
+          $('#sum_assured').val(result.data.sum_assured);
+          $('#risk_date').val(result.data.risk_date);
+          $('#post_date').val(result.data.post_date);
+
+          $('#issue_date').val(result.data.issue_date);
+          $('#policy_no').val(result.data.policy_no);
+          $('#company_name').val(result.data.company_name);
+          $('#policy_no').val(result.data.policy_no);
+          $('#lifeinsurance_modal').modal('show');
+        }      
+      
+    },
+    error: function(error) {
+        toast_error(error.responseJSON.message)
+     }
+    });
+}

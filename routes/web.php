@@ -44,3 +44,4 @@ Route::get('/getschemeReport', [App\Http\Controllers\ApiController::class, 'gets
 
 Route::get('/calculateFund/{id}', [App\Http\Controllers\ApiController::class, 'calculateFund'])->name('calculateFund');
 Route::get('/calculateBond/{id}', [App\Http\Controllers\ApiController::class, 'calculateBond'])->name('calculateBond');
+Route::get('/recalculate', [App\Http\Controllers\ApiController::class, 'recalculate'])->name('recalculate');

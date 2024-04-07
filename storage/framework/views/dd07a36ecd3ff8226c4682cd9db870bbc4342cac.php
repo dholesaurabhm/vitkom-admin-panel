@@ -93,13 +93,13 @@ span.select2-selection.select2-selection--single {
                         <div class="card-body">
                             <div class="d-flex align-items-center">
                                 <div class="flex-grow-1 overflow-hidden">
-                                    <p class="text-uppercase fw-medium text-muted text-truncate mb-0">Renewal</p>
+                                    <p class="text-uppercase fw-medium text-muted text-truncate mb-0">Active Client</p>
                                 </div>
                                 
                             </div>
                             <div class="d-flex align-items-end justify-content-between mt-4">
                                 <div>
-                                    <h4 class="fs-22 fw-semibold ff-secondary mb-4"><span class="counter-value" id="renewal" data-target="0.00">0</span></h4>
+                                    <h4 class="fs-22 fw-semibold ff-secondary mb-4"><span class="counter-value" id="active_client" data-target="0.00">0</span></h4>
                                 </div>
                                 <div class="avatar-sm flex-shrink-0">
                                     <span class="avatar-title bg-warning-subtle rounded fs-3">
@@ -117,7 +117,7 @@ span.select2-selection.select2-selection--single {
                         <div class="card-body">
                             <div class="d-flex align-items-center">
                                 <div class="flex-grow-1 overflow-hidden">
-                                    <p class="text-uppercase fw-medium text-muted text-truncate mb-0"> Redemption</p>
+                                    <p class="text-uppercase fw-medium text-muted text-truncate mb-0"> Redemption(This Month)</p>
                                 </div>
                                 
                             </div>

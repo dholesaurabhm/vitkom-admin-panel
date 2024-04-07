@@ -6,10 +6,13 @@
 
 <style type="text/css">
 
-#bonds-datatables_wrapper {
+#bond_table_wrapper {
     width: 100% !important;
 }
-
+div.dataTables_wrapper {
+    position: relative;
+    width: 100%;
+}
 
 
 #life_table_wrapper, #health_table_wrapper {
@@ -184,6 +187,7 @@ table#mutual_report td:nth-child(6) {
 					                                        <th>Policy No.</th>
 					                                        <th>Insurance Firm</th>
 					                                        <th>Scheme Name</th>
+                                                            <th>Mode Payment</th>
 					                                        <th>Start Date</th>
 					                                        <th>Maturity Date</th>
 					                                        <th>Premium Amount</th>
@@ -575,15 +579,14 @@ table#mutual_report td:nth-child(6) {
 
                         <input type="hidden" name="client_id" id="client_id" value="{{$id}}">
 
-                        <input type="hidden" name="mutual_id" id="mutual_id" value="">
+                        <input type="hidden" name="bond_id" id="bond_id" value="">
 
                         <div class="col-sm-9">
 
                             <div>
 
                                 <label for="insurancefirmInput" class="form-label">Bond Name<span class="red">*</span></label>
-
-                                <select class="form-select mb-2 amc_list" aria-label="Default select example" name="amc_id" id="amc_id">
+                                <input type="text" class="form-control" name="bond_name" id="bond_name" placeholder="Enter Bond Name" required>
 
                                 </select>
 
@@ -596,13 +599,13 @@ table#mutual_report td:nth-child(6) {
 
                                 <label for="schemenameInput" class="form-label">ISIN<span class="red">*</span></label>
 
-                               <input type="text" class="form-control" name="folio_no" id="folio_no" placeholder="Enter ISIN No" required>
+                               <input type="text" class="form-control" name="scrip_name" id="scrip_name" placeholder="Enter ISIN No" required>
 
                             </div>
 
                         </div>
 
-                        <div class="col-sm-3">
+                        {{-- <div class="col-sm-3">
 
                             <div>
 
@@ -623,7 +626,7 @@ table#mutual_report td:nth-child(6) {
 
                             </div>
 
-                        </div>
+                        </div> --}}
 
 
                         <div class="col-sm-3">
@@ -632,7 +635,7 @@ table#mutual_report td:nth-child(6) {
 
                                 <label for="sumassuredInput" class="form-label">Current Amount</label>
 
-                                <input type="number" class="form-control" id="invested_amount" name="invested_amount" placeholder="Enter Number" onchange="curr_unit()">
+                                <input type="number" class="form-control" id="total" name="total" placeholder="Enter Number" onchange="curr_unit()">
 
                             </div>
 
@@ -644,7 +647,7 @@ table#mutual_report td:nth-child(6) {
 
                                 <label for="sumassuredInput" class="form-label">Platform</label>
 
-                                <input type="number" class="form-control" id="current_unit" name="current_unit" placeholder="Enter Number" readonly>
+                                <input type="text" class="form-control" id="platform" name="platform" placeholder="Enter platform" readonly>
 
                             </div>
 
@@ -655,7 +658,7 @@ table#mutual_report td:nth-child(6) {
                         <div class="col-sm-2">
                             <div>
                                 <label for="sumassuredInput" class="form-label">Platform Client ID</label>
-                                <input type="number" class="form-control" id="invested_amount" name="invested_amount" placeholder="Enter Platform Client ID" >
+                                <input type="text" class="form-control" id="client_code" name="client_code" placeholder="Enter Platform Client ID" >
                             </div>
                         </div>
                        
@@ -677,10 +680,10 @@ table#mutual_report td:nth-child(6) {
 
 
                     <div class="table-responsive mt-4">
-                        <table class="table align-middle mb-0" id="mutual_report">
+                        <table class="table align-middle mb-0" id="bond_report">
                             <thead class="table-light">
                                 <tr>
-                                    <th scope="col">Transaction</th>
+                                    <th scope="col">Platform</th>
                                     <th scope="col">Date</th>
                                     <th scope="col">Amount</th>
                                     <th scope="col">Status</th>
@@ -719,7 +722,7 @@ table#mutual_report td:nth-child(6) {
 
                 <h5 class="modal-title" id="lifeinsurance_modalLabel">Life Insurance</h5>
 
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria        -label="Close"></button>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 
             </div>
 
@@ -734,18 +737,7 @@ table#mutual_report td:nth-child(6) {
                             <div>
 
                                 <label for="nameInput" class="form-label">Insured Person Name<span class="red">*</span></label>
-
-                                <select class="form-select mb-2" aria-label="Default select example">
-
-                        
-
-                                  <option value="1">1</option>
-
-                                  <option value="2">2</option>
-
-                        
-
-                                </select>
+                                <input type="name" class="form-control" id="proposer_name" placeholder="Enter Nominee Name" >
 
                             </div>
 
@@ -759,17 +751,7 @@ table#mutual_report td:nth-child(6) {
 
                                 <label for="insurancefirmInput" class="form-label">Insurance Firm<span class="red">*</span></label>
 
-                                <select class="form-select mb-2" aria-label="Default select example">
-
-                        
-
-                                   <option value="1">1</option>
-
-                                   <option value="2">2</option>
-
-                        
-
-                                </select>
+                                <input type="name" class="form-control" id="company_name" placeholder="Enter Insurance Firm" >
 
                             </div>
 
@@ -781,17 +763,7 @@ table#mutual_report td:nth-child(6) {
 
                                 <label for="schemenameInput" class="form-label">Scheme Name<span class="red">*</span></label>
 
-                                <select class="form-select mb-2" aria-label="Default select example">
-
-                        
-
-                                   <option value="1">1</option>
-
-                                   <option value="2">2</option>
-
-                        
-
-                                </select>
+                                <input type="text" class="form-control" id="plan_name" placeholder="Enter Scheme Name" >
 
                             </div>
 
@@ -803,7 +775,7 @@ table#mutual_report td:nth-child(6) {
 
                                 <label for="policynoInput" class="form-label">Policy No<span class="red">*</span></label>
 
-                                <input type="number" class="form-control" id="number" placeholder="Enter Pollicy Number" required>
+                                <input type="text" class="form-control" id="policy_no" name="policy_no" placeholder="Enter Pollicy Number" required>
 
                             </div>
 
@@ -815,7 +787,7 @@ table#mutual_report td:nth-child(6) {
 
                                 <label for="paymentInput" class="form-label">Payment Start Date<span class="red">*</span></label>
 
-                               <input type="date" class="form-control" id="date" placeholder="datepicker-range" required>
+                               <input type="date" class="form-control" id="issue_date" placeholder="datepicker-range" required>
 
 
 
@@ -829,7 +801,7 @@ table#mutual_report td:nth-child(6) {
 
                                 <label for="paymentInput" class="form-label">Payment End Date</label>
 
-                                <input type="date" class="form-control" id="date" placeholder="datepicker-range" required>
+                                <input type="date" class="form-control" id="post_date" placeholder="datepicker-range" required>
 
                             </div>
 
@@ -841,7 +813,7 @@ table#mutual_report td:nth-child(6) {
 
                                 <label for="close-date-Input" class="form-label">Maturity Date</label>
 
-                                <input type="date" class="form-control" id="date" placeholder="date" required>
+                                <input type="date" class="form-control" id="risk_date" placeholder="date" required>
 
                             </div>
 
@@ -853,7 +825,7 @@ table#mutual_report td:nth-child(6) {
 
                                 <label for="sumassuredInput" class="form-label">Sum Assured</label>
 
-                                <input type="number" class="form-control" id="number" placeholder="Enter Number" >
+                                <input type="number" class="form-control" id="sum_assured" placeholder="Enter Number" >
 
                             </div>
 
@@ -863,9 +835,9 @@ table#mutual_report td:nth-child(6) {
 
                             <div>
 
-                                <label for="primumInput" class="form-label">Primum</label>
+                                <label for="primumInput" class="form-label">Perimum</label>
 
-                                <input type="number" class="form-control" id="number" placeholder="Enter Number" >
+                                <input type="number" class="form-control" id="total_permium" placeholder="Enter Number" >
 
                             </div>
 
@@ -877,17 +849,7 @@ table#mutual_report td:nth-child(6) {
 
                                 <label for="dateofBirth" class="form-label">Mode</label>
 
-                                <select class="form-select mb-2" aria-label="Default select example">
-
-                        
-
-                                   <option value="1">1</option>
-
-                                   <option value="2">2</option>
-
-                        
-
-                                </select>
+                                <input type="text" class="form-control" id="mode" placeholder="Enter Number" >
 
                             </div>
 
@@ -917,18 +879,7 @@ table#mutual_report td:nth-child(6) {
 
                         </div> 
 
-                        <div class="col-sm-4">
-
-                            <div>
-
-                                <label for="nameInput" class="form-label">Nominee Name</label>
-
-                                <input type="name" class="form-control" id="name" placeholder="Enter Nominee Name" >
-
-                            </div>
-
-                        </div>
-
+                        
                        
 
              
@@ -943,7 +894,7 @@ table#mutual_report td:nth-child(6) {
 
                                 <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
 
-                                <button type="submit" class="btn btn-primary">Submit</button>
+                                {{-- <button type="submit" class="btn btn-primary">Submit</button> --}}
 
                             </div>
 
@@ -1621,7 +1572,7 @@ table#mutual_report td:nth-child(6) {
 
       ajax: {
 
-          url: base_url+"getlife_insurance",
+          url: base_url+"listlife_insurance",
 
           type: "POST",
 
@@ -1647,9 +1598,11 @@ table#mutual_report td:nth-child(6) {
 
           { data: 'plan_name' },
 
-          { data: 'login_date', },
+          { data: 'mode_payment' },
 
-          {data:'issue_date'},
+          { data: 'issue_date', },
+
+          {data:'risk_date'},
 
           {data:'total_permium'},
 
@@ -1667,11 +1620,7 @@ table#mutual_report td:nth-child(6) {
 
                       <ul class="dropdown-menu dropdown-menu-end">
 
-                      <li><a class="dropdown-item edit-list" data-edit-id='${data}' href="#" ><i class="ri-pencil-fill align-bottom me-2 text-muted"></i> Edit</a></li>
-
-                      <li class="dropdown-divider"></li>
-
-                      <li><a class="dropdown-item remove-list" href="#" data-id='${data}' onclick="deletemodel(${data})" ><i class="ri-delete-bin-fill align-bottom me-2 text-muted"></i> Delete</a></li>
+                      <li><a class="dropdown-item edit-list" data-edit-id='${data}' href="#" data-edit-id='${data}' href="#" onclick="editlife(${data})"><i class="ri-pencil-fill align-bottom me-2 text-muted"></i> Edit</a></li>
 
                       </ul>
 
@@ -1731,9 +1680,9 @@ table#mutual_report td:nth-child(6) {
 
           { data: 'plan_name' },
 
-          { data: 'login_date', },
+          { data: 'issue_date', },
 
-          {data:'issue_date'},
+          {data:'risk_exp_date'},
 
           {data:'total_permium'},
 
@@ -1751,11 +1700,7 @@ table#mutual_report td:nth-child(6) {
 
                       <ul class="dropdown-menu dropdown-menu-end">
 
-                      <li><a class="dropdown-item edit-list" data-edit-id='${data}' href="#" ><i class="ri-pencil-fill align-bottom me-2 text-muted"></i> Edit</a></li>
-
-                      <li class="dropdown-divider"></li>
-
-                      <li><a class="dropdown-item remove-list" href="#" data-id='${data}' onclick="deletemodel(${data})" ><i class="ri-delete-bin-fill align-bottom me-2 text-muted"></i> Delete</a></li>
+                      <li><a class="dropdown-item edit-list" data-edit-id='${data}' href="#" ><i class="ri-pencil-fill align-bottom me-2 text-muted"></i> Edit</a></li
 
                       </ul>
 
@@ -1785,7 +1730,7 @@ bFilter: true,
 
 ajax: {
 
-    url: base_url+"getbonds",
+    url: base_url+"listbonds",
 
     type: "POST",
 
@@ -1823,11 +1768,10 @@ columns: [
 
                 <ul class="dropdown-menu dropdown-menu-end">
 
-                <li><a class="dropdown-item edit-list" data-edit-id='${data}' href="#" ><i class="ri-pencil-fill align-bottom me-2 text-muted"></i> Edit</a></li>
+                <li><a class="dropdown-item edit-list" data-edit-id='${data}' onclick="editbond(${data})" href="#" ><i class="ri-pencil-fill align-bottom me-2 text-muted"></i> Edit</a></li>
 
                 <li class="dropdown-divider"></li>
 
-                <li><a class="dropdown-item remove-list" href="#" data-id='${data}' onclick="deletemodel(${data})" ><i class="ri-delete-bin-fill align-bottom me-2 text-muted"></i> Delete</a></li>
 
                 </ul>
 
