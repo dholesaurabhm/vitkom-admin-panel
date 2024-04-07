@@ -1347,8 +1347,9 @@ class ApiController extends Controller
          public function calculateFund($id)
          {
              try {
-              
+                
                 $fund=MutualFund::where('id',$id)->where('isdelete',0)->first();
+                $amc=FundPlan::where('isin_code',$fund->isin)->orderBy('updated_at', 'DESC')->first();
                 $report=TransactionReport::select('id','trxn_type','invest_amount',DB::raw('cast(no_units AS DECIMAL(16,4))as no_units'),'trxn_date','nav')->where('client_id',$fund->client_id)->where('isin',$fund->isin)->where('folio_no',$fund->folio_no)->where('isdelete',0)->groupBy('tr_no')->orderBy('trxn_date','ASC')->get();
                 $investedAmount=$current_unit=$current_value=$profit_loss=0;
                 $unitsBought = []; // Associative array to store units bought with their purchase prices
@@ -1396,19 +1397,18 @@ class ApiController extends Controller
                             }
                         }
                         $current_unit-=(float)$transaction->no_units;
-                        $current_value-=(float)$fund->nav * (float)$transaction->no_units;
-                        $profit_loss-=(float)$current_value +(float)$investedAmount;
+                        $current_value-=(float)$amc->nav * (float)$transaction->no_units;
                     } elseif ($transaction['trxn_type'] === "1") {
                         $unitsBought[$transaction['nav']] = isset($unitsBought[$transaction['nav']]) ? $unitsBought[$transaction['nav']] + $transaction['no_units'] : $transaction['no_units'];
                         $investedAmount += $transaction['invest_amount'] ;
                         $current_unit+=(float)$transaction->no_units;
-                        $current_value+=(float)$fund->nav * (float)$transaction->no_units;
-                        $profit_loss+=(float)$current_value -(float)$investedAmount;
+                        $current_value+=(float)$amc->nav * (float)$transaction->no_units;
+                        
                     }
                     $current_unit=round($current_unit,4);
                 }
-
-                $updatefund=MutualFund::where('id',$id)->update(['invested_amount'=>$investedAmount,'current_unit'=>$current_unit,'current_value'=>$current_value,'profit_loss'=>$profit_loss]);
+                $profit_loss=(float)$current_value -(float)$investedAmount;
+                $updatefund=MutualFund::where('id',$id)->update(['invested_amount'=>round($investedAmount,2),'current_unit'=>$current_unit,'current_value'=>round($current_value,2),'profit_loss'=>round($profit_loss,2),'nav'=>$amc->nav]);
                
                  return $updatefund;
 
@@ -1651,7 +1651,9 @@ class ApiController extends Controller
                  $bond_client=BondMaster::where('isdelete',0)->where('total','>','1')->count();
                  $final['active_client']=$bond_client +$mutul_client;
                  $final['sip']=TransactionReport::where('isdelete',0)->where('type','like','%SIP%')->groupBy('folio_no')->sum('invest_amount');
-                 $final['redemption']=TransactionReport::where('isdelete',0)->whereMonth('trxn_date', Carbon::now()->month)->where('trxn_type',2)->sum('invest_amount');
+                 $redemption=DB::select('select IFNULL(sum(invest_amount),0)as total from(SELECT *,DATE_FORMAT(trxn_date, "%d-%m-%Y")as trasaction_date FROM `transaction_report` where isdelete=0 and trxn_type=2   ORDER BY `trasaction_date` DESC)as a where MONTH(trasaction_date) = MONTH(CURRENT_DATE())
+                 AND YEAR(trasaction_date) = YEAR(CURRENT_DATE())');
+                 $final['redemption']=$redemption[0]->total;
                  $final['anum']=$mutul+$bond;
                  return Response::json(array( 'success' => true,'data' => $final,'message'=>'Dashboard Count'), 200); 
      

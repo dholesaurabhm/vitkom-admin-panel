@@ -143,7 +143,7 @@ table#mutual_report td:nth-child(6) {
 					                                        <th>Action</th>
 					                                    </tr>
 					                                </thead>
-                                                    <tfoot>
+                                                    {{-- <tfoot>
                                                         <tr>
                                                             <th colspan="3">Total</th>
                                                             <th>0</th>
@@ -152,7 +152,7 @@ table#mutual_report td:nth-child(6) {
                                                             <th>0</th>
                                                             <th></th>
                                                         </tr>
-                                                    </tfoot>
+                                                    </tfoot> --}}
 					                            </table>
                                             </div>
                                         </div>
