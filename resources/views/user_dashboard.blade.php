@@ -735,7 +735,7 @@ table#mutual_report td:nth-child(6) {
                         <div class="col-sm-4">
 
                             <div>
-
+                                <input type="hidden"  id="life_id" name="life_id"  >
                                 <label for="nameInput" class="form-label">Insured Person Name<span class="red">*</span></label>
                                 <input type="name" class="form-control" id="proposer_name" placeholder="Enter Nominee Name" >
 
@@ -945,24 +945,13 @@ table#mutual_report td:nth-child(6) {
                         <div class="col-sm-4">
 
                             <div>
-
+                                <input type="hidden"  id="life_id" name="life_id"  >
                                 <label for="nameInput" class="form-label">Insured Person Name<span class="red">*</span></label>
-
-                                <select class="form-select mb-2" aria-label="Default select example">
-
-                        
-
-                                  <option value="1">1</option>
-
-                                  <option value="2">2</option>
-
-                        
-
-                                </select>
+                                <input type="name" class="form-control" id="health_proposer_name" placeholder="Enter Nominee Name" >
 
                             </div>
 
-                        </div><!--end col-->
+                        </div>
 
                         
 
@@ -972,55 +961,23 @@ table#mutual_report td:nth-child(6) {
 
                                 <label for="insurancefirmInput" class="form-label">Insurance Firm<span class="red">*</span></label>
 
-                                <select class="form-select mb-2" aria-label="Default select example">
-
-                        
-
-                                   <option value="1">1</option>
-
-                                   <option value="2">2</option>
-
-                        
-
-                                </select>
+                                <input type="name" class="form-control" id="health_company_name" placeholder="Enter Insurance Firm" >
 
                             </div>
 
-                        </div><!--end col-->
+                        </div>
 
                         <div class="col-sm-4">
 
                             <div>
 
-                                <label for="SchemenameInput" class="form-label">Scheme Name<span class="red">*</span></label>
+                                <label for="schemenameInput" class="form-label">Scheme Name<span class="red">*</span></label>
 
-                                <select class="form-select mb-2" aria-label="Default select example">
-
-                        
-
-                                   <option value="1">1</option>
-
-                                   <option value="2">2</option>
-
-                        
-
-                                </select>
+                                <input type="text" class="form-control" id="health_plan_name" placeholder="Enter Scheme Name" >
 
                             </div>
 
-                        </div>    
-
-                        <div class="col-sm-4">
-
-                            <div>
-
-                                <label for="schemeInput" class="form-label">Scheme Name<span class="red">*</span></label>
-
-                                <input type="name" class="form-control" id="name" placeholder="Enter Scheme Name" required>
-
-                            </div>
-
-                        </div><!--end col-->
+                        </div>
 
                         <div class="col-sm-4">
 
@@ -1028,61 +985,49 @@ table#mutual_report td:nth-child(6) {
 
                                 <label for="policynoInput" class="form-label">Policy No<span class="red">*</span></label>
 
-                                <input type="number" class="form-control" id="number" placeholder="Enter Pollicy Number" required>
+                                <input type="text" class="form-control" id="health_policy_no" name="policy_no" placeholder="Enter Pollicy Number" required>
 
                             </div>
 
-                        </div><!--end col-->
+                        </div>
 
                         <div class="col-sm-4">
 
                             <div>
 
-                                <label for="startdateInput" class="form-label">Start Date<span class="red">*</span></label>
+                                <label for="paymentInput" class="form-label">Payment Start Date<span class="red">*</span></label>
 
-                               <input type="date" class="form-control" id="date" placeholder="datepicker-range" required>
+                               <input type="date" class="form-control" id="health_issue_date" placeholder="datepicker-range" required>
 
 
 
                             </div>
 
-                        </div><!--end col-->
+                        </div>
 
                         <div class="col-sm-4">
 
                             <div>
 
-                                <label for="pickadateInput" class="form-label">Pick a Date</label>
+                                <label for="paymentInput" class="form-label">Payment End Date</label>
 
-                                <input type="date" class="form-control" id="date" placeholder="datepicker-range" required>
+                                <input type="date" class="form-control" id="health_post_date" placeholder="datepicker-range" required>
 
                             </div>
 
-                        </div><!--end col--> 
+                        </div>
 
                         <div class="col-sm-4">
 
                             <div>
 
-                                <label for="maturitydateInput" class="form-label">Maturity Date</label>
+                                <label for="close-date-Input" class="form-label">Maturity Date</label>
 
-                                <input type="date" class="form-control" id="date" placeholder="datepicker-range" required>
-
-                            </div>
-
-                        </div><!--end col--> 
-
-                        <div class="col-sm-4">
-
-                            <div>
-
-                                <label for="pickadateInput" class="form-label">Pick a date</label>
-
-                                <input type="date" class="form-control" id="date" placeholder="datepicker-range" required>
+                                <input type="date" class="form-control" id="health_risk_date" placeholder="date" required>
 
                             </div>
 
-                        </div><!--end col--> 
+                        </div>
 
                         <div class="col-sm-4">
 
@@ -1090,30 +1035,61 @@ table#mutual_report td:nth-child(6) {
 
                                 <label for="sumassuredInput" class="form-label">Sum Assured</label>
 
-                                <input type="number" class="form-control" id="number" placeholder="Enter Number" >
+                                <input type="number" class="form-control" id="health_sum_assured" placeholder="Enter Number" >
 
                             </div>
 
-                        </div><!--end col--> 
-
-                        
-
-                         
+                        </div>
 
                         <div class="col-sm-4">
 
                             <div>
 
-                                <label for="primumamountInput" class="form-label">Premium Amount</label>
+                                <label for="primumInput" class="form-label">Perimum</label>
 
-                                <input type="number" class="form-control" id="number" placeholder="Enter Number" >
+                                <input type="number" class="form-control" id="health_total_permium" placeholder="Enter Number" >
 
                             </div>
 
-                        </div><!--end col-->
+                        </div>
+
+                        <div class="col-sm-4">
+
+                            <div>
+
+                                <label for="dateofBirth" class="form-label">Mode</label>
+
+                                <input type="text" class="form-control" id="health_mode" placeholder="Enter Number" >
+
+                            </div>
+
+                        </div>
+
+                        <div class="col-sm-4">
+
+                            <div>
+
+                                <label for="currentvalueInput" class="form-label">Current Value</label>
+
+                                <input type="number" class="form-control" id="health_number" placeholder="Enter Number" >
+
+                            </div>
+
+                        </div>
+
+                        <div class="col-sm-4">
+
+                            <div>
+
+                                <label for="maturityamountInput" class="form-label">Maturity Amount</label>
+
+                                <input type="number" class="form-control" id="health_number" placeholder="Enter Number" >
+
+                            </div>
+
+                        </div> 
 
                         
-
                        
 
              
@@ -1128,15 +1104,15 @@ table#mutual_report td:nth-child(6) {
 
                                 <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
 
-                                <button type="submit" class="btn btn-primary">Submit</button>
+                                {{-- <button type="submit" class="btn btn-primary">Submit</button> --}}
 
                             </div>
 
                         </div>
 
-                        <!--end col-->
+                        
 
-                    </div><!--end row-->
+                    </div>
 
                 </form>
 
@@ -1654,7 +1630,7 @@ table#mutual_report td:nth-child(6) {
 
       ajax: {
 
-          url: base_url+"gethealth_insurance",
+          url: base_url+"listhealth_insurance",
 
           type: "POST",
 
@@ -1700,7 +1676,7 @@ table#mutual_report td:nth-child(6) {
 
                       <ul class="dropdown-menu dropdown-menu-end">
 
-                      <li><a class="dropdown-item edit-list" data-edit-id='${data}' href="#" ><i class="ri-pencil-fill align-bottom me-2 text-muted"></i> Edit</a></li
+                      <li><a class="dropdown-item edit-list" data-edit-id='${data}' href="#" onclick="edithealth(${data})" ><i class="ri-pencil-fill align-bottom me-2 text-muted"></i> Edit</a></li
 
                       </ul>
 

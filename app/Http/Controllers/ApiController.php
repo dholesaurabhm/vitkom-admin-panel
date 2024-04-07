@@ -1542,7 +1542,7 @@ class ApiController extends Controller
          }
 
 
-         public function gethealth_insurance(Request $request)
+         public function listhealth_insurance(Request $request)
          {
              try {
                  $data=$request->all();
@@ -1558,6 +1558,28 @@ class ApiController extends Controller
                  $list=$query->groupBy('policy_no')->skip($data['start'])->take($data['length'])->get();
                 
                  return response()->json(['recordsTotal' => $count,'recordsFiltered' =>$count ,'data'=>$list]);
+     
+             } catch (\Exception $e) {
+               
+                 return $e->getMessage();
+             }
+         }
+
+         public function gethealth_insurance(Request $request)
+         {
+             try {
+                 $data=$request->all();
+                 $query=HealthReport::where('isdelete',0);
+           
+                 if(isset($data['health_id']))
+                 {
+                    $list=$query->where('id',$data['health_id'])->first();
+                 }
+                 else{
+                    $list=$list->get();
+                 }
+               
+                 return Response::json(array( 'success' => true,'data' => $list,'message'=>'Health List.'), 200); 
      
              } catch (\Exception $e) {
                
@@ -1631,7 +1653,7 @@ class ApiController extends Controller
                  $final['sip']=TransactionReport::where('isdelete',0)->where('type','like','%SIP%')->groupBy('folio_no')->sum('invest_amount');
                  $final['redemption']=TransactionReport::where('isdelete',0)->whereMonth('trxn_date', Carbon::now()->month)->where('trxn_type',2)->sum('invest_amount');
                  $final['anum']=$mutul+$bond;
-                 return Response::json(array( 'success' => true,'data' => $final,'message'=>'Transaction File Uploaded Successfully.'), 200); 
+                 return Response::json(array( 'success' => true,'data' => $final,'message'=>'Dashboard Count'), 200); 
      
              } catch (\Exception $e) {
                

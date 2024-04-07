@@ -190,7 +190,7 @@ function editmutual(id)
         {
           $('#mutual_id').val(result.data.id);
           $('#amc_id').val(result.data.amc_id).trigger('change');
-          $('#scheme_name').val(result.data.scheme_name);
+        
           $('#folio_no').val(result.data.folio_no);
           $('#plan').val(result.data.plan);
         //  $('#purchase_date').val(result.data.purchase_date);
@@ -201,7 +201,7 @@ function editmutual(id)
           $('#current_nav').val(result.data.current_nav);
           $('#profit_loss').val(result.data.profit_loss);
           $('#mutual_fund_modal').modal('show');
-          setInterval(function () {$('#scheme_id').val(result.data.scheme_id);}, 1000);
+          setTimeout(function () {$('#scheme_id').val(result.data.scheme_id);  $('#scheme_name').val(result.data.scheme_name);}, 1000);
           let row='';
           $.each(result.data.report, function(index, item) {
               row+=`<tr>
@@ -313,7 +313,7 @@ function editlife(id)
         console.log("ajax data=", result)
         if(result.success==true)
         {
-          $('#bond_id').val(result.data.id);
+          $('#life_id').val(result.data.id);
           $('#proposer_name').val(result.data.proposer_name);
           $('#mode').val(result.data.mode);
           $('#total_permium').val(result.data.total_permium);
@@ -334,3 +334,72 @@ function editlife(id)
      }
     });
 }
+
+
+
+function editlife(id)
+{
+  console.log(id)
+  $.ajax({
+    type: "POST",
+    url: base_url+"getlife_insurance",
+    data: {life_id:id},
+    success: function(result) {
+        console.log("ajax data=", result)
+        if(result.success==true)
+        {
+          $('#life_id').val(result.data.id);
+          $('#proposer_name').val(result.data.proposer_name);
+          $('#mode').val(result.data.mode);
+          $('#total_permium').val(result.data.total_permium);
+          $('#sum_assured').val(result.data.sum_assured);
+          $('#risk_date').val(result.data.risk_date);
+          $('#post_date').val(result.data.post_date);
+          $('#plan_name').val(result.data.plan_name);
+          $('#issue_date').val(result.data.issue_date);
+          $('#policy_no').val(result.data.policy_no);
+          $('#company_name').val(result.data.company_name);
+          $('#policy_no').val(result.data.policy_no);
+          $('#lifeinsurance_modal').modal('show');
+        }      
+      
+    },
+    error: function(error) {
+        toast_error(error.responseJSON.message)
+     }
+    });
+}
+
+function edithealth(id)
+{
+  console.log(id)
+  $.ajax({
+    type: "POST",
+    url: base_url+"gethealth_insurance",
+    data: {health_id:id},
+    success: function(result) {
+        console.log("ajax data=", result)
+        if(result.success==true)
+        {
+          $('#health_id').val(result.data.id);
+          $('#health_proposer_name').val(result.data.proposer_name);
+          $('#health_mode').val(result.data.mode);
+          $('#health_total_permium').val(result.data.total_permium);
+          $('#health_sum_assured').val(result.data.sum_assured);
+          $('#health_risk_date').val(result.data.risk_date);
+          $('#health_post_date').val(result.data.post_date);
+
+          $('#health_issue_date').val(result.data.issue_date);
+          $('#health_policy_no').val(result.data.policy_no);
+          $('#health_company_name').val(result.data.company_name);
+          $('#health_plan_name').val(result.data.plan_name);
+          $('#medical_insurance_modal').modal('show');
+        }      
+      
+    },
+    error: function(error) {
+        toast_error(error.responseJSON.message)
+     }
+    });
+}
+

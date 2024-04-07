@@ -62,8 +62,8 @@ function getclient(data={})
 
 function convert(num)
 {
-    var conv=(num/1000).toFixed(2)
-    return conv + "k";
+    var conv=(Math.ceil(num)).toLocaleString()
+     return "&#8377; " +conv;
 }
 
 function getcount(data={})
