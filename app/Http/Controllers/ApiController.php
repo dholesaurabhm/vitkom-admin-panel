@@ -1408,6 +1408,11 @@ class ApiController extends Controller
                     $current_unit=round($current_unit,4);
                 }
                 $profit_loss=(float)$current_value -(float)$investedAmount;
+                
+                $investedAmount=$investedAmount > 0 ? $investedAmount :0;
+                $current_unit=$current_unit > 0 ? $current_unit :0;
+                $current_value=$current_value > 0 ? $current_value :0;
+                $profit_loss=$profit_loss > 0 ? $profit_loss :0;
                 $updatefund=MutualFund::where('id',$id)->update(['invested_amount'=>round($investedAmount,2),'current_unit'=>$current_unit,'current_value'=>round($current_value,2),'profit_loss'=>round($profit_loss,2),'nav'=>$amc->nav]);
                
                  return $updatefund;
@@ -1647,8 +1652,8 @@ class ApiController extends Controller
                  
                  $mutul=MutualFund::where('isdelete',0)->sum('current_value');
                  $bond=BondMaster::where('isdelete',0)->sum('total');
-                 $mutul_client=MutualFund::where('isdelete',0)->where('current_unit','>','1')->count();
-                 $bond_client=BondMaster::where('isdelete',0)->where('total','>','1')->count();
+                 $mutul_client=MutualFund::where('isdelete',0)->where('current_unit','>','1')->groupBy('client_id')->count();
+                 $bond_client=BondMaster::where('isdelete',0)->where('total','>','1')->groupBy('client_id')->count();
                  $final['active_client']=$bond_client +$mutul_client;
                  $final['sip']=TransactionReport::where('isdelete',0)->where('type','like','%SIP%')->groupBy('folio_no')->sum('invest_amount');
                  $redemption=DB::select('select IFNULL(sum(invest_amount),0)as total from(SELECT *,DATE_FORMAT(trxn_date, "%d-%m-%Y")as trasaction_date FROM `transaction_report` where isdelete=0 and trxn_type=2   ORDER BY `trasaction_date` DESC)as a where MONTH(trasaction_date) = MONTH(CURRENT_DATE())
