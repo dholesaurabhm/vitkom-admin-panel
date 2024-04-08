@@ -46,6 +46,7 @@ Route::post('mutual_fund/list', [App\Http\Controllers\ApiController::class, 'lis
 Route::post('mutual_fund/show', [App\Http\Controllers\ApiController::class, 'getmutual_fund']);
 Route::post('mutual_fund/delete', [App\Http\Controllers\ApiController::class, 'deletemutual_fund']);
 Route::post('mutual_fund/update/{id}', [App\Http\Controllers\ApiController::class, 'updatemutual_fund']);
+Route::post('getmutualCount', [App\Http\Controllers\ApiController::class, 'getmutualCount']);
 
 Route::post('getamc', [App\Http\Controllers\ApiController::class, 'getamc']);
 Route::post('getamc_plan', [App\Http\Controllers\ApiController::class, 'getamc_plan']);
@@ -62,5 +63,6 @@ Route::post('gethealth_insurance', [App\Http\Controllers\ApiController::class, '
 
 Route::post('getbonds', [App\Http\Controllers\ApiController::class, 'getbonds']);
 Route::post('listbonds', [App\Http\Controllers\ApiController::class, 'listbonds']);
+Route::post('getbondCount', [App\Http\Controllers\ApiController::class, 'getbondCount']);
 
 Route::post('getdashboard_count', [App\Http\Controllers\ApiController::class, 'getdashboard_count']);

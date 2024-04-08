@@ -125,16 +125,7 @@ table#mutual_report td:nth-child(6) {
 					                                        <th>Action</th>
 					                                    </tr>
 					                                </thead>
-                                                    <tfoot>
-                                                        <tr>
-                                                            <th colspan="3">Total</th>
-                                                            <th>0</th>
-                                                            <th>0</th>
-                                                            <th>0</th>
-                                                            <th>0</th>
-                                                            <th></th>
-                                                        </tr>
-                                                    </tfoot>
+                                                    
 					                            </table>
                                             </div>
                                         </div>
@@ -1344,7 +1335,8 @@ table#mutual_report td:nth-child(6) {
 <script>
 
     $(document).ready(function(){
-
+        getmutualCount();
+        getbondCount();
       var mutual_fund_table =$('#mutual_fund_table').DataTable({
 
       proccessing: true,

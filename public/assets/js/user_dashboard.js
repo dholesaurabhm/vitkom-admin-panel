@@ -403,3 +403,50 @@ function edithealth(id)
     });
 }
 
+
+
+function getmutualCount()
+{
+  var client_id=$('#client_id').val();
+  $.ajax({
+    type: "POST",
+    url: base_url+"getmutualCount",
+    data: {client_id:client_id},
+    success: function(result) {
+        console.log("ajax data=", result)
+        if(result.success==true)
+        {
+          
+        }      
+      
+    },
+    error: function(error) {
+        toast_error(error.responseJSON.message)
+     }
+    });
+}
+
+
+function getbondCount()
+{
+  var client_id=$('#client_id').val();
+  $.ajax({
+    type: "POST",
+    url: base_url+"getbondCount",
+    data: {client_id:client_id},
+    success: function(result) {
+        console.log("ajax data=", result)
+        if(result.success==true)
+        {
+          
+        }      
+      
+    },
+    error: function(error) {
+        toast_error(error.responseJSON.message)
+     }
+    });
+}
+
+
+

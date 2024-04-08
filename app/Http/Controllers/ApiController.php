@@ -874,6 +874,20 @@ class ApiController extends Controller
                  return $e->getMessage();
              }
          }
+
+         
+         public function getmutualCount(Request $request)
+         {
+             try {
+                 $data=$request->all();
+                 $mutual=Client::select('clients.name','clients.id',DB::raw('IFNULL(sum(invested_amount),0)as invested_amount'),DB::raw('IFNULL(sum(current_unit),0)as current_unit'),DB::raw('IFNULL(sum(current_value),0)as current_value'),DB::raw('IFNULL(sum(profit_loss),0)as profit_loss'))->leftJoin('mutual_funds', 'mutual_funds.client_id', '=', 'clients.id')->where('mutual_funds.isdelete',0)->where('clients.id',$data['client_id'])->first();
+               
+                 return Response::json(array( 'success' => true,'data' => $mutual,'message'=>'Client Mutual Fund Counts.'), 200); 
+             } catch (\Exception $e) {
+               
+                 return $e->getMessage();
+             }
+         }
      
          public function deletemutual_fund(Request $request)
          {
@@ -1641,6 +1655,19 @@ class ApiController extends Controller
              }
          }
 
+
+         public function getbondCount(Request $request)
+         {
+             try {
+                 $data=$request->all();
+                 $bond=Client::select('name','id')->where('id',$data['client_id'])->first();
+                 $bond['total']=BondMaster::where('isdelete',0)->where('client_id',$data['client_id'])->sum('total');
+                 return Response::json(array( 'success' => true,'data' => $bond,'message'=>'Client Bond Fund Counts.'), 200); 
+             } catch (\Exception $e) {
+               
+                 return $e->getMessage();
+             }
+         }
 
 
          public function getdashboard_count(Request $request)

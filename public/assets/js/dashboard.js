@@ -80,7 +80,7 @@ function getcount(data={})
         $("#anum").html(convert(result.data.anum));
         $("#sip").html(convert(result.data.sip));
         $("#redemption").html(convert(result.data.redemption));
-        $("#active_client").html(convert(result.data.active_client));
+        $("#active_client").html(result.data.active_client);
      
       }
   }

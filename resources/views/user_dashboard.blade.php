@@ -1451,7 +1451,8 @@ table#mutual_report td:nth-child(6) {
 <script>
 
     $(document).ready(function(){
-
+        getmutualCount();
+        getbondCount();
       var mutual_fund_table =$('#mutual_fund_table').DataTable({
 
       proccessing: true,

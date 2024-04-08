@@ -127,7 +127,7 @@ span.select2-selection.select2-selection--single {
                                 </div>
                                 <div class="avatar-sm flex-shrink-0">
                                     <span class="avatar-title bg-primary-subtle rounded fs-3">
-                                        <i class="bx bx-wallet text-primary"></i>
+                                        <i class="bx bx-dollar-circle text-success"></i>
                                     </span>
                                 </div>
                             </div>
