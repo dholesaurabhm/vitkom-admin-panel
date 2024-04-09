@@ -1426,7 +1426,8 @@ class ApiController extends Controller
                 $investedAmount=$investedAmount > 0 ? $investedAmount :0;
                 $current_unit=$current_unit > 0 ? $current_unit :0;
                 $current_value=$current_value > 0 ? $current_value :0;
-                $profit_loss=$profit_loss > 0 ? $profit_loss :0;
+                $profit_loss=($investedAmount > 2 && $current_unit >0) ? $profit_loss :0;
+
                 $updatefund=MutualFund::where('id',$id)->update(['invested_amount'=>round($investedAmount,2),'current_unit'=>$current_unit,'current_value'=>round($current_value,2),'profit_loss'=>round($profit_loss,2),'nav'=>$amc->nav]);
                
                  return $updatefund;
