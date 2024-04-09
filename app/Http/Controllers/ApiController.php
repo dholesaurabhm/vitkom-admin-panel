@@ -1672,28 +1672,58 @@ class ApiController extends Controller
 
 
          public function getdashboard_count(Request $request)
+
          {
+
              try {
+
                  $data=$request->all();
+
                  
+
                  $final=[];
+
                  
-                 $mutul=MutualFund::where('isdelete',0)->sum('current_value');
-                 $bond=BondMaster::where('isdelete',0)->sum('total');
+
+                 $mutul = MutualFund::where('isdelete',0)->sum('current_value');
+
+                 $bond  = BondMaster::where('isdelete',0)->sum('total');
+
                  $mutul_client=MutualFund::where('isdelete',0)->where('current_unit','>','1')->groupBy('client_id')->count();
+
                  $bond_client=BondMaster::where('isdelete',0)->where('total','>','1')->groupBy('client_id')->count();
-                 $final['active_client']=$bond_client +$mutul_client;
+
+
+                 $active_client=DB::select('SELECT COUNT(DISTINCT client_id) AS count_of_ids FROM (
+                                                                                                    SELECT client_id FROM mutual_funds WHERE invested_amount > 2
+                                                                                                    UNION
+                                                                                                    SELECT client_id FROM bond_master WHERE total > 0
+                                                                                                ) AS combined_results');
+
+                 $final['active_client']=$active_client[0]->count_of_ids;
+
                  $final['sip']=TransactionReport::where('isdelete',0)->where('type','like','%SIP%')->groupBy('folio_no')->sum('invest_amount');
+
                  $redemption=DB::select('select IFNULL(sum(invest_amount),0)as total from(SELECT *,DATE_FORMAT(trxn_date, "%d-%m-%Y")as trasaction_date FROM `transaction_report` where isdelete=0 and trxn_type=2   ORDER BY `trasaction_date` DESC)as a where MONTH(trasaction_date) = MONTH(CURRENT_DATE())
+
                  AND YEAR(trasaction_date) = YEAR(CURRENT_DATE())');
+
                  $final['redemption']=$redemption[0]->total;
+
                  $final['anum']=$mutul+$bond;
+
                  return Response::json(array( 'success' => true,'data' => $final,'message'=>'Dashboard Count'), 200); 
+
      
+
              } catch (\Exception $e) {
+
                
+
                  return $e->getMessage();
+
              }
+
          }
 
          public function recalculate()
