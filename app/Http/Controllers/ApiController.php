@@ -1293,7 +1293,7 @@ class ApiController extends Controller
                     $client=Client::where('pan_no',$v[9])->first();
                     $pur=new BondReport();
                     $pur->client_id=$client !=null ? $client->id:'';
-                    $pur->date_from=$v[0] ?? '';
+                    $pur->date_from=date("Y-m-d", strtotime($v[0]));
                     $pur->client_code=$v[1] ?? '';
                     $pur->client_name=$v[2] ??'';
                     $pur->scrip_name=$v[3] ??'';
@@ -1733,6 +1733,38 @@ class ApiController extends Controller
                 $this->calculateFund($mu->id);
             }
             return 'Done';
+         }
+
+
+         public function report_insurance(Request $request)
+         {
+             try {
+                 $data=$request->all();
+                 $list=DB::select('SELECT client_id,proposer_name,company_name,plan_name,plan_type,DATE_FORMAT(post_date, "%d-%m-%Y")as renewal_date,total_permium FROM `life_report` where post_date BETWEEN "'.$data['start_date'].'" and "'.$data['end_date'].'" UNION SELECT client_id,proposer_name,company_name,plan_name,plan_type,DATE_FORMAT(post_date, "%d-%m-%Y")as renewal_date,total_permium FROM `health_report` where post_date BETWEEN "'.$data['start_date'].'" and "'.$data['end_date'].'"');
+                 return response()->json(['recordsTotal' => count($list),'recordsFiltered' =>count($list) ,'data'=>$list]);
+             } catch (\Exception $e) {
+               
+                 return $e->getMessage();
+             }
+         }
+
+         public function report_mb(Request $request)
+         {
+             try {
+                 $data=$request->all();
+                 if($data['type']=='1')
+                 {
+                    $list=DB::select('SELECT tr.client_id, tr.employee_name as client_name, tr.trxn_date as investment_date,(SELECT invest_amount FROM mutual_funds mf WHERE mf.client_id = tr.client_id AND mf.isin = tr.isin and mf.folio_no=tr.folio_no limit 1) AS total_holding , "Mutual" As investment_type, replace(replace(tr.trxn_type, 1, "Purchase"),2,"Redemption")AS transaction_type FROM transaction_report tr where client_id !="" and tr.trxn_date BETWEEN "'.$data['start_date'].'" and "'.$data['end_date'].'"');
+                 }
+                 else{
+                     $list=DB::Select('SELECT br.client_id, br.client_name, br.date_from as investment_date, (SELECT total FROM bond_master bm WHERE bm.client_id = br.client_id AND bm.scrip_name = br.scrip_name) AS total_holding , "Bond" As investment_type, br.status AS transaction_type FROM bond_report br where br.date_from BETWEEN "'.$data['start_date'].'" and "'.$data['end_date'].'"');
+                 }
+   
+                 return response()->json(['recordsTotal' => count($list),'recordsFiltered' =>count($list) ,'data'=>$list]);
+             } catch (\Exception $e) {
+               
+                 return $e->getMessage();
+             }
          }
 
 }

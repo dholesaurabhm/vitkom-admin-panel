@@ -1,11 +1,11 @@
-@extends('layouts.master')
-@section('title') @lang('translation.report2') @endsection
-@section('css')
+
+<?php $__env->startSection('title'); ?> <?php echo app('translator')->get('translation.report2'); ?> <?php $__env->stopSection(); ?>
+<?php $__env->startSection('css'); ?>
 <link href="https://cdn.datatables.net/responsive/2.2.9/css/responsive.bootstrap.min.css" rel="stylesheet" type="text/css" />
 <link href="https://cdn.datatables.net/buttons/2.2.2/css/buttons.dataTables.min.css" rel="stylesheet" type="text/css" />
 
-@endsection
-@section('content')
+<?php $__env->stopSection(); ?>
+<?php $__env->startSection('content'); ?>
 <div class="row">
     <div class="col">
 
@@ -108,8 +108,8 @@
     </div>
 </div>
 
-@endsection
-@section('script')
+<?php $__env->stopSection(); ?>
+<?php $__env->startSection('script'); ?>
 <script>
 function validateInvestorForm() {
     var investorName = document.getElementById('name').value;
@@ -143,8 +143,8 @@ function validateInvestorForm() {
 
 <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
 
-<script src="{{ URL::asset('/assets/js/pages/datatables.init.js') }}"></script>
-<script src="{{ URL::asset('/assets/js/app.min.js') }}"></script>
+<script src="<?php echo e(URL::asset('/assets/js/pages/datatables.init.js')); ?>"></script>
+<script src="<?php echo e(URL::asset('/assets/js/app.min.js')); ?>"></script>
 
 
 <script>
@@ -160,6 +160,7 @@ function validateInvestorForm() {
       serverSide: true,
       searching: false,
       bFilter: true,
+      destroy: true,
       dom: 'Bfrtip',
     buttons: [
         'pageLength', 'csv', 'excel'
@@ -206,4 +207,6 @@ function search()
 }
 </script>
 
-@endsection
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('layouts.master', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH D:\xampp\htdocs\vitkom-admin-panel\resources\views/report2_master.blade.php ENDPATH**/ ?>

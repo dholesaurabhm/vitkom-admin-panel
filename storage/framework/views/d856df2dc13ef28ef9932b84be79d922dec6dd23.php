@@ -1,9 +1,9 @@
-@extends('layouts.master')
-@section('title') @lang('translation.report1') @endsection
-@section('css')
 
-@endsection
-@section('content')
+<?php $__env->startSection('title'); ?> <?php echo app('translator')->get('translation.report1'); ?> <?php $__env->stopSection(); ?>
+<?php $__env->startSection('css'); ?>
+
+<?php $__env->stopSection(); ?>
+<?php $__env->startSection('content'); ?>
 <form id="investorWiseForm" onsubmit="return validateInvestorWiseForm();">
     <!-- Your form inputs here -->
 </form>
@@ -129,8 +129,8 @@
     </div>
 </div>
 
-@endsection
-@section('script')
+<?php $__env->stopSection(); ?>
+<?php $__env->startSection('script'); ?>
 <script>
 function validateInvestorWiseForm() {
     // Fetch values from the form
@@ -171,8 +171,8 @@ function validateInvestorWiseForm() {
 
 <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
 
-<script src="{{ URL::asset('/assets/js/pages/datatables.init.js') }}"></script>
-<script src="{{ URL::asset('/assets/js/app.min.js') }}"></script>
+<script src="<?php echo e(URL::asset('/assets/js/pages/datatables.init.js')); ?>"></script>
+<script src="<?php echo e(URL::asset('/assets/js/app.min.js')); ?>"></script>
 
 
 <script>
@@ -223,4 +223,6 @@ function search()
 }
 </script>
 
-@endsection
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('layouts.master', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH D:\xampp\htdocs\vitkom-admin-panel\resources\views/report1_master.blade.php ENDPATH**/ ?>

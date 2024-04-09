@@ -66,3 +66,6 @@ Route::post('listbonds', [App\Http\Controllers\ApiController::class, 'listbonds'
 Route::post('getbondCount', [App\Http\Controllers\ApiController::class, 'getbondCount']);
 
 Route::post('getdashboard_count', [App\Http\Controllers\ApiController::class, 'getdashboard_count']);
+
+Route::post('report_mb', [App\Http\Controllers\ApiController::class, 'report_mb']);
+Route::post('report_insurance', [App\Http\Controllers\ApiController::class, 'report_insurance']);
