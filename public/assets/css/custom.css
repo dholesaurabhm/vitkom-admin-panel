@@ -32,3 +32,31 @@ table.dataTable>thead .sorting:before, table.dataTable>thead .sorting_asc:before
 {
     top:5px !important;
 } */
+
+[data-layout=vertical][data-sidebar=dark] .navbar-menu {
+    background: #ffffff !important;
+}
+
+[data-layout=vertical][data-sidebar=dark] .navbar-menu .btn-vertical-sm-hover, [data-layout=vertical][data-sidebar=dark] .navbar-nav .nav-link {
+    color: #005961 !important;
+}
+
+[data-layout=vertical][data-sidebar=dark] .menu-title {
+    color: #379b01 !important;
+}
+
+.upload_btn {
+    --vz-btn-padding-x: 0.5rem;
+    --vz-btn-padding-y: 0.3rem;
+    --vz-btn-font-size: 0.7125rem;
+}
+
+
+th {
+    text-align: center;
+}
+
+
+table#mutual_report td:nth-child(2), table#mutual_report td:nth-child(3), table#mutual_report td:nth-child(4), table#mutual_report td:nth-child(5), table#mutual_report td:nth-child(6) {
+    text-align: center !important;
+}

@@ -37,19 +37,13 @@ span.select2-selection.select2-selection--single {
 
         <div class="h-100">
             <div class="row">
-                <div class="col-xl-3 col-md-6">
-                    <!-- card -->
+                <div class="col-xl-4 col-md-6">
                     <div class="card card-animate">
                         <div class="card-body">
                             <div class="d-flex align-items-center">
                                 <div class="flex-grow-1 overflow-hidden">
                                     <p class="text-uppercase fw-medium text-muted text-truncate mb-0"> Total AUM</p>
                                 </div>
-                                {{-- <div class="flex-shrink-0">
-                                    <h5 class="text-success fs-14 mb-0">
-                                        <i class="ri-arrow-right-up-line fs-13 align-middle"></i> +16.24 %
-                                    </h5>
-                                </div> --}}
                             </div>
                             <div class="d-flex align-items-end justify-content-between mt-4">
                                 <div>
@@ -61,11 +55,11 @@ span.select2-selection.select2-selection--single {
                                     </span>
                                 </div>
                             </div>
-                        </div><!-- end card body -->
-                    </div><!-- end card -->
-                </div><!-- end col -->
+                        </div>
+                    </div>
+                </div>
 
-                <div class="col-xl-3 col-md-6">
+                <div class="col-xl-4 col-md-6">
                     <!-- card -->
                     <div class="card card-animate">
                         <div class="card-body">
@@ -73,11 +67,6 @@ span.select2-selection.select2-selection--single {
                                 <div class="flex-grow-1 overflow-hidden">
                                  <p class="text-uppercase fw-medium text-muted text-truncate mb-0">Total SIP</p>
                                 </div>
-                                {{-- <div class="flex-shrink-0">
-                                    <h5 class="text-danger fs-14 mb-0">
-                                        <i class="ri-arrow-right-down-line fs-13 align-middle"></i> -3.57 %
-                                    </h5>
-                                </div> --}}
                             </div>
                             <div class="d-flex align-items-end justify-content-between mt-4">
                                 <div>
@@ -95,7 +84,7 @@ span.select2-selection.select2-selection--single {
                     </div><!-- end card -->
                 </div><!-- end col -->
 
-                <div class="col-xl-3 col-md-6">
+                <div class="col-xl-4 col-md-6">
                     <!-- card -->
                     <div class="card card-animate">
                         <div class="card-body">
@@ -123,23 +112,23 @@ span.select2-selection.select2-selection--single {
                     </div><!-- end card -->
                 </div><!-- end col -->
 
-                <div class="col-xl-3 col-md-6">
+                <div class="col-xl-4 col-md-6">
                     <!-- card -->
                     <div class="card card-animate">
                         <div class="card-body">
                             <div class="d-flex align-items-center">
                                 <div class="flex-grow-1 overflow-hidden">
-                                    <p class="text-uppercase fw-medium text-muted text-truncate mb-0"> Redemption(This Month)</p>
+                                    <p class="text-uppercase fw-medium text-muted text-truncate mb-0"> Life Insurance </p>
                                 </div>
-                                {{-- <div class="flex-shrink-0">
-                                    <h5 class="text-muted fs-14 mb-0">
-                                        +0.00 %
+                                <div class="flex-shrink-0">
+                                    <h5 class="text-muted fs-14 mb-0 life_insurance_count">
+                                        0
                                     </h5>
-                                </div> --}}
+                                </div>
                             </div>
                             <div class="d-flex align-items-end justify-content-between mt-4">
                                 <div>
-                                    <h4 class="fs-22 fw-semibold ff-secondary mb-4"><span class="counter-value" id="redemption" data-target="0.00">0</span> </h4>
+                                    <h4 class="fs-22 fw-semibold ff-secondary mb-4"><span class="counter-value" id="life_insurance_amt" data-target="0.00">0</span> </h4>
                                 </div>
                                 <div class="avatar-sm flex-shrink-0">
                                     <span class="avatar-title bg-primary-subtle rounded fs-3">
@@ -150,13 +139,68 @@ span.select2-selection.select2-selection--single {
                         </div>
                     </div>
                 </div>
+
+                <div class="col-xl-4 col-md-6">
+                    <div class="card card-animate">
+                        <div class="card-body">
+                            <div class="d-flex align-items-center">
+                                <div class="flex-grow-1 overflow-hidden">
+                                    <p class="text-uppercase fw-medium text-muted text-truncate mb-0"> Health Insurance </p>
+                                </div>
+                                <div class="flex-shrink-0">
+                                    <h5 class="text-muted fs-14 mb-0 health_insurance_count">
+                                        0
+                                    </h5>
+                                </div>
+                            </div>
+                            <div class="d-flex align-items-end justify-content-between mt-4">
+                                <div>
+                                    <h4 class="fs-22 fw-semibold ff-secondary mb-4"><span class="counter-value" id="health_insurance_amt" data-target="0.00">0</span> </h4>
+                                </div>
+                                <div class="avatar-sm flex-shrink-0">
+                                    <span class="avatar-title bg-primary-subtle rounded fs-3">
+                                        <i class="bx bx-dollar-circle text-success"></i>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-xl-4 col-md-6">
+                    <div class="card card-animate">
+                        <div class="card-body">
+                            <div class="d-flex align-items-center">
+                                <div class="flex-grow-1 overflow-hidden">
+                                    <p class="text-uppercase fw-medium text-muted text-truncate mb-0"> General Insurance</p>
+                                </div>
+                                <div class="flex-shrink-0">
+                                    <h5 class="text-muted fs-14 mb-0 general_insurance_count">
+                                        0
+                                    </h5>
+                                </div>
+                            </div>
+                            <div class="d-flex align-items-end justify-content-between mt-4">
+                                <div>
+                                    <h4 class="fs-22 fw-semibold ff-secondary mb-4"><span class="counter-value" id="general_insurance_amt" data-target="0.00">0</span> </h4>
+                                </div>
+                                <div class="avatar-sm flex-shrink-0">
+                                    <span class="avatar-title bg-primary-subtle rounded fs-3">
+                                        <i class="bx bx-dollar-circle text-success"></i>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
             </div> 
             <div class="row">
                 <div class="col-xl-12">
                     <div class="card">
                         <div class="card-header border-0 align-items-center d-flex">
                             <h4 class="card-title mb-0 flex-grow-1">Client Search</h4>
-                        </div><!-- end card header -->
+                        </div>
 
                         <div class="card-header p-0 border-0 bg-light-subtle">
                             <div class="row text-center">

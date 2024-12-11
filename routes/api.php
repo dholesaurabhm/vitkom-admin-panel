@@ -61,6 +61,11 @@ Route::post('listlife_insurance', [App\Http\Controllers\ApiController::class, 'l
 Route::post('listhealth_insurance', [App\Http\Controllers\ApiController::class, 'listhealth_insurance']);
 Route::post('gethealth_insurance', [App\Http\Controllers\ApiController::class, 'gethealth_insurance']);
 
+Route::post('listgeneral_insurance', [App\Http\Controllers\ApiController::class, 'listgeneral_insurance']);
+Route::post('getgeneral_insurance', [App\Http\Controllers\ApiController::class, 'getgeneral_insurance']);
+
+
+
 Route::post('getbonds', [App\Http\Controllers\ApiController::class, 'getbonds']);
 Route::post('listbonds', [App\Http\Controllers\ApiController::class, 'listbonds']);
 Route::post('getbondCount', [App\Http\Controllers\ApiController::class, 'getbondCount']);

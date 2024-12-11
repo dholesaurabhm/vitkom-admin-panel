@@ -1,9 +1,9 @@
-@extends('layouts.master')
-@section('title') Import Client Data @endsection
-@section('css')
 
-@endsection
-@section('content')
+<?php $__env->startSection('title'); ?> Import Client Data <?php $__env->stopSection(); ?>
+<?php $__env->startSection('css'); ?>
+
+<?php $__env->stopSection(); ?>
+<?php $__env->startSection('content'); ?>
 <div class="row">
     <div class="col">
 
@@ -19,16 +19,7 @@
                                 </div>
                                 <div class="col-sm-9 text-end">
                                    
-                                {{-- <button class="btn btn-success" onclick="showreportmodel('purchaseModel')"><i
-                                                class="ri-add-line align-bottom me-1"></i> Import Purchase Report</button>
-                                   
-                                <button class="btn btn-success" onclick="showreportmodel('redemptionModel')"><i
-                                            class="ri-add-line align-bottom me-1"></i> Import Redemption Report</button>
-
-                                <button class="btn btn-success" onclick="showreportmodel('lifeModel')"><i 
-                                                class="ri-add-line align-bottom me-1"></i> Import Life Insurance Report</button>
-                               <button class="btn btn-success" onclick="showreportmodel('healthModel')"><i
-                                                    class="ri-add-line align-bottom me-1"></i> Import Health Insurance Report</button>                 --}}
+                                
                                        
                                 </div>
                                
@@ -86,8 +77,8 @@
             <div class="modal-body">
                 <form id="purchaseForm"  enctype="multipart/form-data">
                     <input type="hidden" name="file_type" id="file_type" value="1" class="form-control">
-                    <input type="hidden" name="user_id" id="user_id" value="{{Auth::user()->id}}" class="form-control">
-                    <h4>Downlod Purchase Report Format - <a href="{{url('/')}}/products/purchase_format.csv" class="btn btn-primary" target="download"><i class="ri-file-download-fill"></i> Download</a></h4>
+                    <input type="hidden" name="user_id" id="user_id" value="<?php echo e(Auth::user()->id); ?>" class="form-control">
+                    <h4>Downlod Purchase Report Format - <a href="<?php echo e(url('/')); ?>/products/purchase_format.csv" class="btn btn-primary" target="download"><i class="ri-file-download-fill"></i> Download</a></h4>
                     <div class="row g-3">
                         
                         <div class="col-sm-6">
@@ -122,8 +113,8 @@
             <div class="modal-body">
                 <form id="redemptionForm"  enctype="multipart/form-data">
                     <input type="hidden" name="file_type" id="file_type" value="2" class="form-control">
-                    <input type="hidden" name="user_id" id="user_id" value="{{Auth::user()->id}}" class="form-control">
-                    <h4>Downlod Redemption Report Format - <a href="{{url('/')}}/products/redemption_format.csv" class="btn btn-primary" target="download"><i class="ri-file-download-fill"></i> Download</a></h4>
+                    <input type="hidden" name="user_id" id="user_id" value="<?php echo e(Auth::user()->id); ?>" class="form-control">
+                    <h4>Downlod Redemption Report Format - <a href="<?php echo e(url('/')); ?>/products/redemption_format.csv" class="btn btn-primary" target="download"><i class="ri-file-download-fill"></i> Download</a></h4>
                     <div class="row g-3">
                         
                         <div class="col-sm-6">
@@ -158,8 +149,8 @@
             <div class="modal-body">
                 <form id="lifeForm"  enctype="multipart/form-data">
                     <input type="hidden" name="file_type" id="file_type" value="3" class="form-control">
-                    <input type="hidden" name="user_id" id="user_id" value="{{Auth::user()->id}}" class="form-control">
-                    <h4>Downlod Life Insurance Report Format - <a href="{{url('/')}}/products/life_format.csv" class="btn btn-primary" target="download"><i class="ri-file-download-fill"></i> Download</a></h4>
+                    <input type="hidden" name="user_id" id="user_id" value="<?php echo e(Auth::user()->id); ?>" class="form-control">
+                    <h4>Downlod Life Insurance Report Format - <a href="<?php echo e(url('/')); ?>/products/life_format.csv" class="btn btn-primary" target="download"><i class="ri-file-download-fill"></i> Download</a></h4>
                     <div class="row g-3">
                         
                         <div class="col-sm-6">
@@ -194,8 +185,8 @@
             <div class="modal-body">
                 <form id="healthForm"  enctype="multipart/form-data">
                     <input type="hidden" name="file_type" id="file_type" value="6" class="form-control">
-                    <input type="hidden" name="user_id" id="user_id" value="{{Auth::user()->id}}" class="form-control">
-                    <h4>Downlod General Insurance Report Format - <a href="{{url('/')}}/products/general_insurance_format.csv" class="btn btn-primary" target="download"><i class="ri-file-download-fill"></i> Download</a></h4>
+                    <input type="hidden" name="user_id" id="user_id" value="<?php echo e(Auth::user()->id); ?>" class="form-control">
+                    <h4>Downlod General Insurance Report Format - <a href="<?php echo e(url('/')); ?>/products/general_insurance_format.csv" class="btn btn-primary" target="download"><i class="ri-file-download-fill"></i> Download</a></h4>
                     <div class="row g-3">
                         
                         <div class="col-sm-6">
@@ -229,8 +220,8 @@
             <div class="modal-body">
                 <form id="healthForm"  enctype="multipart/form-data">
                     <input type="hidden" name="file_type" id="file_type" value="4" class="form-control">
-                    <input type="hidden" name="user_id" id="user_id" value="{{Auth::user()->id}}" class="form-control">
-                    <h4>Downlod Health Insurance Report Format - <a href="{{url('/')}}/products/health_format.csv" class="btn btn-primary" target="download"><i class="ri-file-download-fill"></i> Download</a></h4>
+                    <input type="hidden" name="user_id" id="user_id" value="<?php echo e(Auth::user()->id); ?>" class="form-control">
+                    <h4>Downlod Health Insurance Report Format - <a href="<?php echo e(url('/')); ?>/products/health_format.csv" class="btn btn-primary" target="download"><i class="ri-file-download-fill"></i> Download</a></h4>
                     <div class="row g-3">
                         
                         <div class="col-sm-6">
@@ -265,8 +256,8 @@
             <div class="modal-body">
                 <form id="bondForm"  enctype="multipart/form-data">
                     <input type="hidden" name="file_type" id="file_type" value="5" class="form-control">
-                    <input type="hidden" name="user_id" id="user_id" value="{{Auth::user()->id}}" class="form-control">
-                    <h4>Downlod Bond Report Format - <a href="{{url('/')}}/products/bond_format.csv" class="btn btn-primary" target="download"><i class="ri-file-download-fill"></i> Download</a></h4>
+                    <input type="hidden" name="user_id" id="user_id" value="<?php echo e(Auth::user()->id); ?>" class="form-control">
+                    <h4>Downlod Bond Report Format - <a href="<?php echo e(url('/')); ?>/products/bond_format.csv" class="btn btn-primary" target="download"><i class="ri-file-download-fill"></i> Download</a></h4>
                     <div class="row g-3">
                         
                         <div class="col-sm-6">
@@ -318,8 +309,8 @@
     </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
 
-@endsection
-@section('script')
+<?php $__env->stopSection(); ?>
+<?php $__env->startSection('script'); ?>
 <!-- apexcharts -->
 
 <!--datatable js-->
@@ -328,9 +319,9 @@
 <script src="https://cdn.datatables.net/responsive/2.2.9/js/dataTables.responsive.min.js"></script>
 
 
-<script src="{{ URL::asset('/assets/js/pages/datatables.init.js') }}"></script>
-<script src="{{ URL::asset('/assets/js/app.min.js') }}"></script>
-<script src="{{ URL::asset('/assets/js/import_master.js') }}"></script>
+<script src="<?php echo e(URL::asset('/assets/js/pages/datatables.init.js')); ?>"></script>
+<script src="<?php echo e(URL::asset('/assets/js/app.min.js')); ?>"></script>
+<script src="<?php echo e(URL::asset('/assets/js/import_master.js')); ?>"></script>
 <script>
     $(document).ready(function(){
       var import_table =$('#import_table').DataTable({
@@ -372,4 +363,5 @@
   });
     });
 </script>
-@endsection
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('layouts.master', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\wamp64\www\vitkom-admin-panel\resources\views/data_to_import_master.blade.php ENDPATH**/ ?>

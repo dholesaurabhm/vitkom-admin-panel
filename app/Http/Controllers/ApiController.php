@@ -18,6 +18,7 @@ use App\Models\TransactionFile;
 use App\Models\TransactionReport;
 use App\Models\LifeReport;
 use App\Models\HealthReport;
+use App\Models\GeneralReport;
 use App\Models\BondReport;
 use App\Models\BondMaster;
 use App\Imports\ImportTransaction;
@@ -880,7 +881,7 @@ class ApiController extends Controller
          {
              try {
                  $data=$request->all();
-                 $mutual=Client::select('clients.name','clients.id',DB::raw('IFNULL(sum(invested_amount),0)as invested_amount'),DB::raw('IFNULL(sum(current_unit),0)as current_unit'),DB::raw('IFNULL(sum(current_value),0)as current_value'),DB::raw('IFNULL(sum(profit_loss),0)as profit_loss'))->leftJoin('mutual_funds', 'mutual_funds.client_id', '=', 'clients.id')->where('mutual_funds.isdelete',0)->where('clients.id',$data['client_id'])->first();
+                 $mutual=Client::select('clients.name','clients.id','clients.mobile_no','clients.email',DB::raw('IFNULL(sum(invested_amount),0)as invested_amount'),DB::raw('IFNULL(sum(current_unit),0)as current_unit'),DB::raw('IFNULL(sum(current_value),0)as current_value'),DB::raw('IFNULL(sum(profit_loss),0)as profit_loss'))->leftJoin('mutual_funds', 'mutual_funds.client_id', '=', 'clients.id')->where('mutual_funds.isdelete',0)->where('clients.id',$data['client_id'])->first();
                
                  return Response::json(array( 'success' => true,'data' => $mutual,'message'=>'Client Mutual Fund Counts.'), 200); 
              } catch (\Exception $e) {
@@ -982,12 +983,13 @@ class ApiController extends Controller
                 
                 if ($validator->fails()) {
                     return Response::json(array(
-                    'success' => false,
-                    'errors' => $validator->getMessageBag()->toArray(),
-                    'message'=>"Please Fill All Details"
-                ), 400); 
+                        'success' => false,
+                        'errors' => $validator->getMessageBag()->toArray(),
+                        'message'=>"Please Fill All Details"
+                    ), 400); 
                 }
-                else{
+                else
+                {
                     if ($request->hasFile('transaction_file')){
                        $file = $request->file('transaction_file');
                        $extension = $file->getClientOriginalExtension(); // you can also use file name
@@ -996,10 +998,10 @@ class ApiController extends Controller
                        $uplaod = $file->move($path,$fileName);
                     }
                     $trans=new TransactionFile();
-                    $trans->user_id=$data['user_id'];
-                    $trans->file_type=$data['file_type'];
-                    $trans->file_path='transactionfiles/'.$fileName;
-                    $trans->isdelete=0;
+                    $trans->user_id   = $data['user_id'];
+                    $trans->file_type = $data['file_type'];
+                    $trans->file_path = 'transactionfiles/'.$fileName;
+                    $trans->isdelete  = 0;
                     $trans->save();
                     $list=Excel::toArray(new ImportTransaction, $path.'/'.$fileName);
                     
@@ -1017,6 +1019,9 @@ class ApiController extends Controller
                     }
                     else if($data['file_type']=='5'){  // Bond
                         $report=$this->saveBond($trans->id,$list[0]);
+                    }
+                    else if($data['file_type']=='6'){  // General
+                        $report=$this->saveGeneral($trans->id,$list[0]);
                     }
                     return Response::json(array( 'success' => true,'data' => $report,'message'=>'Transaction File Uploaded Successfully.'), 200); 
                 } 
@@ -1284,6 +1289,71 @@ class ApiController extends Controller
              }
          }
 
+
+         public function saveGeneral($id,$data)
+         {
+             try {
+                $finaldata=array_slice($data,1);
+                 foreach($finaldata as $k=>$v)
+                 {
+                   $client=Client::where('pan_no',$v[1])->first();
+                   $check_company=InsurerMaster::where('company_name',$v[12])->first();
+                   $plan_id='';
+                   // if($check_company) //If Company is present
+                   // {
+                   //   $check_scheme=SchemeMaster::where('insurer_id',$check_company->id)->where('scheme_name',$v[14])->first();
+                   //   if($check_scheme) //Check scheme is present
+                   //   {
+                   //      $plan_id = $check_scheme->id;
+                   //   }
+                   //   else{
+                   //      $plan    = SchemeMaster::create(['scheme_type'=>3,'insurer_id'=>$insurer->id,'scheme_name'=>$v[14],'nav'=>1]);
+                   //      $plan_id = $plan->id;
+                   //   }
+                   // }
+                   //else{ /// //If Company Name is not Present
+                    // echo "im here";
+                    // $insurer = InsurerMaster::create(['insurance_type' => 3,'company_name' => $v[12], 'isdelete' => 0 ]);
+                    // $plan=SchemeMaster::create(['scheme_type'=>3,'insurer_id'=>$insurer->id,'scheme_name'=>$v[14],'nav'=>1]);
+                    // $plan_id=$plan->id;
+                    $insurer =0;
+                     $plan_id=0;
+                   // }
+                    // exit();
+                    $pur=new GeneralReport();
+                    $pur->client_id                     =   $client !=null ? $client->id:'';
+                    $pur->plan_id                       =   $plan_id;
+                    $pur->proposer_name                 =   $v[0] ?? '';
+                    $pur->pan_no                        =   $v[1] ?? '';
+                    $pur->dob                           =   date("Y-m-d", strtotime($v[2]));
+                    $pur->mobile_no                     =   $v[3] ??'';
+                    $pur->email                         =   $v[4] ??'';
+                    $pur->policy_no                     =   $v[5] ??'';
+                    $pur->application_no                =   $v[6]?? '';
+                    $pur->login_date                    =   date("Y-m-d", strtotime($v[7]));
+                    $pur->issue_date                    =   date("Y-m-d", strtotime($v[8]));
+                    $pur->gross_premium                 =   str_replace( ',', '', $v[9] ?? 0 );
+                    $pur->payment_mode                  =   str_replace( ',', '', $v[10]?? 0 );
+                    $pur->plan_name                     =   str_replace( ',', '', $v[11]?? 0 );
+                    $pur->company_name                  =   str_replace( ',', '', $v[12]?? 0 );
+                    $pur->status                        =   str_replace( ',', '', $v[13]?? 0 );
+                    $pur->plan_type                     =   str_replace( ',', '', $v[14] ?? 0 );
+                    $pur->premium_term                  =   str_replace( ',', '', $v[15] ?? 0 );
+                    $pur->policy_term                   =   str_replace( ',', '', $v[16] ?? 0 );
+                    $pur->sum_assured_risk_coverage     =   str_replace( ',', '', $v[17] ?? 0 );
+                    $pur->reason                        =   str_replace( ',', '', $v[18] ?? 0 );
+                    $pur->remarks                       =   $v[19]??'';
+                    $pur->mode                          =   $v[20]??'';
+                    $pur->vehicle_reg_no                =   $v[21]??'';
+                    $pur->isdelete                      =   0;
+                    $pur->file_id                       =   $id;
+                    $pur->save();
+                 }
+                 return "General Insurance Uploaded";
+             } catch (\Exception $e) {
+                 return $e->getMessage();
+             }
+         }
          public function saveBond($id,$data)
          {
              try {
@@ -1443,7 +1513,7 @@ class ApiController extends Controller
          {
              try {
                 $data=$request->all();
-                $query=TransactionFile::select('transaction_files.id','users.name as user_name','file_path',DB::raw('DATE_FORMAT(transaction_files.created_at, "%d-%m-%Y %h:%i %p")as trans_date'),DB::raw('replace(replace(replace(replace(replace(file_type, 1, "Pruchase"),2,"Redemption"),3,"Life Insurance"),4,"Health Insurance"),5,"Bonds")as report_type'))->leftJoin('users', 'users.id', '=', 'transaction_files.user_id')->where('transaction_files.isdelete',0)->orderBy('transaction_files.created_at','DESC');
+                $query=TransactionFile::select('transaction_files.id','users.name as user_name','file_path',DB::raw('DATE_FORMAT(transaction_files.created_at, "%d-%m-%Y %h:%i %p")as trans_date'),DB::raw('replace(replace(replace(replace(replace(replace(file_type, 1, "Purchase"),2,"Redemption"),3,"Life Insurance"),4,"Health Insurance"),5,"Bonds"),6,"General Insurance")as report_type'))->leftJoin('users', 'users.id', '=', 'transaction_files.user_id')->where('transaction_files.isdelete',0)->orderBy('transaction_files.created_at','DESC');
                 if($request->search['value'])
                 {
                     $query=$query->where('users.name','like', '%' . $request->search['value'] . '%');
@@ -1507,6 +1577,14 @@ class ApiController extends Controller
                    {
                     $report=HealthReport::where('file_id',$data['transaction_id'])->update(['isdelete'=>1]);
                    }
+                   else if($tran_report->file_type==5)
+                   {
+                    $report=HealthReport::where('file_id',$data['transaction_id'])->update(['isdelete'=>1]);
+                   }
+                   else if($tran_report->file_type==6)
+                   {
+                    $report=GeneralReport::where('file_id',$data['transaction_id'])->update(['isdelete'=>1]);
+                   }
                   
                 return Response::json(array( 'success' => true,'data' => $trans,'message'=>'Transaction File Deleted Successfully.'), 200); 
                  }
@@ -1567,6 +1645,38 @@ class ApiController extends Controller
              try {
                  $data=$request->all();
                  $query=HealthReport::select('*',DB::raw('DATE_FORMAT(issue_date, "%d-%m-%Y") as issue_date'),DB::raw('DATE_FORMAT(risk_exp_date, "%d-%m-%Y") as risk_exp_date'))->where('isdelete',0)->where('client_id',$data['client_id']);
+                 if($request->search['value'])
+                 {
+                     $query=$query->where('company_name','like', '%' . $request->search['value'] . '%');
+                     $query=$query->orwhere('plan_name','like', '%' . $request->search['value'] . '%');
+                     $query=$query->orwhere('application_no','like', '%' . $request->search['value'] . '%');
+                     $query=$query->orwhere('policy_no','like', '%' . $request->search['value'] . '%');
+                 }
+                 $count=$query->count();
+                 $list=$query->groupBy('policy_no')->skip($data['start'])->take($data['length'])->get();
+                
+                 return response()->json(['recordsTotal' => $count,'recordsFiltered' =>$count ,'data'=>$list]);
+     
+             } catch (\Exception $e) {
+               
+                 return $e->getMessage();
+             }
+         }
+
+
+         public function listgeneral_insurance(Request $request)
+         {
+             try {
+                 $data=$request->all();
+                 $query = GeneralReport::select(
+                    '*', 
+                    DB::raw('DATE_FORMAT(issue_date, "%d-%m-%Y") as formatted_issue_date'),
+                    DB::raw('sum_assured_risk_coverage as sum_assured'),
+                    DB::raw('gross_premium as total_permium'))
+                    ->where('isdelete', 0)
+                    ->where('client_id', $data['client_id'])
+                    ->groupBy('policy_no')
+                    ->orderBy('issue_date', 'DESC');
                  if($request->search['value'])
                  {
                      $query=$query->where('company_name','like', '%' . $request->search['value'] . '%');
@@ -1660,8 +1770,8 @@ class ApiController extends Controller
          public function getbondCount(Request $request)
          {
              try {
-                 $data=$request->all();
-                 $bond=Client::select('name','id')->where('id',$data['client_id'])->first();
+                 $data = $request->all();
+                 $bond = Client::select('name','id','mobile_no','email')->where('id',$data['client_id'])->first();
                  $bond['total']=BondMaster::where('isdelete',0)->where('client_id',$data['client_id'])->sum('total');
                  return Response::json(array( 'success' => true,'data' => $bond,'message'=>'Client Bond Fund Counts.'), 200); 
              } catch (\Exception $e) {
@@ -1677,35 +1787,48 @@ class ApiController extends Controller
 
              try {
 
-                 $data=$request->all();
+                 $data                             = $request->all();
+                 $final                            = [];
+                 $mutul                            = MutualFund::where('isdelete',0)->where('current_unit','>','0')->sum('current_value');
+                 $bond                             = BondMaster::where('isdelete',0)->sum('total');
+                 $mutul_client                     = MutualFund::where('isdelete',0)->where('current_unit','>','1')->groupBy('client_id')->count();
+                 $bond_client                      = BondMaster::where('isdelete',0)->where('total','>','1')->groupBy('client_id')->count();
+                 $final['life_insurance']          = LifeReport::where('isdelete',0)->sum('total_permium');
+                 $final['life_insurance_count']    = LifeReport::where('isdelete',0)->where('total_permium','>','1')->groupBy('client_id')->count();
+                 $final['health_insurance']        = HealthReport::where('isdelete',0)->where('transaction_type', 'Fresh')->sum('total_permium');
+                 $final['health_insurance_count']  = HealthReport::where('isdelete',0)->where('total_permium','>','1')->where('transaction_type', 'Fresh')->groupBy('client_id')->count();
+                 $final['general_insurance']       = GeneralReport::where('isdelete',0)->where('gross_premium', '>', 1)->where('status', 'Inforce')->groupBy('policy_no')->sum('gross_premium');
+                 $query                             = GeneralReport::where('isdelete', 0)->where('gross_premium', '>', 1)->where('status', 'Inforce')->groupBy('policy_no');
+                 $results                           = $query->get();
+                 $final['general_insurance_count'] = $results->count();
 
-                 
 
-                 $final=[];
+                $subquery = GeneralReport::selectRaw('SUM(gross_premium) as gross_premium_sum')
+                    ->where('isdelete', 0)
+                    ->where('gross_premium', '>', 1)
+                    ->where('status', 'Inforce')
+                    ->groupBy('policy_no');
 
-                 
+                $totalGrossPremium = DB::table(DB::raw("({$subquery->toSql()}) as subquery"))
+                    ->mergeBindings($subquery->getQuery()) 
+                    ->sum('gross_premium_sum');
 
-                 $mutul = MutualFund::where('isdelete',0)->sum('current_value');
+                $final['general_insurance']       = $totalGrossPremium;
 
-                 $bond  = BondMaster::where('isdelete',0)->sum('total');
 
-                 $mutul_client=MutualFund::where('isdelete',0)->where('current_unit','>','1')->groupBy('client_id')->count();
-
-                 $bond_client=BondMaster::where('isdelete',0)->where('total','>','1')->groupBy('client_id')->count();
-
+                 $final['mutul']  = $mutul;
 
                  $active_client=DB::select('SELECT COUNT(DISTINCT client_id) AS count_of_ids FROM (
-                                                                                                    SELECT client_id FROM mutual_funds WHERE invested_amount > 2
-                                                                                                    UNION
-                                                                                                    SELECT client_id FROM bond_master WHERE total > 0
-                                                                                                ) AS combined_results');
+                        SELECT client_id FROM mutual_funds WHERE invested_amount > 2
+                        UNION
+                        SELECT client_id FROM bond_master WHERE total > 0
+                    ) AS combined_results');
 
                  $final['active_client']=$active_client[0]->count_of_ids;
 
                  $final['sip']=TransactionReport::where('isdelete',0)->where('type','like','%SIP%')->groupBy('folio_no')->sum('invest_amount');
 
                  $redemption=DB::select('select IFNULL(sum(invest_amount),0)as total from(SELECT *,DATE_FORMAT(trxn_date, "%d-%m-%Y")as trasaction_date FROM `transaction_report` where isdelete=0 and trxn_type=2   ORDER BY `trasaction_date` DESC)as a where MONTH(trasaction_date) = MONTH(CURRENT_DATE())
-
                  AND YEAR(trasaction_date) = YEAR(CURRENT_DATE())');
 
                  $final['redemption']=$redemption[0]->total;
@@ -1754,10 +1877,23 @@ class ApiController extends Controller
                  $data=$request->all();
                  if($data['type']=='1')
                  {
-                    $list=DB::select('SELECT tr.client_id, tr.employee_name as client_name, tr.trxn_date as investment_date,(SELECT invest_amount FROM mutual_funds mf WHERE mf.client_id = tr.client_id AND mf.isin = tr.isin and mf.folio_no=tr.folio_no limit 1) AS total_holding , "Mutual" As investment_type, replace(replace(tr.trxn_type, 1, "Purchase"),2,"Redemption")AS transaction_type FROM transaction_report tr where client_id !="" and tr.trxn_date BETWEEN "'.$data['start_date'].'" and "'.$data['end_date'].'"');
+                    $list=DB::select('SELECT tr.client_id, tr.employee_name as client_name, tr.trxn_date as investment_date,(SELECT invest_amount FROM mutual_funds mf WHERE mf.client_id = tr.client_id AND mf.isin = tr.isin and mf.folio_no=tr.folio_no limit 1) AS total_holding , "Mutual Fund" As investment_type, replace(replace(tr.trxn_type, 1, "Purchase"),2,"Redemption")AS transaction_type FROM transaction_report tr where client_id !="" and tr.trxn_date BETWEEN "'.$data['start_date'].'" and "'.$data['end_date'].'"');
                  }
-                 else{
+                 else if($data['type']=='2')
+                 {
                      $list=DB::Select('SELECT br.client_id, br.client_name, br.date_from as investment_date, (SELECT total FROM bond_master bm WHERE bm.client_id = br.client_id AND bm.scrip_name = br.scrip_name) AS total_holding , "Bond" As investment_type, br.status AS transaction_type FROM bond_report br where br.date_from BETWEEN "'.$data['start_date'].'" and "'.$data['end_date'].'"');
+                 }
+                 else if($data['type']=='3')
+                 {
+                     $list=DB::Select('SELECT proposer_name AS client_name, "Life Insurance" As investment_type, total_permium AS total_holding, login_date AS investment_date, "Purchase" AS  transaction_type FROM life_report WHERE login_date BETWEEN "'.$data['start_date'].'" and "'.$data['end_date'].'" AND isdelete = 0 AND total_permium > 1 GROUP BY policy_no');
+                 }
+                 else if($data['type']=='4')
+                 {
+                     $list=DB::Select('SELECT proposer_name AS client_name, "Health Insurance" As investment_type, total_permium AS total_holding, login_date AS investment_date, "Purchase" AS  transaction_type FROM health_report WHERE login_date BETWEEN "'.$data['start_date'].'" and "'.$data['end_date'].'" AND isdelete = 0 AND total_permium > 1 GROUP BY policy_no');
+                 }
+                 else 
+                 {
+                     $list=DB::Select('SELECT proposer_name AS client_name, CONCAT("General Insurance","-",plan_type) As investment_type, gross_premium AS total_holding, login_date AS investment_date, "Purchase" AS  transaction_type FROM general_report WHERE login_date BETWEEN "'.$data['start_date'].'" and "'.$data['end_date'].'" AND isdelete = 0 AND gross_premium > 1 GROUP BY policy_no');
                  }
    
                  return response()->json(['recordsTotal' => count($list),'recordsFiltered' =>count($list) ,'data'=>$list]);

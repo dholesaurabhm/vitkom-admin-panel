@@ -27,10 +27,11 @@
      let table = new DataTable('#general-datatables', {});
     }); 
 
-$( document ).ready(function() {
-    $('.mutual_fund_btn').show();  
-    amc_list();
-});
+    $( document ).ready(function() {
+        $('.client_details').html(`<b><span>Client Name : </span></b> <span class="name">  -  </span>&nbsp;&nbsp;&nbsp;&nbsp;<b><span>Mobile No. : </span></b> <span class="mobile_id">  -  </span>&nbsp;&nbsp;&nbsp;&nbsp;<b><span>Email ID : </span></b> <span class="email_id">  -  </span>&nbsp;&nbsp;&nbsp;&nbsp;`);
+        $('.mutual_fund_btn').show();  
+        amc_list();
+    });
 
 $('#amc_id').change(function() {
   amcplan_list({amc_id:$('#amc_id').val()});
@@ -416,7 +417,9 @@ function getmutualCount()
         console.log("ajax data=", result)
         if(result.success==true)
         {
-          
+            $('.name').html(result.data.name);
+            $('.mobile_id').html(result.data.mobile_no);
+            $('.email_id').html(result.data.email);
         }      
       
     },
@@ -438,7 +441,9 @@ function getbondCount()
         console.log("ajax data=", result)
         if(result.success==true)
         {
-          
+            $('.name').html(result.data.name);
+            $('.mobile_id').html(result.data.mobile_no);
+            $('.email_id').html(result.data.email);
         }      
       
     },

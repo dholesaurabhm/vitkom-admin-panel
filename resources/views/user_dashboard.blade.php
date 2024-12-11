@@ -84,7 +84,7 @@ table#mutual_report td:nth-child(6) {
                             <button type="button" class="btn btn-primary waves-effect waves-light medical_insurance_btn" data-bs-toggle="modal" data-bs-target="#medical_insurance_modal" style="display:none;float: right;">Add New Medical Insurance</button>
 
                             <button type="button" class="btn btn-primary waves-effect waves-light general_insurance_btn" data-bs-toggle="modal" data-bs-target="#general_insurance_modal" style="display:none;float: right;">Add New General Insurance</button> 
-                        </div> 
+                            </div> 
                             --}}
 
 
@@ -114,13 +114,11 @@ table#mutual_report td:nth-child(6) {
                                                 Medical Insurance
                                             </a>
                                         </li>
-                                        {{--
                                         <li class="nav-item">
                                             <a class="nav-link" data-bs-toggle="tab" href="#generalinsurance" role="tab" onclick="show_only_general_insurance()">
                                                 General Insurance
                                             </a>
                                         </li>
-                                        --}}
                                     </ul>
 
 
@@ -237,12 +235,12 @@ table#mutual_report td:nth-child(6) {
                                         </div>
 
 
-                                        {{--
+                                        
                                         <div class="tab-pane" id="generalinsurance" role="tabpanel">
 
                                             <div class="d-flex">
 
-					                            <table id="general-datatables" class="display table table-bordered dt-responsive" style="width:100% !important">
+					                            <table id="general_table" class="display table table-bordered dt-responsive" style="width:100% !important">
 
 					                                <thead>
 
@@ -260,8 +258,6 @@ table#mutual_report td:nth-child(6) {
 
 					                                        <th>Start Date</th>
 
-					                                        <th>Maturity Date</th>
-
 					                                        <th>Premium Amount</th>
 
 					                                        <th>Sum Assured</th>
@@ -277,7 +273,6 @@ table#mutual_report td:nth-child(6) {
                                             </div>
 
                                         </div>
-                                        --}}
 
 
 
@@ -1423,61 +1418,35 @@ table#mutual_report td:nth-child(6) {
 <!--datatable js-->
 
 <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
-
 <script src="https://cdn.datatables.net/1.11.5/js/dataTables.bootstrap5.min.js"></script>
-
 <script src="https://cdn.datatables.net/responsive/2.2.9/js/dataTables.responsive.min.js"></script>
-
 <script src="https://cdn.datatables.net/buttons/2.2.2/js/dataTables.buttons.min.js"></script>
-
 <script src="https://cdn.datatables.net/buttons/2.2.2/js/buttons.print.min.js"></script>
-
 <script src="https://cdn.datatables.net/buttons/2.2.2/js/buttons.html5.min.js"></script>
-
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
-
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
-
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
-
-
-
 <!-- <script src="{{ URL::asset('/assets/js/pages/datatables.init.js') }}"></script> -->
-
 <script src="{{ URL::asset('/assets/js/user_dashboard.js')}}"></script>
-
 <script src="{{ URL::asset('/assets/js/app.min.js') }}"></script>
-
 <script>
 
     $(document).ready(function(){
         getmutualCount();
         getbondCount();
       var mutual_fund_table =$('#mutual_fund_table').DataTable({
-
-      proccessing: true,
-
-      serverSide: true,
-
-      searching: true,
-
-      bFilter: true,
-
-      ajax: {
-
-          url: base_url+"mutual_fund/list",
-
-          type: "POST",
-
-          data:function(d) {
-
-          d.client_id=$('[name=client_id]').val();
-
-      },
-
-          },
-
-      columns: [
+        proccessing: true,
+        serverSide: true,
+        searching: true,
+        bFilter: true,
+        ajax: {
+            url: base_url+"mutual_fund/list",
+            type: "POST",
+            data:function(d) {
+                d.client_id=$('[name=client_id]').val();
+            },
+        },
+        columns: [
 
          // { data: "id", render: function (data, type, row, meta) {return meta.row + meta.settings._iDisplayStart + 1;}},
 
@@ -1538,162 +1507,119 @@ table#mutual_report td:nth-child(6) {
 
 
   var life_table =$('#life_table').DataTable({
-
       proccessing: true,
-
       serverSide: true,
-
       searching: true,
-
       bFilter: true,
-
       ajax: {
-
           url: base_url+"listlife_insurance",
-
           type: "POST",
-
           data:function(d) {
-
-          d.client_id=$('[name=client_id]').val();
-
-      },
-
+            d.client_id=$('[name=client_id]').val();
           },
-
+       },
       columns: [
-
          // { data: "id", render: function (data, type, row, meta) {return meta.row + meta.settings._iDisplayStart + 1;}},
-
           { data: 'proposer_name' },
-
           { data: 'plan_type' },
-
           { data: 'policy_no' },
-
           { data: 'company_name'},
-
           { data: 'plan_name' },
-
           { data: 'mode_payment' },
-
           { data: 'issue_date', },
-
           {data:'risk_date'},
-
           {data:'total_permium'},
-
           {data:'status'},
-
           { data: 'id',render:function(data,type,row){ 
-
-              return `<div class="dropdown">
-
+                return `<div class="dropdown">
                       <button class="btn btn-soft-secondary btn-sm dropdown" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-
                       <i class="ri-more-fill"></i>
-
                       </button>
-
                       <ul class="dropdown-menu dropdown-menu-end">
-
                       <li><a class="dropdown-item edit-list" data-edit-id='${data}' href="#" data-edit-id='${data}' href="#" onclick="editlife(${data})"><i class="ri-pencil-fill align-bottom me-2 text-muted"></i> Edit</a></li>
-
                       </ul>
-
                       </div>`
-
-          } 
-
+                } 
            },
-
-          
-
-         
-
       ]
-
   });
 
 
 
 
 
-  var health_table =$('#health_table').DataTable({
+var health_table =$('#health_table').DataTable({
+    proccessing: true,
+    serverSide: true,
+    searching: true,
+    bFilter: true,
+    ajax: {
+    url: base_url+"listhealth_insurance",
+    type: "POST",
+    data:function(d) {
+            d.client_id=$('[name=client_id]').val();
+        },
+    },
+    columns: [
+        { data: 'proposer_name' },
+        { data: 'plan_type' },
+        { data: 'policy_no' },
+        { data: 'company_name'},
+        { data: 'plan_name' },
+        { data: 'issue_date', },
+        {data:'risk_exp_date'},
+        {data:'total_permium'},
+        {data:'sum_assured'},
+        { data: 'id',render:function(data,type,row){ 
+            return `<div class="dropdown">
+            <button class="btn btn-soft-secondary btn-sm dropdown" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+            <i class="ri-more-fill"></i>
+            </button>
+            <ul class="dropdown-menu dropdown-menu-end">
+            <li><a class="dropdown-item edit-list" data-edit-id='${data}' href="#" onclick="edithealth(${data})" ><i class="ri-pencil-fill align-bottom me-2 text-muted"></i> Edit</a></li
+            </ul>
+            </div>`
+            } 
+        },
+    ]
+});
 
-      proccessing: true,
+var health_table =$('#general_table').DataTable({
+    proccessing: true,
+    serverSide: true,
+    searching: true,
+    bFilter: true,
+    ajax: {
+    url: base_url+"listgeneral_insurance",
+    type: "POST",
+    data:function(d) {
+            d.client_id=$('[name=client_id]').val();
+        },
+    },
+    columns: [
+        { data: 'proposer_name' },
+        { data: 'plan_type' },
+        { data: 'policy_no' },
+        { data: 'company_name'},
+        { data: 'plan_name' },
+        { data: 'issue_date', },
+        {data:'total_permium'},
+        {data:'sum_assured'},
+        { data: 'id',render:function(data,type,row){ 
+            return `<div class="dropdown">
+            <button class="btn btn-soft-secondary btn-sm dropdown" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+            <i class="ri-more-fill"></i>
+            </button>
+            <ul class="dropdown-menu dropdown-menu-end">
+            <li><a class="dropdown-item edit-list" data-edit-id='${data}' href="#" onclick="edithealth(${data})" ><i class="ri-pencil-fill align-bottom me-2 text-muted"></i> Edit</a></li
+            </ul>
+            </div>`
+            } 
+        },
+    ]
+});
 
-      serverSide: true,
 
-      searching: true,
-
-      bFilter: true,
-
-      ajax: {
-
-          url: base_url+"listhealth_insurance",
-
-          type: "POST",
-
-          data:function(d) {
-
-          d.client_id=$('[name=client_id]').val();
-
-      },
-
-          },
-
-      columns: [
-
-         // { data: "id", render: function (data, type, row, meta) {return meta.row + meta.settings._iDisplayStart + 1;}},
-
-          { data: 'proposer_name' },
-
-          { data: 'plan_type' },
-
-          { data: 'policy_no' },
-
-          { data: 'company_name'},
-
-          { data: 'plan_name' },
-
-          { data: 'issue_date', },
-
-          {data:'risk_exp_date'},
-
-          {data:'total_permium'},
-
-          {data:'sum_assured'},
-
-          { data: 'id',render:function(data,type,row){ 
-
-              return `<div class="dropdown">
-
-                      <button class="btn btn-soft-secondary btn-sm dropdown" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-
-                      <i class="ri-more-fill"></i>
-
-                      </button>
-
-                      <ul class="dropdown-menu dropdown-menu-end">
-
-                      <li><a class="dropdown-item edit-list" data-edit-id='${data}' href="#" onclick="edithealth(${data})" ><i class="ri-pencil-fill align-bottom me-2 text-muted"></i> Edit</a></li
-
-                      </ul>
-
-                      </div>`
-
-          } 
-
-           },
-
-          
-
-         
-
-      ]
-
-  });
 
   var bond_table =$('#bond_table').DataTable({
 
@@ -1706,45 +1632,29 @@ searching: true,
 bFilter: true,
 
 ajax: {
-
     url: base_url+"listbonds",
-
     type: "POST",
-
     data:function(d) {
-
-    d.client_id=$('[name=client_id]').val();
-
-},
-
+            d.client_id=$('[name=client_id]').val();
+        },
     },
 
 columns: [
-
-   // { data: "id", render: function (data, type, row, meta) {return meta.row + meta.settings._iDisplayStart + 1;}},
-
     { data: 'bond_name' },
-
-    { data: 'total' },
-
+    
+    { data: 'id', render:function(data,type,row) { 
+        return parseFloat(row.total).toFixed(2)
+    }},
     { data: 'start_date' },
-
     { data: 'client_name'},
-
     { data: 'platform' },
-
     { data: 'id',render:function(data,type,row){ 
 
         return `<div class="dropdown">
-
                 <button class="btn btn-soft-secondary btn-sm dropdown" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-
-                <i class="ri-more-fill"></i>
-
+                    <i class="ri-more-fill"></i>
                 </button>
-
                 <ul class="dropdown-menu dropdown-menu-end">
-
                 <li><a class="dropdown-item edit-list" data-edit-id='${data}' onclick="editbond(${data})" href="#" ><i class="ri-pencil-fill align-bottom me-2 text-muted"></i> Edit</a></li>
 
                 <li class="dropdown-divider"></li>

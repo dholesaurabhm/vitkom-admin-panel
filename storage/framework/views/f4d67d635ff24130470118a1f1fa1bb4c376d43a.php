@@ -31,6 +31,8 @@
                     </span>
                 </button>
             </div>
+            <div class="d-flex client_details">
+            </div>
 
             <div class="d-flex align-items-center">
 

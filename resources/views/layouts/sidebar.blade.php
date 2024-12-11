@@ -5,29 +5,18 @@
     <!-- LOGO -->
 
     <div class="navbar-brand-box">
-
         <!-- Dark Logo-->
-
         <a href="index" class="logo logo-dark">
-
-            Vitkom Wealth
-
+           <img src="http://localhost:8000/assets/images/logo-light.png" alt="" style="width: 135px;">
         </a>
-
         <!-- Light Logo-->
-
         <a href="index" class="logo logo-light" style="width: 100% !important;font-size: 20px;color: white;">
-
-            Vitkom Wealth
-
+           <img src="http://localhost:8000/assets/images/logo-light.png" alt="" style="width: 135px;">
         </a>
 
         <button type="button" class="btn btn-sm p-0 fs-20 header-item float-end btn-vertical-sm-hover" id="vertical-hover">
-
             <i class="ri-record-circle-line"></i>
-
         </button>
-
     </div>
 
 

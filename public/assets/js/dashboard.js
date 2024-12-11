@@ -79,8 +79,15 @@ function getcount(data={})
       {
         $("#anum").html(convert(result.data.anum));
         $("#sip").html(convert(result.data.sip));
-        $("#redemption").html(convert(result.data.redemption));
+        // $("#redemption").html(convert(result.data.redemption));
         $("#active_client").html(result.data.active_client);
+
+        $(".life_insurance_count").html(result.data.life_insurance_count);
+        $("#life_insurance_amt").html(convert(result.data.life_insurance));
+        $(".health_insurance_count").html(result.data.health_insurance_count);
+        $("#health_insurance_amt").html(convert(result.data.health_insurance));
+        $(".general_insurance_count").html(result.data.general_insurance_count);
+        $("#general_insurance_amt").html(convert(result.data.general_insurance));
      
       }
   }

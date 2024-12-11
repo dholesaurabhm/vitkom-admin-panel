@@ -14,7 +14,7 @@ return [
     "mf"                => "Mutual Fund",
     "data_to_import"    => "Import Client Data",
     "report1"           => "Investor Wise Report",
-    "report2"           => "Upcomming Renewal",
+    "report2"           => "Upcoming Renewal",
     "user_dashboard"    => "User Dashboard",
 
     "dashboards"=>"Dashboards",
